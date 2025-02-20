@@ -30,6 +30,9 @@
     "./vue-plugin": {
       "types": "./vue-plugin.d.ts"
     },
+    "./app-config": {
+      "types": "./app-config.d.ts"
+    },
     "./runtime/*": "./dist/runtime/*",
     "./utils/*": {
       "types": "./dist/runtime/utils/*.d.ts",
