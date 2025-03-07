@@ -33,25 +33,25 @@ export const useRouterStub = () => ({
   currentRoute: ref({})
 })
 
-// Use a runtime check to determine which implementation to use
-let _useRoute = useRouteStub
-let _useRouter = useRouterStub
+// Define a variable to check if vue-router is available
+let isVueRouterAvailable = false
 
-// Try to import from vue-router
+// Check if vue-router is available
 try {
-  // This will throw if vue-router is not available
-  const vueRouter = await import('vue-router')
-  if (vueRouter.useRoute && vueRouter.useRouter) {
-    // Type assertion with unknown to fix type compatibility issues
-    _useRoute = vueRouter.useRoute as unknown as typeof _useRoute
-    _useRouter = vueRouter.useRouter as unknown as typeof _useRouter
-  }
+  // This is a build-time check that the bundler will optimize
+  isVueRouterAvailable = !!require.resolve('vue-router')
 } catch {
-  // Use the stubs if vue-router is not available
+  isVueRouterAvailable = false
 }
 
-export const useRoute = _useRoute
-export const useRouter = _useRouter
+// Export the appropriate functions based on availability
+export const useRoute = isVueRouterAvailable
+  ? (await import('vue-router')).useRoute
+  : useRouteStub
+
+export const useRouter = isVueRouterAvailable
+  ? (await import('vue-router')).useRouter
+  : useRouterStub
 
 export { defineShortcuts } from '../composables/defineShortcuts'
 export { useLocale } from '../composables/useLocale'
