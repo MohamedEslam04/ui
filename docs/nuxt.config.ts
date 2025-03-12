@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   ],
 
   site: {
-    url: 'https://ui.nuxt.com'
+    url: 'https://ui2.nuxt.com'
   },
 
   content: {

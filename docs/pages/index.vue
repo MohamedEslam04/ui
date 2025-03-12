@@ -435,8 +435,8 @@ useSeoMeta({
   ogTitle: page.value.title,
   description: page.value.description,
   ogDescription: page.value.description,
-  ogImage: 'https://ui.nuxt.com/social-card.png',
-  twitterImage: 'https://ui.nuxt.com/social-card.png'
+  ogImage: 'https://ui2.nuxt.com/social-card.png',
+  twitterImage: 'https://ui2.nuxt.com/social-card.png'
 })
 
 const source = ref('npx nuxi@latest module add ui')
