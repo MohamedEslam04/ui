@@ -1,13 +1,11 @@
 <script setup lang="ts">
 extendCompodiumMeta({
-  combo: ['variant', 'size'],
   defaultProps: {
-    label: 'Click me!',
-    disabled: true
+    src: 'https://github.com/benjamincanac.png'
   }
 })
 </script>
 
 <template>
-  <UButton v-bind="$attrs" />
+  <UAvatar />
 </template>

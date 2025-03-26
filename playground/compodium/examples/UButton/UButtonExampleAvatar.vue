@@ -1,9 +1,8 @@
 <script setup lang="ts">
 extendCompodiumMeta({
-  combo: ['variant', 'color'],
+  combo: ['size', 'variant'],
   defaultProps: {
-    label: 'Click me!',
-    disabled: true
+    avatar: { src: 'https://github.com/benjamincanac.png' }
   }
 })
 </script>

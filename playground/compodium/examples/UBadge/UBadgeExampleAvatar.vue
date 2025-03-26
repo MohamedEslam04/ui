@@ -1,12 +1,13 @@
 <script setup lang="ts">
 extendCompodiumMeta({
-  combo: ['variant', 'size'],
+  combo: ['size', 'variant'],
   defaultProps: {
+    label: 'Badge',
     avatar: { src: 'https://github.com/benjamincanac.png' }
   }
 })
 </script>
 
 <template>
-  <UButton />
+  <UBadge />
 </template>

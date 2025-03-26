@@ -1,13 +1,14 @@
 <script setup lang="ts">
 extendCompodiumMeta({
-  combo: ['variant', 'size'],
+  combo: ['size', 'color'],
   defaultProps: {
     label: 'Click me!',
-    loading: true
+    modelValue: 'indeterminate',
+    indeterminate: true
   }
 })
 </script>
 
 <template>
-  <UButton />
+  <UCheckbox />
 </template>

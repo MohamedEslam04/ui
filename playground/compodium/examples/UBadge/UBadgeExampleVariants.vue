@@ -1,13 +1,12 @@
 <script setup lang="ts">
 extendCompodiumMeta({
-  combo: ['variant', 'size'],
+  combo: ['variant', 'color'],
   defaultProps: {
-    label: 'Click me!',
-    icon: 'i-lucide-rocket'
+    label: 'Badge'
   }
 })
 </script>
 
 <template>
-  <UButton />
+  <UBadge />
 </template>
