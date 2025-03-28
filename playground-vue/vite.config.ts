@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+import { compodium } from '@compodium/vue'
 import ui from '../src/vite'
 
 // https://vitejs.dev/config/
@@ -25,7 +26,21 @@ export default defineConfig({
       components: {
         dirs: ['../playground/app/components']
       }
+    }),
+    compodium({
+      dir: '../playground/compodium',
+      includeLibraryCollections: false,
+
+      componentDirs: [
+        { path: '../src/runtime/components', prefix: 'U', pathPrefix: false }
+      ],
+      extras: {
+        colors: {
+          neutral: 'slate'
+        }
+      }
     })
+
   ],
   optimizeDeps: {
     // prevents reloading page when navigating between components

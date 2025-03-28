@@ -10,7 +10,7 @@ const pages = import.meta.glob('../../playground/app/pages/**/*.vue')
 const components = import.meta.glob('../../playground/app/components/**/*.vue')
 
 const routes = Object.keys(pages).map((path) => {
-  const name = path.match(/\.\.\/\.\.\/playground\/app\/pages(.*)\.vue$/)![1].toLowerCase()
+  const name = path.match(/\.\.\/\.\.\/playground\/app\/pages(.*)\.vue$/)!.[1].toLowerCase()
   return {
     path: name === '/index' ? '/' : name,
     component: pages[path]

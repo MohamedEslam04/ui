@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   compodium: {
     includeLibraryCollections: false,
-    ignore: ['**/App.vue', '**/*Example.vue', '**/Placeholder.vue', '**/*Content.vue'],
+    ignore: ['**/App.vue', '**/*Example.vue', '**/Placeholder.vue', '**/*Content.vue', '**/*Provider.vue', 'UToast'],
     extras: {
       colors: {
         neutral: 'slate'
