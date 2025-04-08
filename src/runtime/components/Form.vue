@@ -43,8 +43,7 @@ export interface FormProps<T extends object> {
   onSubmit?: ((event: FormSubmitEvent<T>) => void | Promise<void>) | (() => void | Promise<void>)
 }
 
-export interface FormEmits<T extends object> {
-  (e: 'submit', payload: FormSubmitEvent<T>): void
+export interface FormEmits {
   (e: 'error', payload: FormErrorEvent): void
 }
 
@@ -68,7 +67,7 @@ const props = withDefaults(defineProps<FormProps<T>>(), {
   transform: true
 })
 
-const emits = defineEmits<FormEmits<T>>()
+const emits = defineEmits()
 defineSlots<FormSlots>()
 
 const formId = props.id ?? useId() as string
