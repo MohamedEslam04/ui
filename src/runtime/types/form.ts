@@ -21,11 +21,11 @@ export interface Form<T extends object> {
   blurredFields: DeepReadonly<Set<keyof T>>
 }
 
-export type FormSchema<T extends object> =
-  | YupObjectSchema<T>
-  | JoiSchema<T>
-  | SuperstructSchema<any, any>
-  | StandardSchemaV1
+export type FormSchema<I extends object, O extends object = I> =
+  | YupObjectSchema<I>
+  | JoiSchema<I>
+  | SuperstructSchema<I, O>
+  | StandardSchemaV1<I, O>
 
 export type FormInputEvents = 'input' | 'blur' | 'change' | 'focus'
 
