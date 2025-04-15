@@ -34,9 +34,10 @@ const schema = z.object({
   pin: z.string().regex(/^\d$/).array().length(5)
 })
 
-type Schema = z.input<typeof schema>
+type Input = z.input<typeof schema>
+type Output = z.output<typeof schema>
 
-const state = reactive<Partial<Schema>>({})
+const state = reactive<Partial<Input>>({})
 
 const form = useTemplateRef('form')
 
@@ -47,7 +48,7 @@ const items = [
 ]
 
 const toast = useToast()
-async function onSubmit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Output>) {
   toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
   console.log(event.data)
 }

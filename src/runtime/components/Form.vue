@@ -11,8 +11,9 @@ export interface FormProps<I extends object, O extends object = I> {
   id?: string | number
   /** Schema to validate the form state. Supports Standard Schema objects, Yup, Joi, and Superstructs. */
   schema?: FormSchema<I, O>
+
   /** An object representing the current state of the form. */
-  state: Partial<I> | O
+  state: Partial<I>
   /**
    * Custom validation function to validate the form state.
    * @param state - The current state of the form.
@@ -172,7 +173,7 @@ async function getErrors(): Promise<FormErrorWithId[]> {
   return resolveErrorIds(errs)
 }
 
-async function _validate(opts: { name?: keyof I | (keyof I)[], silent?: boolean, nested?: boolean, transform?: boolean } = { silent: false, nested: true, transform: false }): Promise<I | false> {
+async function _validate(opts: { name?: keyof I | (keyof I)[], silent?: boolean, nested?: boolean, transform?: boolean } = { silent: false, nested: true, transform: false }): Promise<O | false> {
   const names = opts.name && !Array.isArray(opts.name) ? [opts.name] : opts.name as (keyof I)[]
 
   const nestedValidatePromises = !names && opts.nested
@@ -213,7 +214,7 @@ async function _validate(opts: { name?: keyof I | (keyof I)[], silent?: boolean,
     Object.assign(props.state, transformedState.value)
   }
 
-  return props.state as I
+  return props.state as O
 }
 
 const loading = ref(false)
@@ -251,7 +252,7 @@ provide(formOptionsInjectionKey, computed(() => ({
   validateOnInputDelay: props.validateOnInputDelay
 })))
 
-defineExpose<Form<I>>({
+defineExpose<Form<I, O>>({
   validate: _validate,
   errors,
 
