@@ -7,8 +7,6 @@ on:
 
 jobs:
   publish:
-    if: ${{ github.ref == 'refs/heads/v2' }}
-
     runs-on: ${{ matrix.os }}
 
     strategy:
