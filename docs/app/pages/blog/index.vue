@@ -41,29 +41,29 @@ useSeoMeta({
 
     <UPageBody class="!my-0 !py-0 border-y border-default">
       <UContainer>
-        <UBlogPosts orientation="vertical" class="!gap-0">
-          <div
-            v-for="article in posts"
-            :key="article.path"
+        <UBlogPosts orientation="vertical" class="border-x border-default !gap-0">
+          <Motion
+            v-for="(post, index) in posts"
+            :key="index"
+            :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+            :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
+            :transition="{ delay: 0.2 * index }"
+            :in-view-options="{ once: true }"
             class="group"
           >
             <UBlogPost
-              :to="article.path"
-              :title="article.title"
-              :description="article.description"
-              :image="{
-                src: article.image,
-                width: 437,
-                height: 246,
-                alt: `${article.title} image`
-              }"
-              :authors="article.authors?.map(author => ({ ...author, avatar: { ...author.avatar, alt: `${author.name} avatar` } }))"
-              :badge="{ label: article.category, color: 'primary', variant: 'subtle' }"
+              variant="naked"
               orientation="horizontal"
-              class="ring-0 border group-first:border-t-0 group-last:border-b-0 border-default rounded-none"
+              :to="post.path"
+              v-bind="post"
+              :ui="{
+                root: 'md:grid md:grid-cols-2 group overflow-visible transition-all duration-300',
+                image: 'rounded-lg group-hover/blog-post:scale-none shadow-lg border-4 border-muted ring-2 ring-default',
+                header: 'scale-90 md:scale-85 lg:scale-80 overflow-visible'
+              }"
             />
-            <div class="h-6 bg-muted/20 group-last:hidden border-x border-default" />
-          </div>
+            <div class="group-last:hidden border-b border-default" />
+          </Motion>
         </UBlogPosts>
       </UContainer>
     </UPageBody>
