@@ -47,6 +47,13 @@ const formatDate = (dateString: string) => {
 <template>
   <UMain class="mt-20 px-2">
     <UContainer class="relative min-h-screen">
+      <ULink
+        to="/blog"
+        class="text-sm flex items-center gap-1 w-fit"
+      >
+        <UIcon name="lucide:chevron-left" />
+        Blog
+      </ULink>
       <UPage v-if="page">
         <div class="flex flex-col gap-3 mt-8">
           <div class="flex text-xs text-muted items-center justify-center gap-2">
@@ -57,7 +64,7 @@ const formatDate = (dateString: string) => {
               -
             </span>
             <span v-if="page.minRead">
-              {{ page.minRead }} MIN READ
+              {{ page.minRead }} min read
             </span>
           </div>
           <NuxtImg
