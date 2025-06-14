@@ -18,6 +18,14 @@ export default {
       lg: { root: 'text-sm' },
       xl: { root: 'text-base' }
     },
+
+    variant: {
+      inline: {
+        root: 'inline-flex',
+        label: 'mt-1.5 mx-2',
+        container: 'mt-0'
+      }
+    },
     required: {
       true: {
         label: `after:content-['*'] after:ms-0.5 after:text-error`

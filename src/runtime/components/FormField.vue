@@ -2,6 +2,7 @@
 import type { AppConfig } from '@nuxt/schema'
 import theme from '#build/ui/form-field'
 import type { ComponentConfig } from '../types/utils'
+import { createReusableTemplate } from '@vueuse/core'
 
 type FormField = ComponentConfig<typeof theme, AppConfig, 'formField'>
 
@@ -20,6 +21,8 @@ export interface FormFieldProps {
   help?: string
   error?: string | boolean
   hint?: string
+
+  variant?: 'default' | 'inline'
   /**
    * @defaultValue 'md'
    */
@@ -61,6 +64,7 @@ const appConfig = useAppConfig() as FormField['AppConfig']
 
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.formField || {}) })({
   size: props.size,
+  variant: props.variant,
   required: props.required
 }))
 
@@ -87,9 +91,28 @@ provide(formFieldInjectionKey, computed(() => ({
   help: props.help,
   ariaId
 }) as FormFieldInjectedOptions<FormFieldProps>))
+
+const [DefineHintTemplate, ReuseHintTemplate] = createReusableTemplate()
+const [DefineDescriptionTemplate, ReuseDescriptionTemplate] = createReusableTemplate()
 </script>
 
 <template>
+  <DefineHintTemplate>
+    <span v-if="(hint || !!slots.hint)" :id="`${ariaId}-hint`" :class="ui.hint({ class: props.ui?.hint })">
+      <slot name="hint" :hint="hint">
+        {{ hint }}
+      </slot>
+    </span>
+  </DefineHintTemplate>
+
+  <DefineDescriptionTemplate>
+    <p v-if="description || !!slots.description" :id="`${ariaId}-description`" :class="ui.description({ class: props.ui?.description })">
+      <slot name="description" :description="description">
+        {{ description }}
+      </slot>
+    </p>
+  </DefineDescriptionTemplate>
+
   <Primitive :as="as" :class="ui.root({ class: [props.ui?.root, props.class] })">
     <div :class="ui.wrapper({ class: props.ui?.wrapper })">
       <div v-if="label || !!slots.label" :class="ui.labelWrapper({ class: props.ui?.labelWrapper })">
@@ -98,19 +121,11 @@ provide(formFieldInjectionKey, computed(() => ({
             {{ label }}
           </slot>
         </Label>
-        <span v-if="hint || !!slots.hint" :id="`${ariaId}-hint`" :class="ui.hint({ class: props.ui?.hint })">
-          <slot name="hint" :hint="hint">
-            {{ hint }}
-          </slot>
-        </span>
+        <ReuseHintTemplate v-if="variant !== 'inline'" />
       </div>
-
-      <p v-if="description || !!slots.description" :id="`${ariaId}-description`" :class="ui.description({ class: props.ui?.description })">
-        <slot name="description" :description="description">
-          {{ description }}
-        </slot>
-      </p>
     </div>
+
+    <ReuseDescriptionTemplate v-if="variant !== 'inline'" />
 
     <div :class="[(label || !!slots.label || description || !!slots.description) && ui.container({ class: props.ui?.container })]">
       <slot :error="error" />
