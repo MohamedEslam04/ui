@@ -2,11 +2,9 @@
 const route = useRoute()
 const toast = useToast()
 const { copy, copied } = useClipboard()
+const site = useSiteConfig()
 
-const mdPath = computed(() => {
-  if (import.meta.server) return ''
-  return `${window.location.origin}/raw${route.path}.md`
-})
+const mdPath = computed(() => `${site.url}/raw${route.path}.md`)
 
 const items = [
   {
