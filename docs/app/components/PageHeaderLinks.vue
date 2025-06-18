@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const toast = useToast()
-const copyStatus = ref<'idle' | 'copying' | 'copied'>('idle')
+const { copy, copied } = useClipboard()
 
 const mdPath = computed(() => {
   if (import.meta.server) return ''
@@ -41,20 +41,7 @@ const items = [
 ]
 
 async function copyPage() {
-  copyStatus.value = 'copying'
-  const markdown = await $fetch<string>(mdPath.value)
-  copyToClipboard(markdown)
-  copyStatus.value = 'copied'
-  setTimeout(() => {
-    copyStatus.value = 'idle'
-  }, 2000)
-}
-
-function copyToClipboard(text: string) {
-  // Fix for iOS Safari: https://stackoverflow.com/questions/62327358/javascript-clipboard-api-safari-ios-notallowederror-message
-  setTimeout(async () => {
-    await navigator.clipboard.writeText(text)
-  }, 0)
+  copy(await $fetch<string>(mdPath.value))
 }
 </script>
 
@@ -62,12 +49,11 @@ function copyToClipboard(text: string) {
   <UButtonGroup>
     <UButton
       label="Copy page"
-      :icon="copyStatus === 'copied' ? 'i-lucide-copy-check' : 'i-lucide-copy'"
+      :icon="copied ? 'i-lucide-copy-check' : 'i-lucide-copy'"
       color="neutral"
       variant="outline"
-      :loading="copyStatus === 'copying'"
       :ui="{
-        leadingIcon: [copyStatus === 'copied' ? 'text-primary' : 'text-neutral', 'size-3.5']
+        leadingIcon: [copied ? 'text-primary' : 'text-neutral', 'size-3.5']
       }"
       @click="copyPage"
     />
