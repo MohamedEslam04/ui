@@ -300,7 +300,7 @@ const generateComponentCode = ({
 </template>`
 }
 
-export function transformMDcomponents(doc: Document): Document {
+export function transformMDC(doc: Document): Document {
   const componentName = camelCase(doc.title)
 
   visitAndReplace(doc, 'component-theme', (node) => {
