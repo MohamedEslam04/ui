@@ -72,6 +72,7 @@ const data = {
     </div>
 
     <div class="flex items-center gap-2">
+      <UColorModeButton />
       <UAlert
         v-for="variant in variants"
         :key="variant"
