@@ -35,6 +35,7 @@ const components = [
   'command-palette',
   'drawer',
   'dropdown-menu',
+  'error',
   'form',
   'form-field',
   'input',
@@ -108,6 +109,7 @@ useHead({
               <div class="size-8" />
             </template>
           </ClientOnly>
+          <UColorModeButton />
         </div>
 
         <div class="flex-1 flex flex-col items-center justify-around overflow-y-auto w-full py-14 px-4">

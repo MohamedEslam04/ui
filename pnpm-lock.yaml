@@ -1424,7 +1424,7 @@ packages:
         optional: true
 
   '@nuxt/ui@file:nuxt-ui-0.1.0.tgz':
-    resolution: {integrity: sha512-IWUfcq+hYE17FhAcEC0gPzVlToKY9v+K4suLwZ9zAfw6ygQ4nuYcllYoFKUlwp6tCF9pt7Nm7N6ImhTtKwVEfw==, tarball: file:nuxt-ui-0.1.0.tgz}
+    resolution: {integrity: sha512-FRmy4Y2RHlD4YjowEKU5o4HKm9/hxA6Xfl/5kfJESrg+jlulbNGdilWQKO/BoC+XkiQ2/9ZHcX7oa+lDRoye7A==, tarball: file:nuxt-ui-0.1.0.tgz}
     version: 0.1.0
     hasBin: true
     peerDependencies:
