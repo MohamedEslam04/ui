@@ -1,6 +1,9 @@
 <script lang="ts">
-import type { AvatarProps, ButtonProps } from '../types'
+import type { AvatarProps, ButtonProps, ComponentConfig } from '../types'
+import theme from '#build/ui/chat-message'
+import type { AppConfig } from '@nuxt/schema'
 
+export type ChatMessage = ComponentConfig<typeof theme, AppConfig, 'chat-message'>
 export interface ChatMessageProps {
   /**
    * The element or component this component should render as.
@@ -73,6 +76,7 @@ export interface ChatMessageProps {
    */
   parts?: any[]
   class?: any
+  ui?: ChatMessage['slots']
 }
 
 export interface ChatMessageSlots {
@@ -85,6 +89,8 @@ export interface ChatMessageSlots {
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
+import { useAppConfig } from '#imports'
+import { tv } from '../utils/tv'
 import UButton from './Button.vue'
 import UIcon from './Icon.vue'
 import UAvatar from './Avatar.vue'
@@ -99,67 +105,43 @@ const props = withDefaults(defineProps<ChatMessageProps>(), {
 const hasLeading = computed(() => Boolean(props.icon || props.avatar))
 const hasActions = computed(() => Boolean(props.actions && props.actions.length > 0))
 
+const appConfig = useAppConfig() as ChatMessage['AppConfig']
+
+const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.chatMessage || {}) })({
+  variant: props.variant,
+  side: props.side,
+  compact: props.compact,
+  leading: hasLeading.value,
+  actions: hasActions.value
+}))
+
 const handleActionClick = (e: MouseEvent, action: any) => {
   if (action.onClick) {
     action.onClick(e, props)
   }
 }
-
-// Simple class computation
-const rootClasses = computed(() => [
-  'group/message relative w-full',
-  props.compact ? 'scroll-mt-3' : 'scroll-mt-4 sm:scroll-mt-6',
-  props.class
-])
-
-const containerClasses = computed(() => [
-  'relative flex items-start group-data-[role=user]/message:max-w-[75%]',
-  props.side === 'right' ? 'ltr:justify-end ms-auto' : 'rtl:justify-end',
-  props.compact ? 'gap-1.5 pb-3' : 'gap-3 pb-8',
-  hasActions.value && props.compact ? 'pb-8' : ''
-])
-
-const contentClasses = computed(() => [
-  'relative text-pretty min-w-0',
-  props.variant === 'solid' ? 'bg-inverted text-inverted' : '',
-  props.variant === 'outline' ? 'bg-default ring ring-default' : '',
-  props.variant === 'soft' ? 'bg-elevated/50' : '',
-  props.variant === 'subtle' ? 'bg-elevated/50 ring ring-default' : '',
-  props.variant !== 'naked' && !props.compact ? 'px-4 py-3 rounded-lg min-h-12' : '',
-  props.variant !== 'naked' && props.compact ? 'px-2 py-1 rounded-lg min-h-8' : ''
-])
-
-const leadingClasses = computed(() => [
-  'inline-flex items-center justify-center min-h-6',
-  props.variant !== 'naked' && !props.compact ? 'mt-2' : '',
-  props.variant !== 'naked' && props.compact ? 'mt-1' : ''
-])
-
-const actionsClasses = computed(() => [
-  'opacity-0 group-hover/message:opacity-100 absolute bottom-0 flex items-center transition-opacity',
-  props.side === 'left' && hasLeading.value && !props.compact ? 'left-11' : '',
-  props.side === 'left' && hasLeading.value && props.compact ? 'left-6.5' : ''
-])
 </script>
 
 <template>
-  <Primitive :id="id" :as="as" :data-role="role" :class="rootClasses">
-    <div :class="containerClasses">
+  <Primitive :id="id" :as="as" :data-role="role" :class="ui.root({ class: [props.ui?.root, props.class] })">
+    <div :class="ui.container({ class: props.ui?.container })">
       <slot name="leading" :avatar="avatar">
-        <div v-if="hasLeading" :class="leadingClasses">
-          <UIcon v-if="icon" :name="icon" :class="props.compact ? 'size-5' : 'size-8'" />
-          <UAvatar v-else-if="avatar" :size="props.compact ? '2xs' : 'md'" v-bind="avatar" class="shrink-0" />
+        <div v-if="hasLeading" :class="ui.leading({ class: props.ui?.leading })">
+          <UIcon v-if="icon" :name="icon" :class="ui.leadingIcon({ class: props.ui?.leadingIcon })" />
+          <UAvatar v-else-if="avatar" :size="ui.leadingAvatarSize()" v-bind="avatar" :class="ui.leadingAvatar({ class: props.ui?.leadingAvatar })" />
         </div>
       </slot>
 
       <slot name="content" :content="content">
-        <div :class="contentClasses">
-          {{ content }}
+        <div :class="ui.content({ class: props.ui?.content })">
+          <slot name="default">
+            {{ content }}
+          </slot>
         </div>
       </slot>
 
       <slot name="actions" :actions="actions">
-        <div v-if="hasActions" :class="actionsClasses">
+        <div v-if="hasActions" :class="ui.actions({ class: props.ui?.actions })">
           <UButton
             v-for="action in actions"
             :key="action.label"
