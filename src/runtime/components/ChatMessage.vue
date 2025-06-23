@@ -1,9 +1,11 @@
 <script lang="ts">
-import type { AvatarProps, ButtonProps, ComponentConfig } from '../types'
-import theme from '#build/ui/chat-message'
 import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../types/utils'
+import theme from '#build/ui/chat-message'
+import type { AvatarProps, ButtonProps } from '../types'
 
-export type ChatMessage = ComponentConfig<typeof theme, AppConfig, 'chat-message'>
+export type ChatMessage = ComponentConfig<typeof theme, AppConfig, 'chatMessage'>
+
 export interface ChatMessageProps {
   /**
    * The element or component this component should render as.
@@ -128,10 +130,10 @@ const handleActionClick = (e: MouseEvent, action: any) => {
       <slot name="leading" :avatar="avatar">
         <div v-if="hasLeading" :class="ui.leading({ class: props.ui?.leading })">
           <UIcon v-if="icon" :name="icon" :class="ui.leadingIcon({ class: props.ui?.leadingIcon })" />
-          <UAvatar v-else-if="avatar" :size="ui.leadingAvatarSize()" v-bind="avatar" :class="ui.leadingAvatar({ class: props.ui?.leadingAvatar })" />
+          <UAvatar v-else-if="avatar" :size="ui.leadingAvatarSize() as AvatarProps['size']" v-bind="avatar"
+            :class="ui.leadingAvatar({ class: props.ui?.leadingAvatar })" />
         </div>
       </slot>
-
       <slot name="content" :content="content">
         <div :class="ui.content({ class: props.ui?.content })">
           <slot name="default">
@@ -139,18 +141,11 @@ const handleActionClick = (e: MouseEvent, action: any) => {
           </slot>
         </div>
       </slot>
-
       <slot name="actions" :actions="actions">
         <div v-if="hasActions" :class="ui.actions({ class: props.ui?.actions })">
-          <UButton
-            v-for="action in actions"
-            :key="action.label"
-            v-bind="action"
-            :size="action.size || 'xs'"
-            :color="action.color || 'neutral'"
-            :variant="action.variant || 'ghost'"
-            @click="(e) => handleActionClick(e, action)"
-          />
+          <UButton v-for="action in actions" :key="action.label" v-bind="action" :size="action.size || 'xs'"
+            :color="action.color || 'neutral'" :variant="action.variant || 'ghost'"
+            @click="(e) => handleActionClick(e, action)" />
         </div>
       </slot>
     </div>
