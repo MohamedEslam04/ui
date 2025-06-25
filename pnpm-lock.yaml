@@ -16,6 +16,9 @@ importers:
 
   .:
     dependencies:
+      '@ai-sdk/vue':
+        specifier: ^1.2.12
+        version: 1.2.12(vue@3.5.14(typescript@5.8.3))(zod@3.25.28)
       '@iconify/vue':
         specifier: ^5.0.0
         version: 5.0.0(vue@3.5.14(typescript@5.8.3))
@@ -73,6 +76,9 @@ importers:
       defu:
         specifier: ^6.1.4
         version: 6.1.4
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       embla-carousel-auto-height:
         specifier: ^8.6.0
         version: 8.6.0(embla-carousel@8.6.0)
@@ -97,6 +103,9 @@ importers:
       fuse.js:
         specifier: ^7.1.0
         version: 7.1.0
+      git-url-parse:
+        specifier: ^16.1.0
+        version: 16.1.0
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -112,12 +121,18 @@ importers:
       mlly:
         specifier: ^1.7.4
         version: 1.7.4
+      ofetch:
+        specifier: ^1.4.1
+        version: 1.4.1
       ohash:
         specifier: ^2.0.11
         version: 2.0.11
       pathe:
         specifier: ^2.0.3
         version: 2.0.3
+      pkg-types:
+        specifier: ^2.1.0
+        version: 2.1.0
       reka-ui:
         specifier: ^2.2.1
         version: 2.2.1(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3))
@@ -167,6 +182,9 @@ importers:
         specifier: ^3.24.0
         version: 3.25.28
     devDependencies:
+      '@nuxt/content':
+        specifier: ^3.5.1
+        version: 3.5.1(magicast@0.3.5)(typescript@5.8.3)
       '@nuxt/eslint-config':
         specifier: ^1.4.1
         version: 1.4.1(@vue/compiler-sfc@3.5.14)(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)

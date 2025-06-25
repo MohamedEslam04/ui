@@ -28,6 +28,8 @@ const components = [
   'carousel',
   'chat-message',
   'chat-messages',
+  'chat-prompt',
+  // 'chat-messages',
   'checkbox',
   'checkbox-group',
   'chip',

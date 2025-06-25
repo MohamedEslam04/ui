@@ -130,8 +130,12 @@ const handleActionClick = (e: MouseEvent, action: any) => {
       <slot name="leading" :avatar="avatar">
         <div v-if="hasLeading" :class="ui.leading({ class: props.ui?.leading })">
           <UIcon v-if="icon" :name="icon" :class="ui.leadingIcon({ class: props.ui?.leadingIcon })" />
-          <UAvatar v-else-if="avatar" :size="ui.leadingAvatarSize() as AvatarProps['size']" v-bind="avatar"
-            :class="ui.leadingAvatar({ class: props.ui?.leadingAvatar })" />
+          <UAvatar
+            v-else-if="avatar"
+            :size="ui.leadingAvatar() as AvatarProps['size']"
+            v-bind="avatar"
+            :class="ui.leadingAvatar({ class: props.ui?.leadingAvatar })"
+          />
         </div>
       </slot>
       <slot name="content" :content="content">
@@ -143,9 +147,15 @@ const handleActionClick = (e: MouseEvent, action: any) => {
       </slot>
       <slot name="actions" :actions="actions">
         <div v-if="hasActions" :class="ui.actions({ class: props.ui?.actions })">
-          <UButton v-for="action in actions" :key="action.label" v-bind="action" :size="action.size || 'xs'"
-            :color="action.color || 'neutral'" :variant="action.variant || 'ghost'"
-            @click="(e) => handleActionClick(e, action)" />
+          <UButton
+            v-for="action in actions"
+            :key="action.label"
+            v-bind="action"
+            :size="action.size || 'xs'"
+            :color="action.color || 'neutral'"
+            :variant="action.variant || 'ghost'"
+            @click="(e) => handleActionClick(e, action)"
+          />
         </div>
       </slot>
     </div>
