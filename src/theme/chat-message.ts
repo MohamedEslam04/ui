@@ -1,60 +1,33 @@
-import type { ModuleOptions } from '../module'
-
-export default (options: Required<ModuleOptions>) => ({
+export default {
   slots: {
-    root: [
-      'group/message relative w-full',
-      options.theme?.transitions && 'transition-colors'
-    ].filter(Boolean).join(' '),
-    container: [
-      'relative flex items-start group-data-[role=user]/message:max-w-[75%]',
-      options.theme?.transitions && 'transition-all'
-    ].filter(Boolean).join(' '),
+    root: 'group/message relative w-full',
+    container: 'relative flex items-start group-data-[role=user]/message:max-w-[75%]',
     leading: 'inline-flex items-center justify-center min-h-6',
     leadingIcon: 'shrink-0',
     leadingAvatar: 'shrink-0',
-    // Set to undefined instead of empty string to match Avatar size type
-    leadingAvatarSize: undefined,
-    content: [
-      'relative text-pretty min-w-0',
-      options.theme?.transitions && 'transition-colors'
-    ].filter(Boolean).join(' '),
+    leadingAvatarSize: '',
+    content: 'relative text-pretty',
     actions: [
       'opacity-0 group-hover/message:opacity-100 absolute bottom-0 flex items-center',
-      options.theme?.transitions && 'transition-opacity'
-    ].filter(Boolean)
+      'transition-opacity'
+    ]
   },
   variants: {
     variant: {
       solid: {
-        content: [
-          'bg-inverted text-inverted',
-          options.theme?.transitions && 'transition-colors'
-        ].filter(Boolean).join(' ')
+        content: 'bg-inverted text-inverted'
       },
       outline: {
-        content: [
-          'bg-default ring ring-default',
-          options.theme?.transitions && 'transition-colors'
-        ].filter(Boolean).join(' ')
+        content: 'bg-default ring ring-default'
       },
       soft: {
-        content: [
-          'bg-elevated/50',
-          options.theme?.transitions && 'transition-colors'
-        ].filter(Boolean).join(' ')
+        content: 'bg-elevated/50'
       },
       subtle: {
-        content: [
-          'bg-elevated/50 ring ring-default',
-          options.theme?.transitions && 'transition-colors'
-        ].filter(Boolean).join(' ')
+        content: 'bg-elevated/50 ring ring-default'
       },
       naked: {
-        content: [
-          '',
-          options.theme?.transitions && 'transition-colors'
-        ].filter(Boolean).join(' ')
+        content: ''
       }
     },
     side: {
@@ -140,4 +113,4 @@ export default (options: Required<ModuleOptions>) => ({
   defaultVariants: {
     variant: 'naked'
   }
-})
+}
