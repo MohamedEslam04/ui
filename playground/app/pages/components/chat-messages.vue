@@ -34,6 +34,26 @@ function copy(e: MouseEvent, message: Message) {
     copied.value = false
   }, 2000)
 }
+const input = ref('')
+const loading = ref(false)
+
+// const { model } = useLLM()
+
+async function createChat(prompt: string) {
+  input.value = prompt
+  loading.value = true
+  const chat = await $fetch('/api/chats', {
+    method: 'POST',
+    body: { input: prompt }
+  })
+
+  refreshNuxtData('chats')
+  navigateTo(`/chat/${chat.id}`)
+}
+
+function onSubmit() {
+  createChat(input.value)
+}
 </script>
 
 <template>
@@ -58,21 +78,16 @@ function copy(e: MouseEvent, message: Message) {
 
     <UChatPrompt
       v-model="input"
-      :error="error"
+      :status="loading ? 'streaming' : 'ready'"
+      class="[view-transition-name:chat-prompt]"
       variant="subtle"
-      class="sticky bottom-0 [view-transition-name:chat-prompt] rounded-b-none z-10"
-      @submit="handleSubmit"
+      @submit="onSubmit"
     >
-      <UChatPromptSubmit
-        :status="status"
-        color="neutral"
-        @stop="stop"
-        @reload="reload"
-      />
+      <UChatPromptSubmit color="neutral" />
 
-      <!-- <template #footer>
+      <template #footer>
         <ModelSelect v-model="model" />
-      </template> -->
+      </template>
     </UChatPrompt>
   </UContainer>
 </template>

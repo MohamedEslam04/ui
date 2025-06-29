@@ -1,13 +1,9 @@
-<script lang="ts" setup>
-import theme from '#build/ui/chat-prompt-submit'
-import { computed } from 'vue'
-import { useAppConfig } from '#imports'
-import { useLocalePro } from '../composables/useLocalePro'
-import { transformUI } from '../utils'
-import { tv } from '../utils/tv'
+<script lang="ts">
 import type { AppConfig } from '@nuxt/schema'
-import type { ButtonProps, ComponentConfig } from '@nuxt/ui'
+import theme from '#build/ui/chat-prompt-submit'
+import type { ButtonProps, ButtonSlots } from '../types'
 import type { UseChatHelpers } from '@ai-sdk/vue'
+import type { ComponentConfig } from '../types/utils'
 
 type ChatPromptSubmit = ComponentConfig<typeof theme, AppConfig, 'chatPromptSubmit'>
 
@@ -82,9 +78,16 @@ export interface ChatPromptSubmitProps extends /** @vue-ignore */ Pick<ButtonPro
 }
 
 export interface ChatPromptSubmitEmits {
-  (e: 'stop'): void
-  (e: 'reload'): void
+  (e: 'stop' | 'reload'): void
 }
+</script>
+
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useAppConfig } from '#imports'
+import { useLocalePro } from '../composables/useLocalePro'
+import { transformUI } from '../utils'
+import { tv } from '../utils/tv'
 
 const props = withDefaults(defineProps<ChatPromptSubmitProps>(), {
   status: 'ready',
@@ -97,9 +100,9 @@ const props = withDefaults(defineProps<ChatPromptSubmitProps>(), {
 })
 
 const emit = defineEmits<ChatPromptSubmitEmits>()
-const slots = defineSlots()
+const slots = defineSlots<ButtonSlots>()
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ChatPromptSubmit['AppConfig']
 
 const buttonProps = computed(() => {
   return {
@@ -130,9 +133,7 @@ const buttonProps = computed(() => {
   }[props.status || 'ready']
 })
 
-const ui = computed(() =>
-  tv({ extend: tv(theme), ...appConfig.ui?.chatPromptSubmit || {} })()
-)
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.chatPromptSubmit || {} })());
 </script>
 
 <template>

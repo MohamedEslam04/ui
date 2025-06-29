@@ -1,4 +1,6 @@
 export default {
+  arrowUp: 'i-lucide-arrow-up',
+  arrowDown: 'i-lucide-arrow-down',
   arrowLeft: 'i-lucide-arrow-left',
   arrowRight: 'i-lucide-arrow-right',
   check: 'i-lucide-check',
@@ -16,5 +18,7 @@ export default {
   loading: 'i-lucide-loader-circle',
   minus: 'i-lucide-minus',
   plus: 'i-lucide-plus',
-  search: 'i-lucide-search'
+  reload: 'i-lucide-refresh-cw',
+  search: 'i-lucide-search',
+  stop: 'i-lucide-circle-stop'
 }

@@ -88,18 +88,20 @@ export function isArrayOfArray<A>(item: A[] | A[][]): item is A[][] {
 
 // Recursively extracts text from slot children
 export function getSlotChildrenText(children: any): string {
-  return children
-    .map((node: any) => {
-      if (!node.children || typeof node.children === 'string') {
-        return node.children || ''
-      } else if (Array.isArray(node.children)) {
-        return getSlotChildrenText(node.children)
-      } else if (typeof node.children.default === 'function') {
-        return getSlotChildrenText(node.children.default())
-      }
-      return ''
-    })
-    .join('')
+  if (!children) return ''
+  if (typeof children === 'string') return children
+  if (Array.isArray(children)) {
+    return children.map(getSlotChildrenText).join('')
+  }
+  if (typeof children === 'object') {
+    if (children.children) {
+      return getSlotChildrenText(children.children)
+    }
+    if (typeof children.default === 'function') {
+      return getSlotChildrenText(children.default())
+    }
+  }
+  return ''
 }
 
 // Transforms a UI object by invoking functions with a `class` prop
