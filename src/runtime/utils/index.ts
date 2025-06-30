@@ -85,3 +85,35 @@ export function compare<T>(value?: T, currentValue?: T, comparator?: string | ((
 export function isArrayOfArray<A>(item: A[] | A[][]): item is A[][] {
   return Array.isArray(item[0])
 }
+
+// Recursively extracts text from slot children
+export function getSlotChildrenText(children: any): string {
+  if (!children) return ''
+  if (typeof children === 'string') return children
+  if (Array.isArray(children)) {
+    return children.map(getSlotChildrenText).join('')
+  }
+  if (typeof children === 'object') {
+    if (children.children) {
+      return getSlotChildrenText(children.children)
+    }
+    if (typeof children.default === 'function') {
+      return getSlotChildrenText(children.default())
+    }
+  }
+  return ''
+}
+
+// Transforms a UI object by invoking functions with a `class` prop
+export function transformUI(
+  ui: Record<string, ((args: { class?: string }) => any) | any>,
+  uiProp?: Record<string, string>
+): Record<string, any> {
+  return Object.entries(ui).reduce((acc, [key, value]) => {
+    acc[key] = typeof value === 'function' ? value({ class: uiProp?.[key] }) : value
+    return acc
+  }, uiProp ? { ...uiProp } : {})
+}
+
+// Re-export everything from the content module
+export * from './content'

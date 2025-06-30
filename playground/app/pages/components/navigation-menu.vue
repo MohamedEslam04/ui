@@ -85,7 +85,7 @@ const items = [
   }, {
     label: 'GitHub',
     icon: 'i-simple-icons-github',
-    to: 'https://github.com/nuxt/ui',
+    to: 'https://github.com/MohamedEslam04/ui',
     target: '_blank'
   }, {
     label: 'Help',

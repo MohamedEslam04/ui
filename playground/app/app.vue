@@ -26,6 +26,10 @@ const components = [
   'card',
   'calendar',
   'carousel',
+  'chat-message',
+  'chat-messages',
+  'chat-prompt',
+  // 'chat-messages',
   'checkbox',
   'checkbox-group',
   'chip',
@@ -110,6 +114,7 @@ useHead({
               <div class="size-8" />
             </template>
           </ClientOnly>
+          <UColorModeButton />
         </div>
 
         <div class="flex-1 flex flex-col items-center justify-around overflow-y-auto w-full py-14 px-4">

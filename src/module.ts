@@ -107,6 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
         disableTransition: true
       })
     }
+    await registerModule('@nuxt/content', 'content', {})
 
     addPlugin({ src: resolve('./runtime/plugins/colors') })
 
