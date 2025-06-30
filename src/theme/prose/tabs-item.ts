@@ -1,3 +1,4 @@
+// Optimized and cleaned up export for tabs-item theme
 export default {
-  "base": "*:first:mt-0 *:last:mb-0 *:my-1.5"
+  base: '*:first:mt-0 *:last:mb-0 *:my-1.5'
 }

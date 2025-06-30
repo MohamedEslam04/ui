@@ -3,7 +3,7 @@ import type { AppConfig } from '@nuxt/schema'
 import type { TextareaProps, TextareaSlots, ComponentConfig } from '@nuxt/ui'
 import theme from '#build/ui/chat-prompt'
 
-type ChatPrompt = ComponentConfig<typeof theme, AppConfig, 'chatPrompt', 'uiPro'>
+type ChatPrompt = ComponentConfig<typeof theme, AppConfig, 'chatPrompt', 'ui'>
 
 export interface ChatPromptProps extends /** @vue-ignore */ Pick<TextareaProps, 'autofocusDelay' | 'autoresizeDelay' | 'maxrows' | 'icon' | 'avatar' | 'loading' | 'loadingIcon'> {
   /**

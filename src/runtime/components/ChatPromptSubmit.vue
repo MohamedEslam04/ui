@@ -133,15 +133,15 @@ const buttonProps = computed(() => {
   }[props.status || 'ready']
 })
 
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.chatPromptSubmit || {} })());
+const uiStyles = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.chatPromptSubmit || {} })())
 </script>
 
 <template>
   <UButton
     :aria-label="t('chatPromptSubmit.label')"
     v-bind="buttonProps"
-    :class="ui.base({ class: [props.ui?.base, props.class] })"
-    :ui="transformUI(ui, props.ui)"
+    :class="uiStyles.base({ class: [props.ui?.base, props.class] })"
+    :ui="transformUI(uiStyles, props.ui) as Record<string, string>"
   >
     <template v-for="(_, name) in slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData" />
