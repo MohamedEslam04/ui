@@ -20,7 +20,7 @@ export interface DashboardNavbarProps {
   title?: string
   /**
    * Customize the toggle button to open the sidebar.
-   * `{ color: 'neutral', variant: 'ghost' }`{lang="ts-type"}
+   * `{ color: 'neutral', variant: 'ghost' }`
    * @defaultValue true
    */
   toggle?: boolean | Partial<ButtonProps>
@@ -32,7 +32,8 @@ export interface DashboardNavbarProps {
   class?: any
   ui?: DashboardNavbar['slots']
 }
-type DashboardNavbarSlotsProps = Omit<DashboardContext, 'storage' | 'storageKey' | 'persistent' | 'unit'>
+
+export interface DashboardNavbarSlotsProps extends Omit<DashboardContext, 'storage' | 'storageKey' | 'persistent' | 'unit'> {}
 
 export interface DashboardNavbarSlots {
   title(props?: {}): any
@@ -59,13 +60,18 @@ const props = withDefaults(defineProps<DashboardNavbarProps>(), {
   toggleSide: 'left'
 })
 
-const slots = defineSlots<DashboardNavbarSlots>()
+defineSlots<DashboardNavbarSlots>()
+
 const dashboardContext = useDashboard()
 const appConfig = useAppConfig() as DashboardNavbar['AppConfig']
-
 const [DefineToggleTemplate, ReuseToggleTemplate] = createReusableTemplate()
 
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardNavbar }))
+const ui = computed(() =>
+  tv({
+    extend: tv(theme),
+    ...appConfig.ui?.dashboardNavbar
+  })()
+)
 </script>
 
 <template>
@@ -75,21 +81,21 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardNavb
         v-if="props.toggle"
         v-bind="typeof props.toggle === 'object' ? props.toggle : {}"
         :side="props.toggleSide"
-        :class="ui.value.toggle({ class: props.ui?.toggle, toggleSide: props.toggleSide })"
+        :class="ui.toggle({ class: props.ui?.toggle, toggleSide: props.toggleSide })"
       />
     </slot>
   </DefineToggleTemplate>
 
-  <Primitive :as="props.as" :class="ui.value.root({ class: [props.ui?.root, props.class] })">
-    <div :class="ui.value.left({ class: props.ui?.left })"></div>
+  <Primitive :as="props.as" :class="ui.root({ class: [props.ui?.root, props.class] })">
+    <div :class="ui.left({ class: props.ui?.left })">
       <ReuseToggleTemplate v-if="props.toggleSide === 'left'" />
 
       <slot name="left" v-bind="dashboardContext">
         <slot name="leading" v-bind="dashboardContext">
-          <UIcon v-if="props.icon" :name="props.icon" :class="ui.value.icon({ class: props.ui?.icon })" />
+          <UIcon v-if="props.icon" :name="props.icon" :class="ui.icon({ class: props.ui?.icon })" />
         </slot>
 
-        <h1 :class="ui.value.title({ class: props.ui?.title })">
+        <h1 :class="ui.title({ class: props.ui?.title })">
           <slot name="title">
             {{ props.title }}
           </slot>
@@ -99,12 +105,13 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardNavb
       </slot>
     </div>
 
-    <div v-if="!!slots.default" :class="ui.value.center({ class: props.ui?.center })">
+    <div v-if="$slots.default" :class="ui.center({ class: props.ui?.center })">
       <slot v-bind="dashboardContext" />
     </div>
 
-    <div :class="ui.value.right({ class: props.ui?.right })">
+    <div :class="ui.right({ class: props.ui?.right })">
       <slot name="right" v-bind="dashboardContext" />
+
       <ReuseToggleTemplate v-if="props.toggleSide === 'right'" />
     </div>
   </Primitive>

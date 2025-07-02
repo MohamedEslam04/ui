@@ -2,7 +2,7 @@ import './assets/css/main.css'
 
 import { createApp, defineAsyncComponent, ref } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import ui from '@nuxt/ui/vue-plugin'
+import ui from '@eslamdevui/ui/vue-plugin'
 
 import App from './app.vue'
 

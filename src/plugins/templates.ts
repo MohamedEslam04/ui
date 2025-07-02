@@ -12,16 +12,16 @@ export default function TemplatePlugin(options: NuxtUIOptions, appConfig: Record
   const templateKeys = new Set(templates.map(t => `#build/${t.filename}`))
 
   return {
-    name: 'nuxt:ui:templates',
+    name: 'eslamdevui:ui:templates',
     enforce: 'pre',
     resolveId(id) {
       if (templateKeys.has(id + '.ts')) {
-        return id.replace('#build/', 'virtual:nuxt-ui-templates/') + '.ts'
+        return id.replace('#build/', 'virtual:eslamdevui-ui-templates/') + '.ts'
       }
     },
-    loadInclude: id => templateKeys.has(id.replace('virtual:nuxt-ui-templates/', '#build/')),
+    loadInclude: id => templateKeys.has(id.replace('virtual:eslamdevui-ui-templates/', '#build/')),
     load(id) {
-      id = id.replace('virtual:nuxt-ui-templates/', '#build/')
+      id = id.replace('virtual:eslamdevui-ui-templates/', '#build/')
       return templates.find(t => `#build/${t.filename}` === id)!.getContents!({} as any)
     }
   } satisfies UnpluginOptions

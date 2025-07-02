@@ -1,8 +1,29 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/code-tree'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ProseCodeTree = ComponentConfig<typeof theme, AppConfig, 'codeTree', 'ui.prose'>
+export interface ProseCodeTreeProps {
+  /**
+   * The default path to select.
+   * @example 'package.json'
+   */
+  defaultValue?: string
+  /**
+   * Expand all directories by default.
+   * @defaultValue false
+   */
+  expandAll?: boolean
+  class?: any
+  ui?: ProseCodeTree['slots']
+}
+export interface ProseCodeTreeSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref, watch, onBeforeUpdate } from 'vue'
 import { TreeRoot, TreeItem } from 'reka-ui'
 import { createReusableTemplate } from '@vueuse/core'

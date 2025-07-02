@@ -1,15 +1,18 @@
 {
-  "name": "@nuxt/ui",
+  "name": "@eslamdevui/ui",
   "description": "A UI Library for Modern Web Apps, powered by Vue & Tailwind CSS.",
-  "version": "3.2.0",
+  "version": "3.2.0-beta.1",
   "packageManager": "pnpm@10.12.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MohamedEslam04/ui"
+    "url": "git+https://github.com/MohamedEslam04/ui.git"
   },
   "homepage": "https://ui.nuxt.com",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/module.d.mts",
@@ -100,7 +103,7 @@
     "dev:build": "nuxt build playground",
     "dev:vue": "vite playground-vue -- --uiDev",
     "dev:vue:build": "vite build playground-vue",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare docs && vite build playground-vue",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && vite build playground-vue",
     "docs": "nuxt dev docs --uiDev",
     "docs:build": "nuxt build docs",
     "lint": "eslint .",
@@ -165,7 +168,6 @@
     "@nuxt/eslint-config": "^1.4.1",
     "@nuxt/module-builder": "^1.0.1",
     "@nuxt/test-utils": "^3.19.1",
-    "@nuxt/ui": "workspace:*",
     "@release-it/conventional-changelog": "^10.0.1",
     "@vue/compiler-sfc": "3.5.17",
     "@vue/test-utils": "^2.4.6",
@@ -212,7 +214,7 @@
     }
   },
   "resolutions": {
-    "@nuxt/ui": "workspace:*",
+    "@eslamdevui/ui": "workspace:*",
     "chokidar": "3.6.0",
     "debug": "4.3.7",
     "rollup": "4.34.9",

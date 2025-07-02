@@ -115,6 +115,9 @@ useHead({
               <div class="size-8" />
             </template>
           </ClientOnly>
+          <UColorModeAvatar light="https://github.com/vuejs.png" dark="https://github.com/nuxt.png" />
+          <UColorModeSelect />
+          <UColorModeSwitch />
           <UColorModeButton />
         </div>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SelectMenuProps } from '@eslamdevui/ui'
+import type { SelectMenuProps } from '../../types'
 
 export interface ColorModeSelectProps extends
   /** @vue-ignore */

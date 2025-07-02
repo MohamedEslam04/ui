@@ -4,7 +4,8 @@ import { genSafeVariableName } from 'knitwork'
 import MagicString from 'magic-string'
 import { resolvePathSync } from 'mlly'
 
-import { runtimeDir, type NuxtUIOptions } from '../unplugin'
+import { runtimeDir } from '../unplugin'
+import type { NuxtUIOptions } from '../unplugin'
 
 import type { UnpluginOptions } from 'unplugin'
 
@@ -21,11 +22,11 @@ export default function PluginsPlugin(options: NuxtUIOptions) {
   }
 
   return {
-    name: 'nuxt:ui:plugins',
+    name: 'eslamdevui:ui:plugins',
     enforce: 'pre',
     resolveId(id) {
-      if (id === '@nuxt/ui/vue-plugin') {
-        return 'virtual:nuxt-ui-plugins'
+      if (id === '@eslamdevui/ui/vue-plugin') {
+        return 'virtual:eslamdevui-ui-plugins'
       }
     },
     transform(code, id) {
@@ -41,7 +42,7 @@ export default function PluginsPlugin(options: NuxtUIOptions) {
         }
       }
     },
-    loadInclude: id => id === 'virtual:nuxt-ui-plugins',
+    loadInclude: id => id === 'virtual:eslamdevui-ui-plugins',
     load() {
       return `
         ${plugins.map(p => `import ${genSafeVariableName(p)} from "${p}"`).join('\n')}
@@ -59,7 +60,7 @@ ${plugins.map(p => `    app.use(${genSafeVariableName(p)})`).join('\n')}
           // Opt-out Nuxt UI from Vite's pre-bundling,
           // as we need Vite's pipeline to resolve imports like `#imports`
           optimizeDeps: {
-            exclude: ['@nuxt/ui']
+            exclude: ['@eslamdevui/ui']
           }
         }
       }

@@ -1,25 +1,6 @@
-// Optimized and cleaned up export for content-toc theme
-const _color = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'error',
-  'neutral'
-] as const
+import type { ModuleOptions } from '../../module'
 
-const _highlightColor = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'error',
-  'neutral'
-] as const
-
-export default {
+export default (options: Required<ModuleOptions>) => ({
   slots: {
     root: 'sticky top-(--ui-header-height) z-10 bg-default/75 lg:bg-[initial] backdrop-blur -mx-4 px-4 sm:px-6 sm:-mx-6 overflow-y-auto max-h-[calc(100vh-var(--ui-header-height))]',
     container: 'pt-4 sm:pt-6 pb-2.5 sm:pb-4.5 lg:py-8 border-b border-dashed border-default lg:border-0 flex flex-col',
@@ -40,33 +21,13 @@ export default {
   },
   variants: {
     color: {
-      primary: '',
-      secondary: '',
-      success: '',
-      info: '',
-      warning: '',
-      error: '',
+      ...Object.fromEntries((options.theme.colors || []).map((color: string) => [color, ''])),
       neutral: ''
     },
     highlightColor: {
-      primary: {
-        indicator: 'bg-primary'
-      },
-      secondary: {
-        indicator: 'bg-secondary'
-      },
-      success: {
-        indicator: 'bg-success'
-      },
-      info: {
-        indicator: 'bg-info'
-      },
-      warning: {
-        indicator: 'bg-warning'
-      },
-      error: {
-        indicator: 'bg-error'
-      },
+      ...Object.fromEntries((options.theme.colors || []).map((color: string) => [color, {
+        indicator: `bg-${color}`
+      }])),
       neutral: {
         indicator: 'bg-inverted'
       }
@@ -87,65 +48,25 @@ export default {
     }
   },
   compoundVariants: [
-    {
-      color: 'primary' as typeof _color[number],
+    ...(options.theme.colors || []).map((color: string) => ({
+      color: `${color}`,
       active: true,
       class: {
-        link: 'text-primary',
-        linkLeadingIcon: 'text-primary'
+        link: `text-${color}`,
+        linkText: `text-${color}`
       }
-    },
+    })),
     {
-      color: 'secondary' as typeof _color[number],
+      color: 'neutral',
       active: true,
       class: {
-        link: 'text-secondary',
-        linkLeadingIcon: 'text-secondary'
-      }
-    },
-    {
-      color: 'success' as typeof _color[number],
-      active: true,
-      class: {
-        link: 'text-success',
-        linkLeadingIcon: 'text-success'
-      }
-    },
-    {
-      color: 'info' as typeof _color[number],
-      active: true,
-      class: {
-        link: 'text-info',
-        linkLeadingIcon: 'text-info'
-      }
-    },
-    {
-      color: 'warning' as typeof _color[number],
-      active: true,
-      class: {
-        link: 'text-warning',
-        linkLeadingIcon: 'text-warning'
-      }
-    },
-    {
-      color: 'error' as typeof _color[number],
-      active: true,
-      class: {
-        link: 'text-error',
-        linkLeadingIcon: 'text-error'
-      }
-    },
-    {
-      color: 'neutral' as typeof _color[number],
-      active: true,
-      class: {
-        link: 'text-highlighted',
-        linkLeadingIcon: 'text-highlighted'
+        link: `text-highlighted`,
+        linkLeadingIcon: `text-highlighted`
       }
     }
   ],
   defaultVariants: {
-    color: 'primary' as typeof _color[number],
-    highlightColor: 'primary' as typeof _highlightColor[number]
+    color: 'primary',
+    highlightColor: 'primary'
   }
-}
+})

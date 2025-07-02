@@ -1,8 +1,28 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/tabs'
+
+export interface ProseTabsProps {
+  /**
+   * The default tab to select.
+   * @example '1'
+   */
+  defaultValue?: string
+  /**
+   * Sync the selected tab with a local storage key.
+   */
+  sync?: string
+  /**
+   * The hash to scroll to when the tab is selected.
+   */
+  hash?: string
+  class?: any
+}
+export interface ProseTabsSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed, watch, onMounted, ref, onBeforeUpdate } from 'vue'
 import { useState, useAppConfig } from '#imports'
 import { transformUI } from '../../utils'

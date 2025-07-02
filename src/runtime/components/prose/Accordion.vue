@@ -1,19 +1,26 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/accordion'
+
+export interface ProseAccordionProps {
+  type?: 'single' | 'multiple'
+  class?: any
+}
+export interface ProseAccordionSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref, onBeforeUpdate } from 'vue'
 import { useAppConfig } from '#imports'
 import { transformUI } from '../../utils'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  type: { type: String, required: false, default: 'multiple' },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<ProseAccordionProps>(), {
+  type: 'multiple'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
+const slots = defineSlots<ProseAccordionSlots>()
+const appConfig = useAppConfig() as Accordion['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.accordion || {} }))
 const rerenderCount = ref(1)
 const items = computed(() => {

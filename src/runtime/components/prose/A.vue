@@ -1,8 +1,17 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/a'
+
+export interface ProseAProps {
+  href?: string
+  target?: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
+  class?: any
+}
+export interface ProseASlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

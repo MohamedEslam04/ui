@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { ButtonProps } from '@eslamdevui/ui'
+import type { ButtonProps } from '../../types'
 
 export interface ColorModeButtonProps extends /** @vue-ignore */ Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
   /**

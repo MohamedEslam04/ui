@@ -27,7 +27,7 @@ export default function AppConfigPlugin(options: NuxtUIOptions & { theme: NonNul
           test: {
             server: {
               deps: {
-                inline: ['@nuxt/ui']
+                inline: ['@eslamdevui/ui']
               }
             }
           }

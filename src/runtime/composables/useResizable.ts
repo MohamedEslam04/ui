@@ -3,9 +3,10 @@ import {
   computed,
   unref,
   isRef,
-  watch,
-  type Ref
+  watch
+
 } from 'vue'
+import type { Ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useCookie } from '#imports'
 

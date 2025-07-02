@@ -1,8 +1,16 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/img'
+
+export interface ProseImgProps {
+  src: string
+  alt: string
+  width?: string | number
+  height?: string | number
+  class?: any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { withTrailingSlash, withLeadingSlash, joinURL } from 'ufo'
 import { useRuntimeConfig, useAppConfig } from '#imports'

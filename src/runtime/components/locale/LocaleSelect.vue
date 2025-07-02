@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SelectMenuProps, Locale } from '@eslamdevui/ui'
+import type { SelectMenuProps, Locale } from '../../types'
 
 export interface LocaleSelectProps extends
   /** @vue-ignore */

@@ -1,8 +1,26 @@
-<script>
+<script lang="ts">
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 import theme from '#build/ui/prose/pre'
+
+type ProsePre = ComponentConfig<typeof theme, AppConfig, 'pre', 'ui.prose'>
+export interface ProsePreProps {
+  icon?: string
+  code?: string
+  language?: string
+  filename?: string
+  highlights?: number[]
+  hideHeader?: boolean
+  meta?: string
+  class?: any
+  ui?: ProsePre['slots']
+}
+export interface ProsePreSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { useAppConfig } from '#imports'

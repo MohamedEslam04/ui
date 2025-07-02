@@ -1,9 +1,8 @@
 <script lang="ts">
 import type { AppConfig } from '@nuxt/schema'
-import type { ButtonProps, ComponentConfig } from '@nuxt/ui'
+import type { ButtonProps, ComponentConfig, ChatMessageProps } from '../types'
 import type { Message, UseChatHelpers } from '@ai-sdk/vue'
 import theme from '#build/ui/chat-messages'
-import type { ChatMessageProps } from '../types'
 
 type ChatMessages = ComponentConfig<typeof theme, AppConfig, 'chatMessages'>
 
@@ -68,11 +67,11 @@ export interface ChatMessagesSlots {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, toRef, onMounted } from 'vue'
-import { defu } from 'defu'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
+// import { defu } from 'defu'
 import { Presence } from 'reka-ui'
 import { useElementBounding, useEventListener, watchThrottled } from '@vueuse/core'
-import { omit } from '@nuxt/ui/utils'
+import { omit } from '../utils'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 import UChatMessage from './ChatMessage.vue'
@@ -88,8 +87,25 @@ const slots = defineSlots<ChatMessagesSlots>()
 const proxySlots = omit(slots, ['default', 'indicator', 'viewport'])
 const appConfig = useAppConfig() as ChatMessages['AppConfig']
 
-const userProps = toRef(() => defu(props.user, { side: 'right', variant: 'soft' }))
-const assistantProps = toRef(() => defu(props.assistant, { side: 'left', variant: 'naked' }))
+function getValidVariant(variant: any): ChatMessageProps['variant'] {
+  const allowed = ['solid', 'outline', 'soft', 'subtle', 'naked']
+  if (allowed.includes(variant)) {
+    return variant as ChatMessageProps['variant']
+  }
+  return 'soft'
+}
+
+const userProps = computed(() => ({
+  ...props.user,
+  variant: getValidVariant(props.user?.variant ?? undefined),
+  side: props.user?.side ?? 'right'
+}))
+
+const assistantProps = computed(() => ({
+  ...props.assistant,
+  variant: getValidVariant(props.assistant?.variant ?? undefined) === 'soft' ? 'naked' : getValidVariant(props.assistant?.variant ?? undefined),
+  side: props.assistant?.side ?? 'left'
+}))
 
 const ui = computed(() =>
   tv({ extend: tv(theme), ...(appConfig.ui?.chatMessages || {}) })({

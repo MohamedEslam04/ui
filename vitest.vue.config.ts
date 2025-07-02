@@ -22,16 +22,16 @@ export default defineConfig({
     vue(),
     ui({ dts: false }),
     {
-      name: 'nuxt-ui-test:components',
+      name: 'eslamdevui-ui-test:components',
       enforce: 'pre',
       resolveId(id) {
-        if (id === '@nuxt/test-utils/runtime') {
+        if (id === '@eslamdevui/test-utils/runtime') {
           return resolve('./test/utils/mount')
         }
       }
     },
     {
-      name: 'nuxt-ui-test:components',
+      name: 'eslamdevui-ui-test:components',
       enforce: 'pre',
       resolveId(id) {
         if (id === '#components') {

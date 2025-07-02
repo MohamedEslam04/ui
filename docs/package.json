@@ -16,7 +16,7 @@
     "@iconify-json/vscode-icons": "^1.2.23",
     "@nuxt/content": "^3.6.1",
     "@nuxt/image": "^1.10.0",
-    "@nuxt/ui": "workspace:*",
+    "@eslamdevui/ui": "workspace:*",
     "@nuxt/ui-pro": "https://pkg.pr.new/@nuxt/ui-pro@55e248c",
     "@nuxthub/core": "^0.9.0",
     "@nuxtjs/plausible": "^1.2.0",

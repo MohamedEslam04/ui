@@ -1,8 +1,17 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/tabs-item'
+
+export interface ProseTabsItemProps {
+  label: string
+  description?: string
+  class?: any
+}
+export interface ProseTabsItemSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

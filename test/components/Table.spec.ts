@@ -1,7 +1,8 @@
 import { h } from 'vue'
 import { describe, it, expect } from 'vitest'
 import { UCheckbox, UButton, UBadge, UDropdownMenu } from '#components'
-import Table, { type TableProps, type TableSlots, type TableColumn } from '../../src/runtime/components/Table.vue'
+import Table from '../../src/runtime/components/Table.vue'
+import type { TableProps, TableSlots, TableColumn } from '../../src/runtime/components/Table.vue'
 import ComponentRender from '../component-render'
 import theme from '#build/ui/table'
 

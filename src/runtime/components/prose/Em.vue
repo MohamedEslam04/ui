@@ -1,8 +1,15 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/em'
+
+export interface ProseEmProps {
+  class?: string
+}
+export interface ProseEmSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

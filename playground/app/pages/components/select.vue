@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectItem, AvatarProps } from '@nuxt/ui'
+import type { SelectItem, AvatarProps } from '@eslamdevui/ui'
 import { upperFirst } from 'scule'
 import theme from '#build/ui/select'
 import type { User } from '~/types'

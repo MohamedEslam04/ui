@@ -1,8 +1,39 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/collapsible'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ProseCollapsible = ComponentConfig<typeof theme, AppConfig, 'collapsible', 'ui.prose'>
+export interface ProseCollapsibleProps {
+  /**
+   * The icon displayed to toggle the collapsible.
+   * @defaultValue appConfig.ui.icons.chevronDown
+   */
+  icon?: string
+  /**
+   * The name displayed in the trigger label.
+   * @defaultValue t('prose.collapsible.name')
+   */
+  name?: string
+  /**
+   * The text displayed when the collapsible is open.
+   * @defaultValue t('prose.collapsible.openText')
+   */
+  openText?: string
+  /**
+   * The text displayed when the collapsible is closed.
+   * @defaultValue t('prose.collapsible.closeText')
+   */
+  closeText?: string
+  class?: any
+  ui?: ProseCollapsible['slots']
+}
+export interface ProseCollapsibleSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { useLocalePro } from '../../composables/useLocalePro'

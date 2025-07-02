@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/code-icon'
+
+export interface ProseCodeIconProps {
+  icon?: string
+  filename?: string
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { defu } from 'defu'
 import { useAppConfig } from '#imports'

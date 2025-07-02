@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { InputMenuItem, AvatarProps } from '@nuxt/ui'
+import type { InputMenuItem, AvatarProps } from '@eslamdevui/ui'
 
 import { upperFirst } from 'scule'
 import { refDebounced } from '@vueuse/core'

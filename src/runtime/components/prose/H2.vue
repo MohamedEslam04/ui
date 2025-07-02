@@ -1,8 +1,20 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/h2'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ProseH2 = ComponentConfig<typeof theme, AppConfig, 'h2', 'ui.prose'>
+export interface ProseH2Props {
+  id?: string
+  class?: any
+  ui?: ProseH2['slots']
+}
+export interface ProseH2Slots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useRuntimeConfig, useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

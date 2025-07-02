@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@eslamdevui/ui'
 import theme from '#build/ui/navigation-menu'
 
 const colors = Object.keys(theme.variants.color)

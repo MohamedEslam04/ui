@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TimelineItem } from '@nuxt/ui'
+import type { TimelineItem } from '@eslamdevui/ui'
 import theme from '#build/ui/timeline'
 
 const sizes = Object.keys(theme.variants.size)

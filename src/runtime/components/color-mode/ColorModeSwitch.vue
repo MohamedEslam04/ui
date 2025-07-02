@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SwitchProps } from '@eslamdevui/ui'
+import type { SwitchProps } from '../../types'
 
 export interface ColorModeSwitchProps extends
   /** @vue-ignore */
@@ -16,7 +16,7 @@ defineProps<ColorModeSwitchProps>()
 
 const { t } = useLocalePro()
 const colorMode = useColorMode()
-const appConfig = useAppConfig() as ColorModeSwitch['AppConfig']
+const appConfig = useAppConfig()
 
 const isDark = computed({
   get() {

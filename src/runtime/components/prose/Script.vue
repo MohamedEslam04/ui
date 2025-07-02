@@ -1,4 +1,8 @@
-<script setup>
+<script setup lang="ts">
+type __VLS_Props = {
+  src: string
+}
+
 defineProps({
   src: { type: String, required: true }
 })

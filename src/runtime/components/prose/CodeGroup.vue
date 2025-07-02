@@ -1,8 +1,28 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/code-group'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ProseCodeGroup = ComponentConfig<typeof theme, AppConfig, 'codeGroup', 'ui.prose'>
+export interface ProseCodeGroupProps {
+  /**
+   * The default tab to select.
+   * @example '1'
+   */
+  defaultValue?: string
+  /**
+   * Sync the selected tab with a local storage key.
+   */
+  sync?: string
+  class?: any
+  ui?: ProseCodeGroup['slots']
+}
+export interface ProseCodeGroupSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed, watch, onMounted, ref, onBeforeUpdate } from 'vue'
 import { TabsRoot, TabsList, TabsIndicator, TabsTrigger, TabsContent } from 'reka-ui'
 import { useState, useAppConfig } from '#imports'

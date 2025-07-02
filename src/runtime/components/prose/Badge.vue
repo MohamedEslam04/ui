@@ -1,8 +1,15 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/badge'
+
+export interface ProseBadgeProps {
+  class?: any
+}
+export interface ProseBadgeSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

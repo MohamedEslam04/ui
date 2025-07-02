@@ -1,8 +1,15 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/li'
+
+export interface ProseLiProps {
+  class?: any
+}
+export interface ProseLiSlots {
+  default(props?: {}): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'

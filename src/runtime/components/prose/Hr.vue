@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 import theme from '#build/ui/prose/hr'
+
+export interface ProseHrProps {
+  class?: any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
