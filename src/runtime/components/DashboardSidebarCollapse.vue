@@ -1,7 +1,9 @@
 <script lang="ts">
-import type { ButtonProps } from '../types'
+import type { AppConfig } from '@nuxt/schema'
+import type { ButtonProps, ComponentConfig } from '../types'
 import theme from '#build/ui/dashboard-sidebar-collapse'
 
+type DashboardSidebarCollapse = ComponentConfig<typeof theme, AppConfig, 'dashboardSidebarCollapse'>
 export interface DashboardSidebarCollapseProps
   extends /** @vue-ignore */ Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
   side?: 'left' | 'right'
@@ -34,7 +36,7 @@ const rootProps = useForwardProps(
 )
 
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as DashboardSidebarCollapse['AppConfig']
 const { sidebarCollapsed, collapseSidebar } = useDashboard({ sidebarCollapsed: ref(false), collapseSidebar: () => { } })
 
 const ui = computed(() =>

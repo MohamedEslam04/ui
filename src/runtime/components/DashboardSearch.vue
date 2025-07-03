@@ -75,7 +75,7 @@ const fuse = computed(() =>
   })
 )
 
-const ui = computed(() => tv({
+const uiPro = computed(() => tv({
   extend: tv(theme),
   ...appConfig.ui?.dashboardSearch
 })())
@@ -129,7 +129,7 @@ defineExpose({ commandPaletteRef })
 </script>
 
 <template>
-  <UModal v-model:open="open" :class="ui.modal({ class: props.class })">
+  <UModal v-model:open="open" :class="uiPro.modal({ class: props.class })">
     <template #content>
       <slot name="content">
         <UCommandPalette
@@ -138,7 +138,7 @@ defineExpose({ commandPaletteRef })
           v-bind="commandPaletteProps"
           :groups="groups"
           :fuse="fuse"
-          :ui="transformUI(ui, props.ui)"
+          :ui="transformUI(uiPro, props.ui)"
           @update:model-value="onSelect"
           @update:open="open = $event"
         >

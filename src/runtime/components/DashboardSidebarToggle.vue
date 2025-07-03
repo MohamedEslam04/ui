@@ -1,12 +1,10 @@
 <script lang="ts">
-import type { AppConfig } from '@nuxt/schema'
-import type { ButtonProps, ComponentConfig } from '../types'
+import type { ButtonProps } from '@nuxt/ui'
 import theme from '#build/ui/dashboard-sidebar-toggle'
 
-export type DashboardSidebarToggle = ComponentConfig<typeof theme, AppConfig, 'dashboardSidebarToggle'>
-
-export interface DashboardSidebarToggleProps
-  extends Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
+export interface DashboardSidebarToggleProps extends
+  /** @vue-ignore */
+  Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
   side?: 'left' | 'right'
   /**
    * @defaultValue 'neutral'
@@ -17,7 +15,6 @@ export interface DashboardSidebarToggleProps
    */
   variant?: ButtonProps['variant']
   class?: any
-  ui?: DashboardSidebarToggle['slots']
 }
 </script>
 
@@ -30,20 +27,25 @@ import { useLocalePro } from '../composables/useLocalePro'
 import { useDashboard } from '../utils/dashboard'
 import { tv } from '../utils/tv'
 
+// define props
 const props = defineProps<DashboardSidebarToggleProps>()
 
+// forward base props to UButton
 const rootProps = useForwardProps(reactivePick(props, 'color', 'variant', 'size', 'as', 'disabled', 'ui'))
 
+// localization + dashboard toggle state
 const { t } = useLocalePro()
 const appConfig = useAppConfig() as DashboardSidebarToggle['AppConfig']
 const { sidebarOpen, toggleSidebar } = useDashboard()
 
-const uiPro = computed(() =>
-  tv({
-    extend: tv(theme),
+// handle theme merge
+const ui = computed(() => {
+  const baseTheme = typeof theme === 'string' ? { base: theme } : theme
+  return tv({
+    extend: tv(baseTheme),
     ...appConfig.ui?.dashboardSidebarToggle
-  })()
-)
+  })
+})
 </script>
 
 <template>
@@ -51,7 +53,7 @@ const uiPro = computed(() =>
     v-bind="rootProps"
     :aria-label="sidebarOpen ? t('dashboardSidebarToggle.close') : t('dashboardSidebarToggle.open')"
     :icon="sidebarOpen ? appConfig.ui.icons.close : appConfig.ui.icons.menu"
-    :class="uiPro({ class: props.class, side: props.side })"
+    :class="typeof ui === 'function' ? ui({ class: props.class, side: props.side }) : ui"
     @click="toggleSidebar"
   />
 </template>

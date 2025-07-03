@@ -105,14 +105,29 @@ export function getSlotChildrenText(children: any): string {
 }
 
 // Transforms a UI object by invoking functions with a `class` prop
+// Enhanced transformUI to be safer, clearer, and more flexible
 export function transformUI(
   ui: Record<string, ((args: { class?: string }) => any) | any>,
-  uiProp?: Record<string, string>
+  uiProp?: Record<string, any>
 ): Record<string, any> {
-  return Object.entries(ui).reduce((acc, [key, value]) => {
-    acc[key] = typeof value === 'function' ? value({ class: uiProp?.[key] }) : value
-    return acc
-  }, uiProp ? { ...uiProp } : {})
+  const result: Record<string, any> = {}
+
+  for (const key in ui) {
+    const uiValue = ui[key]
+    const classValue = normalizeClass(uiProp?.[key])
+
+    result[key] = typeof uiValue === 'function' ? uiValue({ class: classValue }) : uiValue
+  }
+
+  return result
+}
+
+// Normalize class values (e.g. string[], false, null) to string
+function normalizeClass(value: unknown): string | undefined {
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) return value.filter(Boolean).join(' ')
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value)
+  return undefined
 }
 
 // Re-export everything from the content module

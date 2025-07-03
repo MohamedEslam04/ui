@@ -37,7 +37,7 @@ const components = [
   'color-picker',
   'context-menu',
   'command-palette',
-  'dashboard-navbar',
+  'dashboard',
   'drawer',
   'dropdown-menu',
   'form',

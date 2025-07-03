@@ -37,7 +37,7 @@ const dashboardContext = useDashboard({ storageKey: 'dashboard', unit: '%' })
 const panelId = `${dashboardContext.storageKey}-panel-${props.id || useId()}`
 const { el, size, isDragging, onMouseDown, onTouchStart } = useResizable(panelId, toRef(() => ({ ...dashboardContext, ...props })))
 
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardPanel })())
+const uiPro = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardPanel })())
 </script>
 
 <template>
@@ -45,13 +45,13 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardPane
     :id="panelId"
     ref="el"
     :data-dragging="isDragging"
-    :class="ui.root({ class: [props.ui?.root, props.class] })"
+    :class="uiPro.root({ class: [props.ui?.root, props.class] })"
     :style="size ? { '--width': `${size}${dashboardContext.unit}` } : undefined"
   >
     <slot>
       <slot name="header" />
 
-      <div :class="ui.body({ class: props.ui?.body })">
+      <div :class="uiPro.body({ class: props.ui?.body })">
         <slot name="body" />
       </div>
 
@@ -63,7 +63,7 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardPane
     <UDashboardResizeHandle
       v-if="props.resizable"
       :aria-controls="panelId"
-      :class="ui.handle({ class: props.ui?.handle })"
+      :class="uiPro.handle({ class: props.ui?.handle })"
       @mousedown="onMouseDown"
       @touchstart="onTouchStart"
     />

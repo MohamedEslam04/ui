@@ -5,7 +5,7 @@ import type { BadgeProps, LinkProps, ComponentConfig } from '../../types'
 import type { ContentNavigationItem } from '@nuxt/content'
 import theme from '#build/ui/content/content-navigation'
 
-export type ContentNavigation<T>
+export type ContentNavigation<_T>
   = ComponentConfig<typeof theme, AppConfig, 'contentNavigation'>
 
 export interface ContentNavigationLink extends ContentNavigationItem {
@@ -18,7 +18,7 @@ export interface ContentNavigationLink extends ContentNavigationItem {
   defaultOpen?: boolean
   active?: boolean
   class?: any
-  ui?: Partial<ContentNavigation<T>['slots']>
+  ui?: Partial<ContentNavigation<ContentNavigationLink>['slots']>
 }
 
 export interface ContentNavigationProps<T extends ContentNavigationLink = ContentNavigationLink>
@@ -79,7 +79,7 @@ const appConfig = useAppConfig()
 const [DefineLink, ReuseLink] = createReusableTemplate()
 
 const uiPro = computed(() =>
-  tv({ extend: tv(theme), ...appConfig.uiPro?.contentNavigation })(
+  tv({ extend: tv(theme), ...appConfig.ui?.contentNavigation })(
     {
       color: props.color,
       variant: props.variant,

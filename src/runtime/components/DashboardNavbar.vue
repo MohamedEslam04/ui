@@ -66,7 +66,7 @@ const dashboardContext = useDashboard()
 const appConfig = useAppConfig() as DashboardNavbar['AppConfig']
 const [DefineToggleTemplate, ReuseToggleTemplate] = createReusableTemplate()
 
-const ui = computed(() =>
+const uiPro = computed(() =>
   tv({
     extend: tv(theme),
     ...appConfig.ui?.dashboardNavbar
@@ -81,21 +81,21 @@ const ui = computed(() =>
         v-if="props.toggle"
         v-bind="typeof props.toggle === 'object' ? props.toggle : {}"
         :side="props.toggleSide"
-        :class="ui.toggle({ class: props.ui?.toggle, toggleSide: props.toggleSide })"
+        :class="uiPro.toggle({ class: props.ui?.toggle, toggleSide: props.toggleSide })"
       />
     </slot>
   </DefineToggleTemplate>
 
-  <Primitive :as="props.as" :class="ui.root({ class: [props.ui?.root, props.class] })">
-    <div :class="ui.left({ class: props.ui?.left })">
+  <Primitive :as="props.as" :class="uiPro.root({ class: [props.ui?.root, props.class] })">
+    <div :class="uiPro.left({ class: props.ui?.left })">
       <ReuseToggleTemplate v-if="props.toggleSide === 'left'" />
 
       <slot name="left" v-bind="dashboardContext">
         <slot name="leading" v-bind="dashboardContext">
-          <UIcon v-if="props.icon" :name="props.icon" :class="ui.icon({ class: props.ui?.icon })" />
+          <UIcon v-if="props.icon" :name="props.icon" :class="uiPro.icon({ class: props.ui?.icon })" />
         </slot>
 
-        <h1 :class="ui.title({ class: props.ui?.title })">
+        <h1 :class="uiPro.title({ class: props.ui?.title })">
           <slot name="title">
             {{ props.title }}
           </slot>
@@ -105,11 +105,11 @@ const ui = computed(() =>
       </slot>
     </div>
 
-    <div v-if="$slots.default" :class="ui.center({ class: props.ui?.center })">
+    <div v-if="$slots.default" :class="uiPro.center({ class: props.ui?.center })">
       <slot v-bind="dashboardContext" />
     </div>
 
-    <div :class="ui.right({ class: props.ui?.right })">
+    <div :class="uiPro.right({ class: props.ui?.right })">
       <slot name="right" v-bind="dashboardContext" />
 
       <ReuseToggleTemplate v-if="props.toggleSide === 'right'" />
