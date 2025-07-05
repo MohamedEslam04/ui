@@ -90,7 +90,6 @@ const contentEvents = computed(() => {
 })
 const arrowProps = toRef(() => props.arrow as PopoverArrowProps)
 
-// eslint-disable-next-line vue/no-dupe-keys
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.popover || {}) })({
   side: contentProps.value.side
 }))

@@ -22,13 +22,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  lang: { type: String, required: false },
-  color: { type: null, required: false },
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseCodeProps>()
+defineSlots<ProseCodeSlots>()
+const appConfig = useAppConfig() as ProseCode['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.code || {} }))
 </script>
 

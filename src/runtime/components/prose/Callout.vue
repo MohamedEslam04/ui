@@ -4,7 +4,7 @@ import type { LinkProps } from '../Link.vue'
 import theme from '#build/ui/prose/callout'
 import type { ComponentConfig } from '../../types/utils'
 
-type Callout = ComponentConfig<typeof theme, AppConfig, 'prose.callout'>
+type Callout = ComponentConfig<typeof theme, AppConfig, 'callout', 'ui.prose'>
 
 export interface CalloutProps {
   to?: LinkProps['to']
@@ -36,7 +36,7 @@ const props = defineProps<CalloutProps>()
 
 defineSlots<CalloutSlots>()
 
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as Callout['AppConfig']
 
 const ui = computed(() => tv({
   extend: tv(theme),
@@ -46,17 +46,7 @@ const ui = computed(() => tv({
   to: !!props.to
 }))
 
-const target = computed(() => {
-  if (props.target) {
-    return props.target
-  }
-
-  if (props.to && typeof props.to === 'string' && props.to.startsWith('http')) {
-    return '_blank'
-  }
-
-  return undefined
-})
+const target = computed(() => props.target || (!!props.to && typeof props.to === 'string' && props.to.startsWith('http') ? '_blank' : undefined))
 </script>
 
 <template>

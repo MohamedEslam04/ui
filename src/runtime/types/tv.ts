@@ -49,13 +49,13 @@ type ComponentAppConfig<
  * @template T The component's theme imported from `#build/ui/*`.
  * @template A The base AppConfig type from `@nuxt/schema`.
  * @template K The key identifying the component (e.g., 'badge').
- * @template U The top-level key in AppConfig ('ui' or 'ui').
+ * @template U The top-level key in AppConfig ('ui' or 'uiPro').
  */
 export type ComponentConfig<
   T extends Record<string, any>,
   A extends Record<string, any>,
   K extends string,
-  U extends 'ui' | 'ui' | 'ui.prose' = 'ui'
+  U extends 'ui' | 'ui.prose' = 'ui'
 > = {
   AppConfig: ComponentAppConfig<T, A, K, U>
   variants: ComponentVariants<T & GetComponentAppConfig<A, U, K>>

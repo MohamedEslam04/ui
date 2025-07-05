@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/kbd'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseKbd = ComponentConfig<typeof theme, AppConfig, 'kbd', 'ui.prose'>
 export interface ProseKbdProps {
   value: string
   class?: any
@@ -12,11 +15,8 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  value: { type: String, required: true },
-  class: { type: null, required: false }
-})
-const appConfig = useAppConfig()
+const props = defineProps<ProseKbdProps>()
+const appConfig = useAppConfig() as ProseKbd['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.kbd || {} }))
 </script>
 

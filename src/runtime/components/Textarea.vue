@@ -86,7 +86,6 @@ const props = withDefaults(defineProps<TextareaProps>(), {
 const emits = defineEmits<TextareaEmits<T>>()
 const slots = defineSlots<TextareaSlots>()
 
-// eslint-disable-next-line vue/no-dupe-keys
 const [modelValue, modelModifiers] = defineModel<T>()
 
 const appConfig = useAppConfig() as Textarea['AppConfig']

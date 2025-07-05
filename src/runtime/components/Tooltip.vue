@@ -62,7 +62,6 @@ const portalProps = usePortal(toRef(() => props.portal))
 const contentProps = toRef(() => defu(props.content, { side: 'bottom', sideOffset: 8, collisionPadding: 8 }) as TooltipContentProps)
 const arrowProps = toRef(() => props.arrow as TooltipArrowProps)
 
-// eslint-disable-next-line vue/no-dupe-keys
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.tooltip || {}) })({
   side: contentProps.value.side
 }))

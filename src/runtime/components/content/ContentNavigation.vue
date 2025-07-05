@@ -1,12 +1,11 @@
 <script lang="ts">
-import type { AccordionRootProps, AccordionRootEmits } from 'reka-ui'
 import type { AppConfig } from '@nuxt/schema'
+import type { AccordionRootProps, AccordionRootEmits } from 'reka-ui'
 import type { BadgeProps, LinkProps, ComponentConfig } from '../../types'
 import type { ContentNavigationItem } from '@nuxt/content'
-import theme from '#build/ui/content/content-navigation'
+import theme from '#build/ui/content-navigation'
 
-export type ContentNavigation<_T>
-  = ComponentConfig<typeof theme, AppConfig, 'contentNavigation'>
+export type ContentNavigation = ComponentConfig<typeof theme, AppConfig, 'contentNavigation'>
 
 export interface ContentNavigationLink extends ContentNavigationItem {
   icon?: string
@@ -18,23 +17,22 @@ export interface ContentNavigationLink extends ContentNavigationItem {
   defaultOpen?: boolean
   active?: boolean
   class?: any
-  ui?: Partial<ContentNavigation<ContentNavigationLink>['slots']>
+  ui?: Partial<ContentNavigation['slots']>
 }
 
-export interface ContentNavigationProps<T extends ContentNavigationLink = ContentNavigationLink>
-  extends Pick<AccordionRootProps, 'disabled' | 'type' | 'unmountOnHide'> {
+export interface ContentNavigationProps<T extends ContentNavigationLink = ContentNavigationLink> extends Pick<AccordionRootProps, 'disabled' | 'type' | 'unmountOnHide'> {
   as?: any
   defaultOpen?: boolean
   trailingIcon?: string
-  color?: ContentNavigation<T>['variants']['color']
-  variant?: ContentNavigation<T>['variants']['variant']
+  color?: ContentNavigation['variants']['color']
+  variant?: ContentNavigation['variants']['variant']
   highlight?: boolean
-  highlightColor?: ContentNavigation<T>['variants']['highlightColor']
+  highlightColor?: ContentNavigation['variants']['highlightColor']
   collapsible?: boolean
   level?: number
   navigation?: T[]
   class?: any
-  ui?: ContentNavigation<T>['slots']
+  ui?: Partial<ContentNavigation['slots']>
 }
 
 export interface ContentNavigationEmits extends AccordionRootEmits {}
@@ -42,19 +40,16 @@ export interface ContentNavigationEmits extends AccordionRootEmits {}
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import {
-  Primitive,
-  AccordionRoot,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { pickLinkProps } from '../../utils/link'
-import { reactivePick, createReusableTemplate } from '@vueuse/core'
 import { useRoute, useAppConfig } from '#imports'
+import { Primitive, AccordionRoot, AccordionItem, AccordionTrigger, AccordionContent, useForwardPropsEmits } from 'reka-ui'
+import { reactivePick, createReusableTemplate } from '@vueuse/core'
+import { pickLinkProps } from '../../utils/link'
 import { tv } from '../../utils/tv'
 import { mapContentNavigationItem } from '../../utils/content'
+import UBadge from '../Badge.vue'
+import UIcon from '../Icon.vue'
+import ULink from '../Link.vue'
+import ULinkBase from '../LinkBase.vue'
 
 const props = withDefaults(defineProps<ContentNavigationProps>(), {
   as: 'nav',
@@ -66,144 +61,146 @@ const props = withDefaults(defineProps<ContentNavigationProps>(), {
   unmountOnHide: true
 })
 
-const emit = defineEmits<ContentNavigationEmits>()
-const slots = defineSlots<ContentNavigationEmits>()
-const rootProps = useForwardPropsEmits(
-  reactivePick(props, 'disabled', 'type', 'unmountOnHide'),
-  emit
-)
-
+const emits = defineEmits<ContentNavigationEmits>()
+const slots = defineSlots()
+const rootProps = useForwardPropsEmits(reactivePick(props, 'collapsible', 'disabled', 'type', 'unmountOnHide'), emits)
 const route = useRoute()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ContentNavigation['AppConfig']
+const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate()
 
-const [DefineLink, ReuseLink] = createReusableTemplate()
-
-const uiPro = computed(() =>
-  tv({ extend: tv(theme), ...appConfig.ui?.contentNavigation })(
-    {
-      color: props.color,
-      variant: props.variant,
-      highlight: props.highlight,
-      highlightColor: props.highlightColor || props.color
-    }
-  )
+const ui = computed(() =>
+  tv({ extend: tv(theme), ...appConfig.ui?.contentNavigation || {} })({
+    color: props.color,
+    variant: props.variant,
+    highlight: props.highlight,
+    highlightColor: props.highlightColor || props.color
+  })
 )
 
 const defaultValue = computed(() => {
   if (props.defaultOpen === false) return undefined
   if (props.defaultOpen === undefined) {
-    if (props.type === 'single') return '0'
-    return props.navigation
-      ?.map((link, i) => link.defaultOpen !== false && String(i))
-      .filter(Boolean)
+    if (props.type === 'single') {
+      return '0'
+    } else {
+      // Only include string values, filter out any false
+      return props.navigation
+        ?.map((link, idx) => link.defaultOpen !== false ? String(idx) : undefined)
+        .filter((v): v is string => typeof v === 'string')
+    }
   }
-  const idx = props.navigation?.findIndex(l => route.path.startsWith(l.path)) ?? 0
-  return props.type === 'multiple' ? [String(idx)] : String(idx)
+  const index = props.navigation?.findIndex(link => route.path.startsWith(link.path || ''))
+  return props.type === 'multiple' ? [String(index === -1 ? 0 : index)] : String(index === -1 ? 0 : index)
 })
 </script>
 
 <template>
-  <DefineLink v-slot="{ link, active }">
+  <DefineLinkTemplate v-slot="{ link, active }">
     <slot name="link" :link="link" :active="active">
       <slot name="link-leading" :link="link" :active="active">
         <UIcon
           v-if="link.icon"
           :name="link.icon"
-          :class="uiPro.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, link.ui?.linkLeadingIcon], active })"
+          :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, link.ui?.linkLeadingIcon], active })"
         />
       </slot>
+
       <span
-        v-if="link.title || $slots['link-title']"
-        :class="uiPro.linkTitle({ class: [props.ui?.linkTitle, link.ui?.linkTitle], active })"
+        v-if="link.title || !!slots['link-title']"
+        :class="ui.linkTitle({ class: [props.ui?.linkTitle, link.ui?.linkTitle], active })"
       >
-        <slot name="link-title" :link="link" :active="active">{{ link.title }}</slot>
+        <slot name="link-title" :link="link" :active="active">
+          {{ link.title }}
+        </slot>
+
         <UIcon
           v-if="link.target === '_blank'"
           :name="appConfig.ui.icons.external"
-          :class="uiPro.linkTitleExternalIcon({ class: [props.ui?.linkTitleExternalIcon, link.ui?.linkTitleExternalIcon], active })"
+          :class="ui.linkTitleExternalIcon({ class: [props.ui?.linkTitleExternalIcon, link.ui?.linkTitleExternalIcon], active })"
         />
       </span>
+
       <span
-        v-if="link.badge || (link.children?.length && !props.disabled) || link.trailingIcon || $slots['link-trailing']"
-        :class="uiPro.linkTrailing({ class: [props.ui?.linkTrailing, link.ui?.linkTrailing] })"
+        v-if="link.badge || (link.children?.length && !props.disabled) || link.trailingIcon || !!slots['link-trailing']"
+        :class="ui.linkTrailing({ class: [props.ui?.linkTrailing, link.ui?.linkTrailing] })"
       >
         <slot name="link-trailing" :link="link" :active="active">
           <UBadge
             v-if="link.badge"
             color="neutral"
             variant="outline"
-            :size="props.ui?.linkTrailingBadgeSize || uiPro.linkTrailingBadgeSize()"
+            :size="props.ui?.linkTrailingBadgeSize || ui.linkTrailingBadgeSize()"
             v-bind="typeof link.badge === 'string' || typeof link.badge === 'number' ? { label: link.badge } : link.badge"
-            :class="uiPro.linkTrailingBadge({ class: props.ui?.linkTrailingBadge })"
+            :class="ui.linkTrailingBadge({ class: props.ui?.linkTrailingBadge })"
           />
+
           <UIcon
             v-if="link.children?.length && !props.disabled"
             :name="link.trailingIcon || props.trailingIcon || appConfig.ui.icons.chevronDown"
-            :class="uiPro.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, link.ui?.linkTrailingIcon] })"
+            :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, link.ui?.linkTrailingIcon] })"
           />
+
           <UIcon
             v-else-if="link.trailingIcon"
             :name="link.trailingIcon"
-            :class="uiPro.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, link.ui?.linkTrailingIcon] })"
+            :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, link.ui?.linkTrailingIcon] })"
           />
         </slot>
       </span>
     </slot>
-  </DefineLink>
+  </DefineLinkTemplate>
 
-  <Primitive
-    :as="props.as"
-    :as-child="props.level > 0"
-    :class="uiPro.root({ class: [props.ui?.root, props.class] })"
-  >
+  <Primitive :as="props.as" :as-child="props.level > 0" :class="ui.root({ class: [props.ui?.root, props.class] })">
     <AccordionRoot
       as="ul"
       v-bind="rootProps"
       :default-value="defaultValue"
-      :class="props.level > 0
-        ? uiPro.listWithChildren({ class: props.ui?.listWithChildren })
-        : uiPro.list({ class: props.ui?.list })"
+      :class="props.level > 0 ? ui.listWithChildren({ class: props.ui?.listWithChildren }) : ui.list({ class: props.ui?.list })"
     >
-      <template v-for="(link, idx) in props.navigation" :key="idx">
+      <template v-for="(link, index) in props.navigation" :key="index">
         <AccordionItem
           v-if="link.children?.length"
           as="li"
-          :class="uiPro.itemWithChildren({ class: [props.ui?.itemWithChildren, link.ui?.itemWithChildren], level: props.level > 0 })"
-          :value="String(idx)"
+          :value="String(index)"
+          :class="ui.itemWithChildren({ class: [props.ui?.itemWithChildren, link.ui?.itemWithChildren], level: props.level > 0 })"
         >
           <AccordionTrigger
             as="button"
             :class="[
-              uiPro.link({ class: [props.ui?.link, link.ui?.link, link.class], active: link.active, disabled: !!link.disabled }),
-              uiPro.trigger({ class: [props.ui?.trigger, link.ui?.trigger] })
+              ui.link({ class: [props.ui?.link, link.ui?.link, link.class], active: link.active, disabled: !!link.disabled }),
+              ui.trigger({ class: [props.ui?.trigger, link.ui?.trigger] })
             ]"
           >
-            <ReuseLink :link="link" :active="link.active" />
+            <ReuseLinkTemplate :link="link" :active="link.active" />
           </AccordionTrigger>
-          <AccordionContent :class="uiPro.content({ class: [props.ui?.content, link.ui?.content] })">
-            <ContentNavigation
-              v-bind="props"
+
+          <AccordionContent :class="ui.content({ class: [props.ui?.content, link.ui?.content] })">
+            <UContentNavigation
+              v-bind="rootProps"
               :navigation="link.children"
               :default-open="props.defaultOpen"
               :level="props.level + 1"
+              :trailing-icon="props.trailingIcon"
+              :color="props.color"
+              :variant="props.variant"
+              :highlight="props.highlight"
+              :highlight-color="props.highlightColor"
+              :ui="props.ui"
             >
               <template v-for="(_, name) in slots" #[name]="slotData">
-                <slot :name="name" v-bind="slotData" />
+                <slot :name="name" :link="slotData.link" :active="slotData.active" />
               </template>
-            </ContentNavigation>
+            </UContentNavigation>
           </AccordionContent>
         </AccordionItem>
-        <li v-else :class="uiPro.item({ class: [props.ui?.item, link.ui?.item], level: props.level > 0 })">
-          <ULink
-            v-slot="{ active, ...slotProps }"
-            v-bind="pickLinkProps(mapContentNavigationItem(link))"
-            custom
-          >
+
+        <li v-else :class="ui.item({ class: [props.ui?.item, link.ui?.item], level: props.level > 0 })">
+          <ULink v-slot="{ active, ...slotProps }" v-bind="pickLinkProps(mapContentNavigationItem(link))" custom>
             <ULinkBase
               v-bind="slotProps"
-              :class="uiPro.link({ class: [props.ui?.link, link.ui?.link, link.class], active, disabled: !!link.disabled, level: props.level > 0 })"
+              :class="ui.link({ class: [props.ui?.link, link.ui?.link, link.class], active, disabled: !!link.disabled, level: props.level > 0 })"
             >
-              <ReuseLink :link="link" :active="active" />
+              <ReuseLinkTemplate :link="link" :active="active" />
             </ULinkBase>
           </ULink>
         </li>

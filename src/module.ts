@@ -90,20 +90,32 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#ui'] = resolve('./runtime')
 
-    nuxt.options.appConfig.ui = defu(nuxt.options.appConfig.ui || {}, getDefaultUiConfig(options.theme.colors))
+    nuxt.options.appConfig.ui = defu(
+      nuxt.options.appConfig.ui || {},
+      getDefaultUiConfig(options.theme.colors)
+    )
 
     // Isolate root node from portaled components
     nuxt.options.app.rootAttrs = nuxt.options.app.rootAttrs || {}
-    nuxt.options.app.rootAttrs.class = [nuxt.options.app.rootAttrs.class, 'isolate'].filter(Boolean).join(' ')
+    nuxt.options.app.rootAttrs.class = [
+      nuxt.options.app.rootAttrs.class,
+      'isolate'
+    ]
+      .filter(Boolean)
+      .join(' ')
 
-    if (nuxt.options.builder === '@eslamdevui/vite-builder') {
+    if (nuxt.options.builder === '@nuxt/vite-builder') {
       const plugin = await import('@tailwindcss/vite').then(r => r.default)
       addVitePlugin(plugin())
     } else {
       nuxt.options.postcss.plugins['@tailwindcss/postcss'] = {}
     }
 
-    async function registerModule(name: string, key: string, options: Record<string, any>) {
+    async function registerModule(
+      name: string,
+      key: string,
+      options: Record<string, any>
+    ) {
       if (!hasNuxtModule(name)) {
         await installModule(name, options)
       } else {
@@ -127,12 +139,16 @@ export default defineNuxtModule<ModuleOptions>({
         disableTransition: true
       })
     }
-    await registerModule('@nuxt/content', 'content', {})
 
     addPlugin({ src: resolve('./runtime/plugins/colors') })
 
-    if (hasNuxtModule('@nuxtjs/mdc') || options.mdc || (hasNuxtModule('@nuxt/content') || options.content)) {
-      nuxt.options.mdc = defu(nuxt.options.mdc, {
+    if (
+      hasNuxtModule('@nuxtjs/mdc')
+      || options.mdc
+      || hasNuxtModule('@nuxt/content')
+      || options.content
+    ) {
+      nuxt.options.mdc = defu(options.mdc, {
         highlight: {
           theme: {
             light: 'material-theme-lighter',
@@ -168,13 +184,15 @@ export default defineNuxtModule<ModuleOptions>({
           }
         }
       })
-      addComponentsDir({
-        path: resolve('./runtime/components/prose'),
-        prefix: 'Prose',
-        pathPrefix: false,
-        global: true
-      })
     }
+
+    addComponentsDir({
+      path: resolve('./runtime/components/prose'),
+      prefix: 'Prose',
+      pathPrefix: false,
+      global: true
+    })
+
     if (hasNuxtModule('@nuxt/content') || options.content) {
       addComponentsDir({
         path: resolve('./runtime/components/content'),

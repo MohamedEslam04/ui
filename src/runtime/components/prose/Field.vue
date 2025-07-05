@@ -40,17 +40,9 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  name: { type: String, required: false },
-  type: { type: String, required: false },
-  description: { type: String, required: false },
-  required: { type: Boolean, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseFieldProps>()
+const slots = defineSlots<ProseFieldSlots>()
+const appConfig = useAppConfig() as ProseField['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.field || {} })())
 </script>
 

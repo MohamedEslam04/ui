@@ -1,40 +1,96 @@
-<script>
-import theme from '#build/ui-pro/content/content-search-button'
+<script lang="ts">
+import theme from '#build/ui/content/content-search-button'
+import type { AppConfig } from '@nuxt/schema'
+import type { ButtonProps, ButtonSlots, KbdProps, ComponentConfig, TooltipProps } from '../../types'
+
+type ContentSearchButton = ComponentConfig<typeof theme, AppConfig, 'contentSearchButton'>
+export interface ContentSearchButtonProps {
+  /**
+   * The icon displayed in the button.
+   * @defaultValue appConfig.ui.icons.search
+   * @IconifyIcon
+   */
+  icon?: string
+  /**
+   * The label displayed in the button.
+   * @defaultValue t('contentSearchButton.label')
+   */
+  label?: string
+  /**
+   * The color of the button.
+   * @defaultValue 'neutral'
+   */
+  color?: ButtonProps['color']
+  /**
+   * The variant of the button.
+   * Defaults to 'outline' when not collapsed, 'ghost' when collapsed.
+   */
+  variant?: ButtonProps['variant']
+  size?: ButtonProps['size']
+  /**
+   * Whether the button is collapsed.
+   * @defaultValue true
+   */
+  collapsed?: boolean
+  /**
+   * Display a tooltip on the button when is collapsed with the button label.
+   * This has priority over the global `tooltip` prop.
+   */
+  tooltip?: boolean | TooltipProps
+  /**
+   * The keyboard keys to display in the button.
+   * `{ variant: 'subtle' }`{lang="ts-type"}
+   * @defaultValue ['meta', 'k']
+   */
+  kbds?: KbdProps['value'][] | KbdProps[]
+  ui?: ContentSearchButton['slots'] & ButtonProps['ui']
+  class?: any
+}
 </script>
 
-<script setup>
-import { computed, toRef } from 'vue'
-import { useForwardProps } from 'reka-ui'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { defu } from 'defu'
+import { useForwardProps } from 'reka-ui'
 import { reactivePick, createReusableTemplate } from '@vueuse/core'
-import UTooltip from '../Tooltip.vue'
 import { useAppConfig } from '#imports'
 import { useContentSearch } from '../../composables/useContentSearch'
 import { useLocalePro } from '../../composables/useLocalePro'
 import { transformUI, omit } from '../../utils'
 import { tv } from '../../utils/tv'
+import UTooltip from '../Tooltip.vue'
 
-const props = defineProps({
-  icon: { type: String, required: false },
-  label: { type: String, required: false },
-  color: { type: null, required: false, default: 'neutral' },
-  variant: { type: null, required: false },
-  size: { type: null, required: false },
-  collapsed: { type: Boolean, required: false, default: true },
-  tooltip: { type: Boolean, required: false, skipCheck: true, default: false },
-  kbds: { type: Array, required: false, default: () => ['meta', 'k'] },
-  ui: { type: void 0, required: false },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<ContentSearchButtonProps>(), {
+  color: 'neutral',
+  collapsed: true,
+  tooltip: false,
+  kbds: () => ['meta', 'k']
 })
-const slots = defineSlots()
+
+const slots = defineSlots<ButtonSlots>()
 const [DefineButtonTemplate, ReuseButtonTemplate] = createReusableTemplate()
-const proxySlots = omit(slots, ['trailing'])
-const rootProps = useForwardProps(reactivePick(props, 'color', 'size'))
-const tooltipProps = toRef(() => defu(typeof props.tooltip === 'boolean' ? {} : props.tooltip, { delayDuration: 0, content: { side: 'right' } }))
-const { t } = useLocalePro()
+
 const { open } = useContentSearch()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.contentSearchButton || {} })())
+const { t } = useLocalePro()
+const appConfig = useAppConfig() as ContentSearchButton['AppConfig']
+
+const rootProps = useForwardProps(reactivePick(props, 'color', 'size'))
+
+const ui = computed(() =>
+  tv({
+    extend: tv(theme),
+    ...appConfig.ui?.contentSearchButton
+  })()
+)
+
+const proxySlots = omit(slots, ['trailing'])
+
+const tooltipProps = computed<TooltipProps>(() =>
+  defu(typeof props.tooltip === 'boolean' ? {} : props.tooltip, {
+    delayDuration: 0,
+    content: { side: 'right' as const }
+  })
+)
 </script>
 
 <template>
@@ -59,20 +115,28 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.contentSea
         <slot :name="name" v-bind="slotData" />
       </template>
 
-      <template v-if="!collapsed" #trailing>
+      <template v-if="!props.collapsed" #trailing>
         <div :class="ui.trailing({ class: props.ui?.trailing })">
           <slot name="trailing">
-            <template v-if="kbds?.length">
-              <UKbd v-for="(kbd, index) in kbds" :key="index" variant="subtle" v-bind="typeof kbd === 'string' ? { value: kbd } : kbd" />
-            </template>
+            <UKbd
+              v-for="(kbd, index) in props.kbds"
+              :key="index"
+              variant="subtle"
+              v-bind="typeof kbd === 'string' ? { value: kbd } : kbd"
+            />
           </slot>
         </div>
       </template>
     </UButton>
   </DefineButtonTemplate>
 
-  <UTooltip v-if="collapsed && tooltip" :text="label || t('contentSearchButton.label')" v-bind="tooltipProps">
+  <UTooltip
+    v-if="props.collapsed && props.tooltip"
+    :text="props.label || t('contentSearchButton.label')"
+    v-bind="tooltipProps"
+  >
     <ReuseButtonTemplate />
   </UTooltip>
+
   <ReuseButtonTemplate v-else />
 </template>

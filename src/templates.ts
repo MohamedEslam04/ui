@@ -5,72 +5,116 @@ import type { Nuxt, NuxtTemplate, NuxtTypeTemplate } from '@nuxt/schema'
 import type { Resolver } from '@nuxt/kit'
 import type { ModuleOptions } from './module'
 import * as theme from './theme'
+import * as contentTheme from './theme/content'
+import * as proseTheme from './theme/prose'
 import colors from 'tailwindcss/colors'
 import { genExport } from 'knitwork'
 
+// Define theme collections with their respective folder paths
+const themeCollections = {
+  '': theme, // Root theme files
+  'content': contentTheme,
+  'prose': proseTheme
+} as const
+
 export function buildTemplates(options: ModuleOptions) {
-  return Object.entries(theme).reduce((acc, [key, component]) => {
-    acc[key] = typeof component === 'function' ? component(options as Required<ModuleOptions>) : component
-    return acc
-  }, {} as Record<string, any>)
+  const templates: Record<string, any> = {}
+
+  // Process each theme collection
+  for (const [folder, themeCollection] of Object.entries(themeCollections)) {
+    const folderKey = folder || 'root'
+    templates[folderKey] = {}
+
+    for (const [key, component] of Object.entries(themeCollection)) {
+      // const fullKey = folder ? `${folder}/${key}` : key
+      templates[folderKey][key] = typeof component === 'function'
+        ? component(options as Required<ModuleOptions>)
+        : component
+    }
+  }
+
+  return templates
+}
+
+function generateVariantDeclarations(variants: string[], result: any) {
+  return variants
+    .filter(variant => result.variants?.[variant])
+    .map((variant) => {
+      const keys = Object.keys(result.variants[variant])
+      return `const ${variant} = ${JSON.stringify(keys, null, 2)} as const`
+    })
+}
+
+function processJsonWithVariants(json: string, variants: string[]) {
+  let processedJson = json
+
+  for (const variant of variants) {
+    processedJson = processedJson.replace(
+      new RegExp(`("${variant}": "[^"]+")`, 'g'),
+      `$1 as typeof ${variant}[number]`
+    )
+    processedJson = processedJson.replace(
+      new RegExp(`("${variant}": \\[\\s*)((?:"[^"]+",?\\s*)+)(\\])`, 'g'),
+      (_, before, match, after) => {
+        const replaced = match.replace(/("[^"]+")/g, `$1 as typeof ${variant}[number]`)
+        return `${before}${replaced}${after}`
+      }
+    )
+  }
+
+  return processedJson
 }
 
 export function getTemplates(options: ModuleOptions, uiConfig: Record<string, any>) {
   const templates: NuxtTemplate[] = []
 
-  for (const component in theme) {
-    templates.push({
-      filename: `ui/${kebabCase(component)}.ts`,
-      write: true,
-      getContents: async () => {
-        const template = (theme as any)[component]
-        const result = typeof template === 'function' ? template(options) : template
+  // Process each theme collection
+  for (const [folder, themeCollection] of Object.entries(themeCollections)) {
+    for (const [component, template] of Object.entries(themeCollection)) {
+      const folderPath = folder ? `${folder}/` : ''
+      const filename = `ui/${folderPath}${kebabCase(component)}.ts`
 
-        const variants = Object.entries(result.variants || {})
-          .filter(([_, values]) => {
-            const keys = Object.keys(values as Record<string, unknown>)
-            return keys.some(key => key !== 'true' && key !== 'false')
-          })
-          .map(([key]) => key)
+      templates.push({
+        filename,
+        write: true,
+        getContents: async () => {
+          const result = typeof template === 'function' ? template(options) : template
 
-        let json = JSON.stringify(result, null, 2)
+          const variants = Object.entries(result.variants || {})
+            .filter(([_, values]) => {
+              const keys = Object.keys(values as Record<string, unknown>)
+              return keys.some(key => key !== 'true' && key !== 'false')
+            })
+            .map(([key]) => key)
 
-        for (const variant of variants) {
-          json = json.replace(new RegExp(`("${variant}": "[^"]+")`, 'g'), `$1 as typeof ${variant}[number]`)
-          json = json.replace(new RegExp(`("${variant}": \\[\\s*)((?:"[^"]+",?\\s*)+)(\\])`, 'g'), (_, before, match, after) => {
-            const replaced = match.replace(/("[^"]+")/g, `$1 as typeof ${variant}[number]`)
-            return `${before}${replaced}${after}`
-          })
-        }
+          let json = JSON.stringify(result, null, 2)
+          json = processJsonWithVariants(json, variants)
 
-        function generateVariantDeclarations(variants: string[]) {
-          return variants.filter(variant => json.includes(`as typeof ${variant}`)).map((variant) => {
-            const keys = Object.keys(result.variants[variant])
-            return `const ${variant} = ${JSON.stringify(keys, null, 2)} as const`
-          })
-        }
+          // For local development, import directly from theme
+          if (process.argv.includes('--uiDev')) {
+            const themePath = folder ? `./theme/${folder}/${kebabCase(component)}` : `./theme/${kebabCase(component)}`
+            const templatePath = fileURLToPath(new URL(themePath, import.meta.url))
 
-        // For local development, import directly from theme
-        if (process.argv.includes('--uiDev')) {
-          const templatePath = fileURLToPath(new URL(`./theme/${kebabCase(component)}`, import.meta.url))
+            return [
+              `import template from ${JSON.stringify(templatePath)}`,
+              ...generateVariantDeclarations(variants, result),
+              `const result = typeof template === 'function' ? (template as Function)(${JSON.stringify(options, null, 2)}) : template`,
+              `const theme = ${json}`,
+              `export default result as typeof theme`
+            ].join('\n\n')
+          }
+
+          // For production build
           return [
-            `import template from ${JSON.stringify(templatePath)}`,
-            ...generateVariantDeclarations(variants),
-            `const result = typeof template === 'function' ? (template as Function)(${JSON.stringify(options, null, 2)}) : template`,
-            `const theme = ${json}`,
-            `export default result as typeof theme`
+            ...generateVariantDeclarations(variants, result),
+            `export default ${json}`
           ].join('\n\n')
         }
-
-        // For production build
-        return [
-          ...generateVariantDeclarations(variants),
-          `export default ${json}`
-        ].join('\n\n')
-      }
-    })
+      })
+    }
   }
 
+  // Generate CSS template
   templates.push({
     filename: 'ui.css',
     write: true,
@@ -142,13 +186,50 @@ export function getTemplates(options: ModuleOptions, uiConfig: Record<string, an
 `
   })
 
+  // Generate main index file with all exports
   templates.push({
     filename: 'ui/index.ts',
     write: true,
-    getContents: () => Object.keys(theme).map(component => `export { default as ${component} } from './${kebabCase(component)}'`).join('\n')
+    getContents: () => {
+      const exports: string[] = []
+
+      // Export root theme components
+      for (const component of Object.keys(theme)) {
+        exports.push(`export { default as ${component} } from './${kebabCase(component)}'`)
+      }
+
+      // Export content theme components
+      for (const component of Object.keys(contentTheme)) {
+        exports.push(`export { default as ${component} } from './content/${kebabCase(component)}'`)
+      }
+
+      // Export prose theme components
+      for (const component of Object.keys(proseTheme)) {
+        exports.push(`export { default as ${component} } from './prose/${kebabCase(component)}'`)
+      }
+
+      return exports.join('\n')
+    }
   })
 
-  // FIXME: `typeof colors[number]` should include all colors from the theme
+  // Generate subfolder index files
+  templates.push({
+    filename: 'ui/content/index.ts',
+    write: true,
+    getContents: () => Object.keys(contentTheme)
+      .map(component => `export { default as ${component} } from './${kebabCase(component)}'`)
+      .join('\n')
+  })
+
+  templates.push({
+    filename: 'ui/prose/index.ts',
+    write: true,
+    getContents: () => Object.keys(proseTheme)
+      .map(component => `export { default as ${component} } from './${kebabCase(component)}'`)
+      .join('\n')
+  })
+
+  // Generate TypeScript definitions
   templates.push({
     filename: 'types/ui.d.ts',
     getContents: () => `import * as ui from '#build/ui'
@@ -184,12 +265,12 @@ export {}
 `
   })
 
+  // Generate image component template
   templates.push({
     filename: 'ui-image-component.ts',
     write: true,
     getContents: ({ app }) => {
       const image = app?.components?.find(c => c.pascalName === 'NuxtImg' && !/nuxt(?:-nightly)?\/dist\/app/.test(c.filePath))
-
       return image ? genExport(image.filePath, [{ name: image.export, as: 'default' }]) : 'export default "img"'
     }
   })

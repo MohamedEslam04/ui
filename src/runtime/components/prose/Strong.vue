@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/strong'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseStrong = ComponentConfig<typeof theme, AppConfig, 'strong', 'ui.prose'>
 export interface ProseStrongProps {
   class?: any
 }
@@ -14,11 +17,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseStrongProps>()
+defineSlots<ProseStrongSlots>()
+const appConfig = useAppConfig() as ProseStrong['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.strong || {} }))
 </script>
 

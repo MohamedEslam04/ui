@@ -28,21 +28,11 @@ import { useLocalePro } from '../../composables/useLocalePro'
 import CodeIcon from './CodeIcon.vue'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  icon: { type: String, required: false },
-  code: { type: String, required: false },
-  language: { type: String, required: false },
-  filename: { type: String, required: false },
-  highlights: { type: Array, required: false },
-  hideHeader: { type: Boolean, required: false },
-  meta: { type: String, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-defineSlots()
+const props = defineProps<ProsePreProps>()
+defineSlots<ProsePreSlots>()
 const { t } = useLocalePro()
 const clipboard = useClipboard()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ProsePre['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.pre || {} })())
 const copied = ref(false)
 function copy() {

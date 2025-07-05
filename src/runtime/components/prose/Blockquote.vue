@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/blockquote'
+import type { ComponentConfig } from '../../types'
+import type { AppConfig } from '@nuxt/schema'
 
+type ProseBlockquote = ComponentConfig<typeof theme, AppConfig, 'blockquote', 'ui.prose'>
 export interface ProseBlockquoteProps {
   class?: any
 }
@@ -14,11 +17,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseBlockquoteProps>()
+defineSlots<ProseBlockquoteSlots>()
+const appConfig = useAppConfig() as ProseBlockquote['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.blockquote || {} }))
 </script>
 

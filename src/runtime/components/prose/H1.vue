@@ -19,13 +19,9 @@ import { computed } from 'vue'
 import { useAppConfig, useRuntimeConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  id: { type: String, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseH1Props>()
+defineSlots<ProseH1Slots>()
+const appConfig = useAppConfig() as ProseH1['AppConfig']
 const { headings } = useRuntimeConfig().public.mdc
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.h1 || {} })())
 const generate = computed(() => props.id && typeof headings?.anchorLinks === 'object' && headings.anchorLinks.h1)

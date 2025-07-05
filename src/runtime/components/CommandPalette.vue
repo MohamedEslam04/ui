@@ -195,7 +195,6 @@ const appConfig = useAppConfig() as CommandPalette['AppConfig']
 const rootProps = useForwardPropsEmits(reactivePick(props, 'as', 'disabled', 'multiple', 'modelValue', 'defaultValue', 'highlightOnHover', 'selectionBehavior'), emits)
 const inputProps = useForwardProps(reactivePick(props, 'loading', 'loadingIcon'))
 
-// eslint-disable-next-line vue/no-dupe-keys
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.commandPalette || {}) })())
 
 const fuse = computed(() => defu({}, props.fuse, {

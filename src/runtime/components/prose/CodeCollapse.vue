@@ -39,18 +39,11 @@ import { useAppConfig } from '#imports'
 import { useLocalePro } from '../../composables/useLocalePro'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  icon: { type: String, required: false },
-  name: { type: String, required: false },
-  openText: { type: String, required: false },
-  closeText: { type: String, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-defineSlots()
+const props = defineProps<ProseCodeCollapseProps>()
+defineSlots<ProseCodeCollapseSlots>()
 const open = defineModel('open', { type: Boolean, ...{ default: false } })
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ProseCodeCollapse['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.codeCollapse || {} })({
   open: open.value
 }))

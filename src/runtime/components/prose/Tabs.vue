@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/tabs'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseTabs = ComponentConfig<typeof theme, AppConfig, 'tabs', 'ui.prose'>
 export interface ProseTabsProps {
   /**
    * The default tab to select.
@@ -28,22 +31,19 @@ import { useState, useAppConfig } from '#imports'
 import { transformUI } from '../../utils'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  defaultValue: { type: String, required: false, default: '0' },
-  sync: { type: String, required: false },
-  hash: { type: String, required: false },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<ProseTabsProps>(), {
+  defaultValue: '0'
 })
-const slots = defineSlots()
+const slots = defineSlots<ProseTabsSlots>()
 const model = defineModel({ type: String })
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ProseTabs['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.tabs || {} }))
-const rerenderCount = ref(1)
+const rerenderCount = ref<number>(1)
 const items = computed(() => {
-  rerenderCount.value
+  const _ = rerenderCount.value
   return slots.default?.()?.flatMap(transformSlot).filter(Boolean) || []
 })
-function transformSlot(slot, index) {
+function transformSlot(slot: any, index: any) {
   if (typeof slot.type === 'symbol') {
     return slot.children?.map(transformSlot)
   }

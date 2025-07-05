@@ -84,7 +84,6 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emits = defineEmits<InputEmits<T>>()
 const slots = defineSlots<InputSlots>()
 
-// eslint-disable-next-line vue/no-dupe-keys
 const [modelValue, modelModifiers] = defineModel<T>()
 
 const appConfig = useAppConfig() as Input['AppConfig']

@@ -18,12 +18,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseTableProps>()
+defineSlots<ProseTableSlots>()
+const appConfig = useAppConfig() as ProseTable['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.table || {} })())
 </script>
 

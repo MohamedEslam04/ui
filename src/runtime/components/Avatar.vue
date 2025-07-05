@@ -53,7 +53,6 @@ const fallback = computed(() => props.text || (props.alt || '').split(' ').map(w
 const appConfig = useAppConfig() as Avatar['AppConfig']
 const { size } = useAvatarGroup(props)
 
-// eslint-disable-next-line vue/no-dupe-keys
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.avatar || {}) })({
   size: size.value
 }))

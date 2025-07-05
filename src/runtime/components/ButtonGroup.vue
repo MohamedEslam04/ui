@@ -43,7 +43,6 @@ defineSlots<ButtonGroupSlots>()
 
 const appConfig = useAppConfig() as ButtonGroup['AppConfig']
 
-// eslint-disable-next-line vue/no-dupe-keys
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.buttonGroup || {}) }))
 
 provide(buttonGroupInjectionKey, computed(() => ({

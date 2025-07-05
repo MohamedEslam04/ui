@@ -4,6 +4,7 @@ import type { AppConfig } from '@nuxt/schema'
 import type { ComponentConfig, LinkProps } from '../../types'
 
 type ProseCard = ComponentConfig<typeof theme, AppConfig, 'card', 'ui.prose'>
+
 export interface ProseCardProps {
   to?: LinkProps['to']
   target?: LinkProps['target']
@@ -17,9 +18,10 @@ export interface ProseCardProps {
   class?: any
   ui?: ProseCard['slots']
 }
+
 export interface ProseCardSlots {
-  default(props?: {}): any
-  title(props?: {}): any
+  default(): any
+  title(): any
 }
 </script>
 
@@ -27,52 +29,72 @@ export interface ProseCardSlots {
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
+import ULink from '../Link.vue'
+import UIcon from '../Icon.vue'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  icon: { type: String, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  color: { type: null, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+
+const props = withDefaults(defineProps<ProseCardProps>(), {
+  color: 'primary'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.card || {} })({
-  color: props.color,
-  to: !!props.to,
-  title: !!props.title
-}))
-const target = computed(() => props.target || (!!props.to && typeof props.to === 'string' && props.to.startsWith('http') ? '_blank' : void 0))
+
+defineSlots<ProseCardSlots>()
+
+const appConfig = useAppConfig() as ProseCard['AppConfig']
+const isExternal = computed(() => typeof props.to === 'string' && props.to.startsWith('http'))
+const target = computed(() => props.target || (props.to && isExternal.value ? '_blank' : undefined))
 const ariaLabel = computed(() => (props.title || 'Card link').trim())
+
+const ui = computed(() =>
+  tv({
+    extend: tv(theme),
+    ...appConfig.ui?.prose?.card || {} })({
+    color: props.color,
+    to: !!props.to,
+    title: !!props.title
+  })
+)
 </script>
 
 <template>
   <div :class="ui.base({ class: props.class })">
+    <!-- Clickable Overlay -->
     <ULink
       v-if="to"
+      :to="to"
+      :target="target"
       :aria-label="ariaLabel"
-      v-bind="{ to, target, ...$attrs }"
       class="focus:outline-none"
       tabindex="-1"
       raw
+      v-bind="$attrs"
     >
       <span class="absolute inset-0" aria-hidden="true" />
     </ULink>
 
-    <UIcon v-if="icon" :name="icon" :class="ui.icon({ class: props.ui?.icon })" />
-    <UIcon v-if="!!to && target === '_blank'" :name="appConfig.ui.icons.external" :class="ui.externalIcon({ class: props.ui?.externalIcon })" />
+    <!-- Icon -->
+    <UIcon
+      v-if="icon"
+      :name="icon"
+      :class="ui.icon({ class: props.ui?.icon })"
+    />
 
-    <p v-if="title || !!slots.title" :class="ui.title({ class: props.ui?.title })">
-      <slot name="title" mdc-unwrap="p">
+    <!-- External Link Icon -->
+    <UIcon
+      v-if="to && target === '_blank'"
+      :name="appConfig.ui.icons.external"
+      :class="ui.externalIcon({ class: props.ui?.externalIcon })"
+    />
+
+    <!-- Title -->
+    <p v-if="title || $slots.title" :class="ui.title({ class: props.ui?.title })">
+      <slot name="title">
         {{ title }}
       </slot>
     </p>
 
-    <div v-if="!!slots.default" :class="ui.description({ class: props.ui?.description })">
+    <!-- Description / Default Slot -->
+    <div v-if="$slots.default || description" :class="ui.description({ class: props.ui?.description })">
       <slot>
         {{ description }}
       </slot>

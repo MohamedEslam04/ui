@@ -248,7 +248,7 @@ const groups = computed<InputMenuItem[][]>(() =>
       : [props.items]
     : []
 )
-// eslint-disable-next-line vue/no-dupe-keys
+
 const items = computed(() => groups.value.flatMap(group => group))
 
 const filteredGroups = computed(() => {

@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/accordion'
+import type { ComponentConfig } from '../../types'
+import type { AppConfig } from '@nuxt/schema'
 
+type ProseAccordion = ComponentConfig<typeof theme, AppConfig, 'accordion', 'ui.prose'>
 export interface ProseAccordionProps {
   type?: 'single' | 'multiple'
   class?: any
@@ -20,14 +23,14 @@ const props = withDefaults(defineProps<ProseAccordionProps>(), {
   type: 'multiple'
 })
 const slots = defineSlots<ProseAccordionSlots>()
-const appConfig = useAppConfig() as Accordion['AppConfig']
+const appConfig = useAppConfig() as ProseAccordion['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.accordion || {} }))
 const rerenderCount = ref(1)
 const items = computed(() => {
-  rerenderCount.value
+  const _ = rerenderCount.value
   return slots.default?.()?.flatMap(transformSlot).filter(Boolean) || []
 })
-function transformSlot(slot, index) {
+function transformSlot(slot: any, index: number) {
   if (typeof slot.type === 'symbol') {
     return slot.children?.map(transformSlot)
   }

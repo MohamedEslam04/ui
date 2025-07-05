@@ -193,7 +193,7 @@ const groups = computed<SelectItem[][]>(() =>
       : [props.items]
     : []
 )
-// eslint-disable-next-line vue/no-dupe-keys
+
 const items = computed(() => groups.value.flatMap(group => group) as T[])
 
 function displayValue(value: GetItemValue<T, VK> | GetItemValue<T, VK>[]): string | undefined {

@@ -29,22 +29,17 @@ import { useState, useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 import CodeIcon from './CodeIcon.vue'
 
-const props = defineProps({
-  defaultValue: { type: String, required: false, default: '0' },
-  sync: { type: String, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
+const props = withDefaults(defineProps<ProseCodeGroupProps>(), { defaultValue: '0' })
+const slots = defineSlots<ProseCodeGroupSlots>()
 const model = defineModel({ type: String })
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ProseCodeGroup['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.codeGroup || {} })())
 const rerenderCount = ref(1)
 const items = computed(() => {
-  rerenderCount.value
+  const _ = rerenderCount.value
   return slots.default?.()?.flatMap(transformSlot).filter(Boolean) || []
 })
-function transformSlot(slot, index) {
+function transformSlot(slot: any, index: number) {
   if (typeof slot.type === 'symbol') {
     return slot.children?.map(transformSlot)
   }

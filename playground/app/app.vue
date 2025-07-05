@@ -40,6 +40,7 @@ const components = [
   'dashboard',
   'drawer',
   'dropdown-menu',
+  'error',
   'form',
   'form-field',
   'input',

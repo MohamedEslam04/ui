@@ -1,74 +1,204 @@
-<script>
-import theme from '#build/ui-pro/content/content-search'
+<script lang="ts">
+import theme from '#build/ui/content/content-search'
+import type { ContentNavigationItem } from '@nuxt/content'
+import type { AppConfig } from '@nuxt/schema'
+import type {
+  ButtonProps,
+  InputProps,
+  LinkProps,
+  ModalProps,
+  CommandPaletteProps,
+  CommandPaletteSlots,
+  CommandPaletteGroup,
+  CommandPaletteItem,
+  ComponentConfig
+} from '../../types'
+import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
+
+type ContentSearch = ComponentConfig<typeof theme, AppConfig, 'contentSearch'>
+
+export interface ContentSearchLink extends Omit<LinkProps, 'custom'> {
+  label?: string
+  description?: string
+  /**
+   * @IconifyIcon
+   */
+  icon?: string
+  children?: ContentSearchLink[]
+}
+
+export interface ContentSearchFile {
+  id: string
+  title: string
+  titles: string[]
+  level: number
+  content: string
+}
+
+export interface ContentSearchItem extends Omit<LinkProps, 'custom'>, CommandPaletteItem {
+  level?: number
+  /**
+   * @IconifyIcon
+   */
+  icon?: string
+}
+
+export interface ContentSearchProps<T extends ContentSearchLink = ContentSearchLink> extends /* @vue-ignore */ Pick<ModalProps, 'title' | 'description' | 'overlay' | 'transition' | 'content' | 'dismissible' | 'fullscreen' | 'modal' | 'portal'> {
+  /**
+   * The icon displayed in the input.
+   * @defaultValue appConfig.ui.icons.search
+   * @IconifyIcon
+   */
+  icon?: string
+  /**
+   * The placeholder text for the input.
+   * @defaultValue t('commandPalette.placeholder')
+   */
+  placeholder?: InputProps['placeholder']
+  /**
+   * Automatically focus the input when component is mounted.
+   * @defaultValue true
+   */
+  autofocus?: boolean
+  /** When `true`, the loading icon will be displayed. */
+  loading?: boolean
+  /**
+   * The icon when the `loading` prop is `true`.
+   * @defaultValue appConfig.ui.icons.loading
+   * @IconifyIcon
+   */
+  loadingIcon?: string
+  /**
+   * Display a close button in the input (useful when inside a Modal for example).
+   * `{ size: 'md', color: 'neutral', variant: 'ghost' }`{lang="ts-type"}
+   * @emits 'update:open'
+   * @defaultValue true
+   */
+  close?: boolean | Partial<ButtonProps>
+  /**
+   * The icon displayed in the close button.
+   * @defaultValue appConfig.ui.icons.close
+   * @IconifyIcon
+   */
+  closeIcon?: string
+  /**
+   * Keyboard shortcut to open the search (used by [`defineShortcuts`](https://ui.nuxt.com/composables/define-shortcuts))
+   * @defaultValue 'meta_k'
+   */
+  shortcut?: string
+  /** Links group displayed as the first group in the command palette. */
+  links?: T[]
+  navigation?: ContentNavigationItem[]
+  /** Custom groups displayed between navigation and color mode group. */
+  groups?: CommandPaletteGroup<ContentSearchItem>[]
+  files?: ContentSearchFile[]
+  /**
+   * Options for [useFuse](https://vueuse.org/integrations/useFuse) passed to the [CommandPalette](https://ui.nuxt.com/components/command-palette).
+   * @defaultValue { fuseOptions: { includeMatches: true } }
+   */
+  fuse?: UseFuseOptions<T>
+  /**
+   * When `true`, the theme command will be added to the groups.
+   * @defaultValue true
+   */
+  colorMode?: boolean
+  class?: any
+  ui?: ContentSearch['slots'] & CommandPaletteProps<CommandPaletteGroup<ContentSearchItem>, ContentSearchItem>['ui']
+}
+
+export type ContentSearchSlots = CommandPaletteSlots<CommandPaletteGroup<ContentSearchItem>, ContentSearchItem> & {
+  content(props?: {}): any
+}
 </script>
 
-<script setup>
-import { computed, useTemplateRef } from 'vue'
-import { useForwardProps } from 'reka-ui'
-import { defu } from 'defu'
-import { reactivePick } from '@vueuse/core'
-import { useAppConfig, useColorMode, defineShortcuts } from '#imports'
-import { useContentSearch } from '../../composables/useContentSearch'
-import { useLocalePro } from '../../composables/useLocalePro'
-import { transformUI, omit } from '../../utils'
+<script setup lang="ts">
+import {
+  computed,
+  useTemplateRef
+} from 'vue'
+import {
+  useForwardProps,
+  useAppConfig,
+  useColorMode,
+  defineShortcuts
+} from '#imports'
+import {
+  reactivePick,
+  defu
+} from '@vueuse/core'
+import {
+  useContentSearch
+} from '../../composables/useContentSearch'
+import {
+  useLocalePro
+} from '../../composables/useLocalePro'
+import {
+  transformUI,
+  omit
+} from '../../utils'
 import { tv } from '../../utils/tv'
+import UModal from '../Modal.vue'
+import UCommandPalette from '../CommandPalette.vue'
 
-const props = defineProps({
-  icon: { type: String, required: false },
-  placeholder: { type: null, required: false },
-  autofocus: { type: Boolean, required: false },
-  loading: { type: Boolean, required: false },
-  loadingIcon: { type: String, required: false },
-  close: { type: [Boolean, Object], required: false, default: true },
-  closeIcon: { type: String, required: false },
-  shortcut: { type: String, required: false, default: 'meta_k' },
-  links: { type: Array, required: false },
-  navigation: { type: Array, required: false },
-  groups: { type: Array, required: false },
-  files: { type: Array, required: false },
-  fuse: { type: Object, required: false },
-  colorMode: { type: Boolean, required: false, default: true },
-  class: { type: null, required: false },
-  ui: { type: void 0, required: false }
-})
-const slots = defineSlots()
-const searchTerm = defineModel('searchTerm', { type: String, ...{ default: '' } })
+const props = defineProps<ContentSearchProps>()
+const slots = defineSlots<ContentSearchSlots>()
+const searchTerm = defineModel('searchTerm', { type: String, default: '' })
+
 const { t } = useLocalePro()
 const { open } = useContentSearch()
 const colorMode = useColorMode()
-const appConfig = useAppConfig()
-const commandPaletteProps = useForwardProps(reactivePick(props, 'icon', 'placeholder', 'autofocus', 'loading', 'loadingIcon', 'close', 'closeIcon'))
+const appConfig = useAppConfig() as ContentSearch['AppConfig']
+
+const commandPaletteProps = useForwardProps(reactivePick(
+  props,
+  'icon',
+  'placeholder',
+  'autofocus',
+  'loading',
+  'loadingIcon',
+  'close',
+  'closeIcon'
+))
+
 const proxySlots = omit(slots, ['content'])
-const fuse = computed(() => defu({}, props.fuse, {
-  fuseOptions: {
-    includeMatches: true
-  }
-}))
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.contentSearch || {} })())
-function mapLinksItems(links) {
-  return links.flatMap(link => [{
-    ...link,
-    suffix: link.description,
-    icon: link.icon || appConfig.ui.icons.file
-  }, ...link.children?.map(child => ({
-    ...child,
-    prefix: link.label + ' >',
-    suffix: child.description,
-    icon: child.icon || link.icon || appConfig.ui.icons.file
-  })) || []])
+
+const fuse = computed(() => defu({
+  fuseOptions: { includeMatches: true }
+}, props.fuse))
+
+const ui = computed(() =>
+  tv({ extend: tv(theme), ...appConfig.ui?.contentSearch || {} })()
+)
+
+function mapLinksItems(links: ContentSearchLink[]) {
+  return links.flatMap(link => [
+    {
+      ...link,
+      suffix: link.description,
+      icon: link.icon || appConfig.ui.icons.file
+    },
+    ...(link.children?.map(child => ({
+      ...child,
+      prefix: `${link.label} >`,
+      suffix: child.description,
+      icon: child.icon || link.icon || appConfig.ui.icons.file
+    })) || [])
+  ])
 }
-function mapNavigationItems(children, parent) {
-  return children.flatMap((link) => {
-    if (link.children?.length) {
-      return mapNavigationItems(link.children, link)
-    }
-    return props.files?.filter(file => file.id === link.path || file.id.startsWith(`${link.path}#`))?.map(file => mapFile(file, link, parent)) || []
-  })
+
+function mapNavigationItems(children: ContentNavigationItem[], parent?: ContentNavigationItem) {
+  return children.flatMap(link =>
+    link.children?.length
+      ? mapNavigationItems(link.children, link)
+      : props.files?.filter(file => file.id === link.path || file.id.startsWith(`${link.path}#`))
+        ?.map(file => mapFile(file, link, parent)) || []
+  )
 }
-function mapFile(file, link, parent) {
-  const prefix = [...new Set([parent?.title, ...file.titles].filter(Boolean))]
+
+function mapFile(file: ContentSearchFile, link: ContentNavigationItem, parent?: ContentNavigationItem) {
+  const prefix = [...new Set([parent?.title, ...file.titles].filter(Boolean))].join(' > ')
   return {
-    prefix: prefix?.length ? prefix.join(' > ') + ' >' : void 0,
+    prefix: prefix ? `${prefix} >` : undefined,
     label: file.id === link.path ? link.title : file.title,
     suffix: file.content.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
     to: file.id,
@@ -76,72 +206,65 @@ function mapFile(file, link, parent) {
     level: file.level
   }
 }
-const groups = computed(() => {
-  const groups2 = []
-  if (props.links?.length) {
-    groups2.push({ id: 'links', label: t('contentSearch.links'), items: mapLinksItems(props.links) })
+
+function postFilter(query: string, items: ContentSearchItem[]) {
+  return query ? items : items?.filter(item => item.level === 1)
+}
+
+function onSelect(item: ContentSearchItem) {
+  if (!item.disabled) {
+    open.value = false
+    searchTerm.value = ''
   }
+}
+
+defineShortcuts({
+  [props.shortcut || 'meta_k']: {
+    usingInput: true,
+    handler: () => (open.value = !open.value)
+  }
+})
+
+const groups = computed(() => {
+  const result: CommandPaletteGroup<ContentSearchItem>[] = []
+
+  if (props.links?.length) {
+    result.push({ id: 'links', label: t('contentSearch.links'), items: mapLinksItems(props.links) })
+  }
+
   if (props.navigation?.length) {
-    if (props.navigation.some(link => !!link.children?.length)) {
-      groups2.push(...props.navigation.map(group => ({ id: group.path, label: group.title, items: mapNavigationItems(group.children || []), postFilter })))
+    if (props.navigation.some(link => link.children?.length)) {
+      result.push(...props.navigation.map(group => ({
+        id: group.path,
+        label: group.title,
+        items: mapNavigationItems(group.children || []),
+        postFilter
+      })))
     } else {
-      groups2.push({ id: 'docs', items: mapNavigationItems(props.navigation), postFilter })
+      result.push({ id: 'docs', items: mapNavigationItems(props.navigation), postFilter })
     }
   }
-  groups2.push(...props.groups || [])
+
+  if (props.groups?.length) result.push(...props.groups)
+
   if (props.colorMode && !colorMode?.forced) {
-    groups2.push({
+    result.push({
       id: 'theme',
       label: t('contentSearch.theme'),
-      items: [{
-        label: t('colorMode.system'),
-        icon: appConfig.ui.icons.system,
-        active: colorMode.preference === 'system',
-        onSelect: () => {
-          colorMode.preference = 'system'
-        }
-      }, {
-        label: t('colorMode.light'),
-        icon: appConfig.ui.icons.light,
-        active: colorMode.preference === 'light',
-        onSelect: () => {
-          colorMode.preference = 'light'
-        }
-      }, {
-        label: t('colorMode.dark'),
-        icon: appConfig.ui.icons.dark,
-        active: colorMode.preference === 'dark',
-        onSelect: () => {
-          colorMode.preference = 'dark'
-        }
-      }]
+      items: ['system', 'light', 'dark'].map(mode => ({
+        label: t(`colorMode.${mode}`),
+        icon: appConfig.ui.icons[mode],
+        active: colorMode.preference === mode,
+        onSelect: () => { colorMode.preference = mode as any }
+      }))
     })
   }
-  return groups2
+
+  return result
 })
-function postFilter(query, items) {
-  if (!query) {
-    return items?.filter(item => item.level === 1)
-  }
-  return items
-}
-function onSelect(item) {
-  if (item.disabled) {
-    return
-  }
-  open.value = false
-  searchTerm.value = ''
-}
-defineShortcuts({
-  [props.shortcut]: {
-    usingInput: true,
-    handler: () => open.value = !open.value
-  }
-})
+
 const commandPaletteRef = useTemplateRef('commandPaletteRef')
-defineExpose({
-  commandPaletteRef
-})
+defineExpose({ commandPaletteRef })
 </script>
 
 <template>

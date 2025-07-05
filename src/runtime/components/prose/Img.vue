@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/img'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseImg = ComponentConfig<typeof theme, AppConfig, 'img', 'ui.prose'>
 export interface ProseImgProps {
   src: string
   alt: string
@@ -17,14 +20,8 @@ import { useRuntimeConfig, useAppConfig } from '#imports'
 import ImageComponent from '#build/ui-image-component'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  src: { type: String, required: true },
-  alt: { type: String, required: true },
-  width: { type: [String, Number], required: false },
-  height: { type: [String, Number], required: false },
-  class: { type: null, required: false }
-})
-const appConfig = useAppConfig()
+const props = defineProps<ProseImgProps>()
+const appConfig = useAppConfig() as ProseImg['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.img || {} }))
 const refinedSrc = computed(() => {
   if (props.src?.startsWith('/') && !props.src.startsWith('//')) {

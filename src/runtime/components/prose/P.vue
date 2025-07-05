@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/p'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseP = ComponentConfig<typeof theme, AppConfig, 'p', 'ui.prose'>
 export interface ProsePProps {
   class?: any
 }
@@ -14,11 +17,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProsePProps>()
+defineSlots<ProsePSlots>()
+const appConfig = useAppConfig() as ProseP['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.p || {} }))
 </script>
 

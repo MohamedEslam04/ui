@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/field-group'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
 
+type ProseFieldGroup = ComponentConfig<typeof theme, AppConfig, 'fieldGroup', 'ui.prose'>
 export interface ProseFieldGroupProps {
   /**
    * The element or component this component should render as.
@@ -20,12 +23,9 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseFieldGroupProps>()
+defineSlots<ProseFieldGroupSlots>()
+const appConfig = useAppConfig() as ProseFieldGroup['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.fieldGroup || {} }))
 </script>
 

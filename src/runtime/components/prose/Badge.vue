@@ -1,6 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/prose/badge'
+import type { ComponentConfig } from '../../types'
+import type { AppConfig } from '@nuxt/schema'
 
+type ProseBadge = ComponentConfig<typeof theme, AppConfig, 'badge', 'ui.prose'>
 export interface ProseBadgeProps {
   class?: any
 }
@@ -14,11 +17,9 @@ import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ProseBadgeProps>()
+defineSlots<ProseBadgeSlots>()
+const appConfig = useAppConfig() as ProseBadge['AppConfig']
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.prose?.badge || {} }))
 </script>
 
