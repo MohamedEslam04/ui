@@ -1,7 +1,7 @@
 {
   "name": "@eslamdevui/ui",
   "description": "A UI Library for Modern Web Apps, powered by Vue & Tailwind CSS.",
-  "version": "3.2.0-beta.1",
+  "version": "3.2.0-beta.2",
   "packageManager": "pnpm@10.12.2",
   "repository": {
     "type": "git",
@@ -85,7 +85,7 @@
     "#build/ui.css": "./.nuxt/ui.css"
   },
   "bin": {
-    "eslamdevui-ui": "./cli/index.mjs"
+    "eslamdevui-ui": "cli/index.mjs"
   },
   "style": "./dist/runtime/index.css",
   "main": "./dist/module.mjs",
