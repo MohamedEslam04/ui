@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { ButtonProps } from '@nuxt/ui'
+import type { ButtonProps } from '../types'
 import theme from '#build/ui/dashboard-sidebar-toggle'
 
 export interface DashboardSidebarToggleProps extends

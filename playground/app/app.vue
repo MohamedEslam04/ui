@@ -18,6 +18,7 @@ const isDark = computed({
 const components = [
   'accordion',
   'alert',
+  'auth-form',
   'avatar',
   'badge',
   'breadcrumb',

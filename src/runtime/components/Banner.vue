@@ -1,0 +1,172 @@
+<script lang="ts">
+import theme from '#build/ui/banner'
+import type { AppConfig } from '@nuxt/schema'
+import type { ButtonProps, LinkProps, ComponentConfig } from '../types'
+
+type Banner = ComponentConfig<typeof theme, AppConfig, 'banner'>
+
+export interface BannerProps {
+  /**
+   * The element or component this component should render as.
+   * @defaultValue 'div'
+   */
+  as?: any
+  /**
+   * A unique id saved to local storage to remember if the banner has been dismissed.
+   * Change this value to show the banner again.
+   * @defaultValue '1'
+   */
+  id?: string
+  /**
+   * The icon displayed next to the title.
+   * @IconifyIcon
+   */
+  icon?: string
+  title?: string
+  /**
+   * Display a list of actions next to the title.
+   * `{ color: 'neutral', size: 'xs' }`{lang="ts-type"}
+   */
+  actions?: ButtonProps[]
+  to?: LinkProps['to']
+  target?: LinkProps['target']
+  /**
+   * @defaultValue 'primary'
+   */
+  color?: Banner['variants']['color']
+  /**
+   * Display a close button to dismiss the banner.
+   * `{ size: 'md', color: 'neutral', variant: 'ghost' }`{lang="ts-type"}
+   * @emits `close`
+   * @defaultValue false
+   */
+  close?: boolean | Partial<ButtonProps>
+  /**
+   * The icon displayed in the close button.
+   * @defaultValue appConfig.ui.icons.close
+   * @IconifyIcon
+   */
+  closeIcon?: string
+  class?: any
+  ui?: Banner['slots']
+}
+export interface BannerSlots {
+  leading(props?: {}): any
+  title(props?: {}): any
+  actions(props?: {}): any
+  close(props: {
+    ui: any
+  }): any
+}
+</script>
+
+<script setup lang="ts">
+import { computed, watch } from 'vue'
+import { Primitive } from 'reka-ui'
+import { useHead, useAppConfig } from '#imports'
+import { useLocalePro } from '../composables/useLocalePro'
+import { tv } from '../utils/tv'
+
+defineOptions({ inheritAttrs: false })
+const props = defineProps({
+  as: { type: null, required: false },
+  id: { type: String, required: false },
+  icon: { type: String, required: false },
+  title: { type: String, required: false },
+  actions: { type: Array, required: false },
+  to: { type: null, required: false },
+  target: { type: null, required: false },
+  color: { type: null, required: false },
+  close: { type: [Boolean, Object], required: false },
+  closeIcon: { type: String, required: false },
+  class: { type: null, required: false },
+  ui: { type: null, required: false }
+})
+const slots = defineSlots()
+const emits = defineEmits(['close'])
+const { t } = useLocalePro()
+const appConfig = useAppConfig()
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.banner || {} })({
+  color: props.color,
+  to: !!props.to
+}))
+const id = computed(() => `banner-${props.id || '1'}`)
+watch(id, (newId) => {
+  if (typeof document === 'undefined' || typeof localStorage === 'undefined') return
+  const isClosed = localStorage.getItem(newId) === 'true'
+  const htmlElement = document.querySelector('html')
+  htmlElement?.classList.toggle('hide-banner', isClosed)
+})
+useHead({
+  script: [{
+    key: 'prehydrate-template-banner',
+    innerHTML: `
+            if (localStorage.getItem('${id.value}') === 'true') {
+              document.querySelector('html').classList.add('hide-banner')
+            }`.replace(/\s+/g, ' '),
+    type: 'text/javascript'
+  }]
+})
+function onClose() {
+  localStorage.setItem(id.value, 'true')
+  document.querySelector('html')?.classList.add('hide-banner')
+  emits('close')
+}
+</script>
+
+<template>
+  <Primitive :as="as" class="banner" :class="ui.root({ class: [props.ui?.root, props.class] })">
+    <ULink
+      v-if="to"
+      :aria-label="title"
+      v-bind="{ to, target, ...$attrs }"
+      class="focus:outline-none"
+      tabindex="-1"
+      raw
+    >
+      <span class="absolute inset-0 " aria-hidden="true" />
+    </ULink>
+
+    <UContainer :class="ui.container({ class: props.ui?.container })">
+      <div :class="ui.left({ class: props.ui?.left })" />
+
+      <div :class="ui.center({ class: props.ui?.center })">
+        <slot name="leading">
+          <UIcon v-if="icon" :name="icon" :class="ui.icon({ class: props.ui?.icon })" />
+        </slot>
+
+        <div v-if="title || !!slots.title" :class="ui.title({ class: props.ui?.title })">
+          <slot name="title">
+            {{ title }}
+          </slot>
+        </div>
+
+        <div v-if="actions?.length" :class="ui.actions({ class: props.ui?.actions })">
+          <slot name="actions">
+            <UButton v-for="(action, index) in actions" :key="index" color="neutral" size="xs" v-bind="action" />
+          </slot>
+        </div>
+      </div>
+
+      <div :class="ui.right({ class: props.ui?.right })">
+        <slot name="close" :ui="ui">
+          <UButton
+            v-if="close"
+            :icon="closeIcon || appConfig.ui.icons.close"
+            size="md"
+            color="neutral"
+            variant="ghost"
+            :aria-label="t('banner.close')"
+            v-bind="typeof close === 'object' ? close : {}"
+            :class="ui.close({ class: props.ui?.close })"
+            @click="onClose"
+          />
+        </slot>
+      </div>
+    </UContainer>
+  </Primitive>
+</template>
+
+<style scoped>
+.hide-banner .banner{display:none}
+</style>

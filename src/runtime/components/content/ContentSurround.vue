@@ -1,8 +1,54 @@
-<script>
-import theme from '#build/ui-pro/content/content-surround'
+<script lang="ts">
+import theme from '#build/ui/content/content-surround'
+import type { ContentNavigationItem } from '@nuxt/content'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ContentSurround = ComponentConfig<typeof theme, AppConfig, 'contentSurround'>
+
+export interface ContentSurroundLink extends ContentNavigationItem {
+  description?: string
+  /**
+   * @IconifyIcon
+   */
+  icon?: string
+  class?: any
+  ui?: Pick<ContentSurround['slots'], 'link' | 'linkLeading' | 'linkLeadingIcon' | 'linkTitle' | 'linkDescription'>
+}
+export interface ContentSurroundProps<T extends ContentSurroundLink = ContentSurroundLink> {
+  /**
+   * The element or component this component should render as.
+   * @defaultValue 'div'
+   */
+  as?: any
+  /**
+   * The icon displayed in the prev link.
+   * @defaultValue appConfig.ui.icons.arrowLeft
+   * @IconifyIcon
+   */
+  prevIcon?: string
+  /**
+   * The icon displayed in the next link.
+   * @defaultValue appConfig.ui.icons.arrowRight
+   * @IconifyIcon
+   */
+  nextIcon?: string
+  surround?: T[]
+  class?: any
+  ui?: ContentSurround['slots']
+}
+type SlotProps<T> = (props: {
+  link: T
+}) => any
+export interface ContentSurroundSlots<T extends ContentSurroundLink = ContentSurroundLink> {
+  'link': SlotProps<T>
+  'link-leading': SlotProps<T>
+  'link-title': SlotProps<T>
+  'link-description': SlotProps<T>
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { createReusableTemplate } from '@vueuse/core'

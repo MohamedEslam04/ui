@@ -8,7 +8,7 @@ type Error = ComponentConfig<typeof theme, AppConfig, 'error'>
 export interface ErrorProps {
   /**
    * The element or component this component should render as.
-   * @defaultValue 'div'
+   * @defaultValue 'main'
    */
   as?: any
   error?: Partial<NuxtError & {

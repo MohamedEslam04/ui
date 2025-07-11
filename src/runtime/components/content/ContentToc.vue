@@ -1,8 +1,80 @@
-<script>
-import theme from '#build/ui-pro/content/content-toc'
+<script lang="ts">
+import theme from '#build/ui/content/content-toc'
+import type { CollapsibleRootProps, CollapsibleRootEmits } from 'reka-ui'
+import type { TocLink } from '@nuxt/content'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../../types'
+
+type ContentToc = ComponentConfig<typeof theme, AppConfig, 'contentToc'>
+
+export type ContentTocLink = TocLink & {
+  class?: any
+  ui?: Pick<ContentToc['slots'], 'item' | 'itemWithChildren' | 'link' | 'linkText'>
+}
+export interface ContentTocProps<T extends ContentTocLink = ContentTocLink> extends Pick<CollapsibleRootProps, 'defaultOpen' | 'open'> {
+  /**
+   * The element or component this component should render as.
+   * @defaultValue 'nav'
+   */
+  as?: any
+  /**
+   * The icon displayed to collapse the content.
+   * @defaultValue appConfig.ui.icons.chevronDown
+   * @IconifyIcon
+   */
+  trailingIcon?: string
+  /**
+   * The title of the table of contents.
+   * @defaultValue t('contentToc.title')
+   */
+  title?: string
+  /**
+   * @defaultValue 'primary'
+   */
+  color?: ContentToc['variants']['color']
+  /**
+   * Display a line next to the active link.
+   * @defaultValue false
+   */
+  highlight?: boolean
+  /**
+   * @defaultValue 'primary'
+   */
+  highlightColor?: ContentToc['variants']['highlightColor']
+  links?: T[]
+  class?: any
+  ui?: ContentToc['slots']
+}
+export type ContentTocEmits = CollapsibleRootEmits & {
+  move: [id: string]
+}
+type SlotProps<T> = (props: {
+  link: T
+}) => any
+export interface ContentTocSlots<T extends ContentTocLink = ContentTocLink> {
+  leading(props: {
+    open: boolean
+  }): any
+  default(props: {
+    open: boolean
+  }): any
+  trailing(props: {
+    open: boolean
+  }): any
+  content(props: {
+    links: T[]
+  }): any
+  link: SlotProps<T>
+  top(props: {
+    links?: T[]
+  }): any
+  bottom(props: {
+    links?: T[]
+  }): any
+}
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent, useForwardPropsEmits } from 'reka-ui'
 import { reactivePick, createReusableTemplate } from '@vueuse/core'
