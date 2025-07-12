@@ -1,5 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/page-list'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../types'
+
+type PageList = ComponentConfig<typeof theme, AppConfig, 'pageList'>
 
 export interface PageListProps {
   /**
@@ -21,14 +25,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  divide: { type: Boolean, required: false, default: false },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<PageListProps>(), {
+  divide: false
 })
-defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageList || {} }))
+defineSlots<PageListSlots>()
+const appConfig = useAppConfig() as PageList['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageList || {} }))
 </script>
 
 <template>

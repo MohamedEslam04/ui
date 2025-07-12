@@ -30,19 +30,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  pauseOnHover: { type: Boolean, required: false },
-  reverse: { type: Boolean, required: false },
-  orientation: { type: null, required: false, default: 'horizontal' },
-  repeat: { type: Number, required: false, default: 4 },
-  overlay: { type: Boolean, required: false, default: true },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageMarqueeProps>(), {
+  orientation: 'horizontal'
 })
-defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageMarquee || {} })({
+defineSlots<PageMarqueeSlots>()
+const appConfig = useAppConfig() as PageMarquee['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageMarquee || {} })({
   pauseOnHover: props.pauseOnHover,
   orientation: props.orientation,
   reverse: props.reverse,

@@ -29,14 +29,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'footer' },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<FooterProps>(), {
+  as: 'footer'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.footer || {} })())
+const slots = defineSlots<FooterSlots>()
+const appConfig = useAppConfig() as Footer['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.footer || {} })())
 </script>
 
 <template>

@@ -66,22 +66,19 @@ import { useLocalePro } from '../composables/useLocalePro'
 import { getSlotChildrenText } from '../utils'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'header' },
-  title: { type: String, required: false, default: 'Nuxt UI Pro' },
-  to: { type: String, required: false, default: '/' },
-  mode: { type: null, required: false, default: 'modal' },
-  menu: { type: null, required: false },
-  toggle: { type: [Boolean, Object], required: false, default: true },
-  toggleSide: { type: String, required: false, default: 'right' },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<HeaderProps>(), {
+  as: 'header',
+  title: 'Nuxt UI Pro',
+  to: '/',
+  mode: 'modal',
+  toggle: true,
+  toggleSide: 'right'
 })
-const slots = defineSlots()
+const slots = defineSlots<HeaderSlots>()
 const open = defineModel('open', { type: Boolean, ...{ default: false } })
 const route = useRoute()
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as Header['AppConfig']
 const [DefineLeftTemplate, ReuseLeftTemplate] = createReusableTemplate()
 const [DefineRightTemplate, ReuseRightTemplate] = createReusableTemplate()
 const [DefineToggleTemplate, ReuseToggleTemplate] = createReusableTemplate()
@@ -92,7 +89,7 @@ const ariaLabel = computed(() => {
 watch(() => route.fullPath, () => {
   open.value = false
 })
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.header || {} })())
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.header || {} })())
 const Menu = computed(() => ({
   slideover: USlideover,
   modal: UModal,
@@ -100,7 +97,7 @@ const Menu = computed(() => ({
 })[props.mode])
 const menuProps = toRef(() => defu(props.menu, {
   content: {
-    onOpenAutoFocus: e => e.preventDefault()
+    onOpenAutoFocus: (e: Event) => e.preventDefault()
   }
 }, props.mode === 'modal' ? { fullscreen: true, transition: false } : {}))
 function toggleOpen() {

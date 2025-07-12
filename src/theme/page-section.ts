@@ -51,6 +51,10 @@ export default {
     },
     body: {
       true: ''
+    },
+    features: {
+      true: '',
+      false: ''
     }
   },
   compoundVariants: [

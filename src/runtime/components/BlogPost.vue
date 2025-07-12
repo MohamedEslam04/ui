@@ -62,27 +62,15 @@ import { tv } from '../utils/tv'
 import UUser from './User.vue'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false, default: 'article' },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  date: { type: [String, Date], required: false },
-  badge: { type: null, required: false },
-  authors: { type: Array, required: false },
-  image: { type: [String, Object], required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  variant: { type: null, required: false },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  onClick: { type: Function, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<BlogPostProps>(), {
+  as: 'article',
+  orientation: 'vertical'
 })
-const slots = defineSlots()
+const slots = defineSlots<BlogPostSlots>()
 const { locale } = useLocale()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as BlogPost['AppConfig']
 const formatter = useDateFormatter(locale.value.code)
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.blogPost || {} })({
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.blogPost || {} })({
   orientation: props.orientation,
   variant: props.variant,
   image: !!props.image,

@@ -31,15 +31,12 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 import UBlogPost from './BlogPost.vue'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  posts: { type: Array, required: false },
-  orientation: { type: null, required: false, default: 'horizontal' },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<BlogPostsProps>(), {
+  orientation: 'horizontal'
 })
-defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.blogPosts || {} }))
+defineSlots<BlogPostsSlots>()
+const appConfig = useAppConfig() as BlogPosts['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.blogPosts || {} }))
 </script>
 
 <template>

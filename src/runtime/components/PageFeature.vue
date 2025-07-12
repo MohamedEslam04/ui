@@ -45,21 +45,12 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false },
-  icon: { type: String, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  orientation: { type: null, required: false, default: 'horizontal' },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  onClick: { type: Function, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageFeatureProps>(), {
+  orientation: 'horizontal'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageFeature || {} })({
+const slots = defineSlots<PageFeatureSlots>()
+const appConfig = useAppConfig() as PageFeature['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageFeature || {} })({
   orientation: props.orientation,
   title: !!props.title || !!slots.title
 }))

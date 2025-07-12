@@ -21,14 +21,12 @@ import { omit, transformUI } from '../utils'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  type: { type: null, required: false, default: 'multiple' },
-  class: { type: null, required: false },
-  ui: { type: void 0, required: false }
+const props = withDefaults(defineProps<PageAccordionProps>(), {
+  type: 'multiple'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageAccordion || {} })())
+const slots = defineSlots<PageAccordionSlots>()
+const appConfig = useAppConfig() as PageAccordion['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageAccordion || {} })())
 </script>
 
 <template>

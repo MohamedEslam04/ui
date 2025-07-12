@@ -5,10 +5,13 @@ export default (options: Required<ModuleOptions>) => {
   const variants = ['pill', 'link'] as const
 
   const colorVariants = Object.fromEntries(
-    colors.map(color => [color, {
-      trigger: `focus-visible:ring-${color}`,
-      link: `focus-visible:before:ring-${color}`
-    }])
+    colors.map(color => [
+      color,
+      {
+        trigger: `focus-visible:ring-${color}`,
+        link: `focus-visible:before:ring-${color}`
+      }
+    ])
   )
 
   const highlightColorVariants = Object.fromEntries(
@@ -38,7 +41,7 @@ export default (options: Required<ModuleOptions>) => {
         ].filter(Boolean),
         linkLeadingIcon: [
           'group-hover:text-default group-data-[state=open]:text-default',
-          'transition-colors'
+          'transition-colors before:transition-colors'
         ]
       }
     })),
@@ -107,7 +110,8 @@ export default (options: Required<ModuleOptions>) => {
         }
       },
       highlightColor: {
-        ...highlightColorVariants
+        ...highlightColorVariants,
+        neutral: ''
       },
       variant: Object.fromEntries(variants.map(v => [v, ''])),
       active: {

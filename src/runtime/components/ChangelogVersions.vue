@@ -77,21 +77,17 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 import UChangelogVersion from './ChangelogVersion.vue'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  versions: { type: Array, required: false },
-  indicator: { type: Boolean, required: false, default: true },
-  indicatorMotion: { type: [Boolean, Object], required: false, default: true },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<ChangelogVersionsProps>(), {
+  indicator: true,
+  indicatorMotion: true
 })
-const slots = defineSlots()
+const slots = defineSlots<ChangelogVersionsSlots>()
 const proxySlots = omit(slots, ['default', 'indicator'])
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ChangelogVersions['AppConfig']
 const springOptions = computed(() => defu(typeof props.indicatorMotion === 'object' ? props.indicatorMotion : {}, { damping: 30, restDelta: 1e-3 }))
 const { scrollY } = useScroll()
 const height = useSpring(scrollY, springOptions)
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.changelogVersions || {} })())
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.changelogVersions || {} })())
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ChatMessageProps } from '#ui/types'
+import type { Message } from '@ai-sdk/vue'
 import { useClipboard } from '@vueuse/core'
 
 const messages: ChatMessageProps[] = [

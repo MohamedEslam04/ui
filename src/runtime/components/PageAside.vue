@@ -27,14 +27,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'aside' },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageAsideProps>(), {
+  as: 'aside'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageAside || {} })())
+const slots = defineSlots<PageAsideSlots>()
+const appConfig = useAppConfig() as PageAside['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageAside || {} })())
 </script>
 
 <template>

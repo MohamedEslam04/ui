@@ -55,16 +55,9 @@ import { createReusableTemplate } from '@vueuse/core'
 import { useAppConfig } from '#imports'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  prevIcon: { type: String, required: false },
-  nextIcon: { type: String, required: false },
-  surround: { type: Array, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
+const props = defineProps<ContentSurroundProps>()
+defineSlots<ContentSurroundSlots>()
+const appConfig = useAppConfig() as ContentSurround['AppConfig']
 const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate({
   props: {
     link: Object,
@@ -72,7 +65,7 @@ const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate({
     direction: String
   }
 })
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.contentSurround || {} })())
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.contentSurround || {} })())
 </script>
 
 <template>

@@ -82,7 +82,8 @@ import { tv } from '../utils/tv'
 
 // Define typed props and emits
 const props = withDefaults(defineProps<AuthFormProps>(), {
-  separator: 'or'
+  separator: 'or',
+  loading: false
 })
 const emits = defineEmits<AuthFormEmits<any>>()
 const slots = defineSlots<AuthFormSlots>()

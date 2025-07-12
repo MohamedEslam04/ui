@@ -49,20 +49,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  class: { type: null, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  reverse: { type: Boolean, required: false, default: false },
-  variant: { type: null, required: false },
-  links: { type: Array, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageCTAProps>(), {
+  orientation: 'vertical'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageCTA || {} })({
+const slots = defineSlots<PageCTASlots>()
+const appConfig = useAppConfig() as PageCTA['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageCTA || {} })({
   variant: props.variant,
   orientation: props.orientation,
   reverse: props.reverse,

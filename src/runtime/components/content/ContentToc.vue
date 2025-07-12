@@ -11,6 +11,7 @@ export type ContentTocLink = TocLink & {
   class?: any
   ui?: Pick<ContentToc['slots'], 'item' | 'itemWithChildren' | 'link' | 'linkText'>
 }
+
 export interface ContentTocProps<T extends ContentTocLink = ContentTocLink> extends Pick<CollapsibleRootProps, 'defaultOpen' | 'open'> {
   /**
    * The element or component this component should render as.
@@ -45,12 +46,15 @@ export interface ContentTocProps<T extends ContentTocLink = ContentTocLink> exte
   class?: any
   ui?: ContentToc['slots']
 }
+
 export type ContentTocEmits = CollapsibleRootEmits & {
   move: [id: string]
 }
+
 type SlotProps<T> = (props: {
   link: T
 }) => any
+
 export interface ContentTocSlots<T extends ContentTocLink = ContentTocLink> {
   leading(props: {
     open: boolean
@@ -83,46 +87,40 @@ import { useScrollspy } from '../../composables/useScrollspy'
 import { useLocalePro } from '../../composables/useLocalePro'
 import { tv } from '../../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'nav' },
-  trailingIcon: { type: String, required: false },
-  title: { type: String, required: false },
-  color: { type: null, required: false },
-  highlight: { type: Boolean, required: false },
-  highlightColor: { type: null, required: false },
-  links: { type: Array, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false },
-  defaultOpen: { type: Boolean, required: false },
-  open: { type: Boolean, required: false }
+const props = withDefaults(defineProps<ContentTocProps<ContentTocLink>>(), {
+  as: 'nav'
 })
-const emits = defineEmits(['update:open', 'move'])
-const slots = defineSlots()
+const emits = defineEmits<ContentTocEmits>()
+const slots = defineSlots<ContentTocSlots>()
 const rootProps = useForwardPropsEmits(reactivePick(props, 'as', 'open', 'defaultOpen'), emits)
 const { t } = useLocalePro()
 const router = useRouter()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ContentToc['AppConfig']
 const { activeHeadings, updateHeadings } = useScrollspy()
-const [DefineListTemplate, ReuseListTemplate] = createReusableTemplate({
-  props: {
-    links: Array,
-    level: Number
-  }
-})
+
+const [DefineListTemplate, ReuseListTemplate] = createReusableTemplate<{
+  links: ContentTocLink[]
+  level: number
+}>()
+
 const [DefineTriggerTemplate, ReuseTriggerTemplate] = createReusableTemplate()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.contentToc || {} })({
+
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.contentToc || {} })({
   color: props.color,
   highlight: props.highlight,
   highlightColor: props.highlightColor || props.color
 }))
-function scrollToHeading(id) {
+
+function scrollToHeading(id: string) {
   const encodedId = encodeURIComponent(id)
   router.push(`#${encodedId}`)
   emits('move', id)
 }
-function flattenLinks(links) {
-  return links.flatMap(link => [link, ...link.children ? flattenLinks(link.children) : []])
+
+function flattenLinks(links: ContentTocLink[]): ContentTocLink[] {
+  return links.flatMap(link => [link, ...(link.children ? flattenLinks(link.children) : [])])
 }
+
 const indicatorStyle = computed(() => {
   if (!activeHeadings.value?.length) {
     return
@@ -136,11 +134,13 @@ const indicatorStyle = computed(() => {
     '--indicator-position': activeIndex >= 0 ? `${activeIndex * (linkHeight + gapSize)}px` : '0px'
   }
 })
+
 const nuxtApp = useNuxtApp()
 nuxtApp.hooks.hook('page:loading:end', () => {
   const headings = Array.from(document.querySelectorAll('h2, h3'))
   updateHeadings(headings)
 })
+
 nuxtApp.hooks.hook('page:transition:finish', () => {
   const headings = Array.from(document.querySelectorAll('h2, h3'))
   updateHeadings(headings)
@@ -148,11 +148,20 @@ nuxtApp.hooks.hook('page:transition:finish', () => {
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vue/no-template-shadow -->
   <DefineListTemplate v-slot="{ links, level }">
-    <ul :class="level > 0 ? ui.listWithChildren({ class: props.ui?.listWithChildren }) : ui.list({ class: props.ui?.list })">
-      <li v-for="(link, index) in links" :key="index" :class="link.children && link.children.length > 0 ? ui.itemWithChildren({ class: [props.ui?.itemWithChildren, link.ui?.itemWithChildren] }) : ui.item({ class: [props.ui?.item, link.ui?.item] })">
-        <a :href="`#${link.id}`" :class="ui.link({ class: [props.ui?.link, link.ui?.link, link.class], active: activeHeadings.includes(link.id) })" @click.prevent="scrollToHeading(link.id)">
+    <ul
+      :class="level > 0 ? ui.listWithChildren({ class: props.ui?.listWithChildren }) : ui.list({ class: props.ui?.list })"
+    >
+      <li
+        v-for="(link, index) in links"
+        :key="index"
+        :class="link.children && link.children.length > 0 ? ui.itemWithChildren({ class: [props.ui?.itemWithChildren, link.ui?.itemWithChildren] }) : ui.item({ class: [props.ui?.item, link.ui?.item] })"
+      >
+        <a
+          :href="`#${link.id}`"
+          :class="ui.link({ class: [props.ui?.link, link.ui?.link, link.class], active: activeHeadings.includes(link.id) })"
+          @click.prevent="scrollToHeading(link.id)"
+        >
           <slot name="link" :link="link">
             <span :class="ui.linkText({ class: [props.ui?.linkText, link.ui?.linkText] })">
               {{ link.text }}
@@ -174,12 +183,20 @@ nuxtApp.hooks.hook('page:transition:finish', () => {
 
     <span :class="ui.trailing({ class: props.ui?.trailing })">
       <slot name="trailing" :open="open">
-        <UIcon :name="trailingIcon || appConfig.ui.icons.chevronDown" :class="ui.trailingIcon({ class: props.ui?.trailingIcon })" />
+        <UIcon
+          :name="trailingIcon || appConfig.ui.icons.chevronDown"
+          :class="ui.trailingIcon({ class: props.ui?.trailingIcon })"
+        />
       </slot>
     </span>
   </DefineTriggerTemplate>
 
-  <CollapsibleRoot v-slot="{ open }" v-bind="rootProps" :default-open="defaultOpen" :class="ui.root({ class: [props.ui?.root, props.class] })">
+  <CollapsibleRoot
+    v-slot="{ open }"
+    v-bind="rootProps"
+    :default-open="defaultOpen"
+    :class="ui.root({ class: [props.ui?.root, props.class] })"
+  >
     <div :class="ui.container({ class: props.ui?.container })">
       <div v-if="!!slots.top" :class="ui.top({ class: props.ui?.top })">
         <slot name="top" :links="links" />
@@ -211,7 +228,7 @@ nuxtApp.hooks.hook('page:transition:finish', () => {
         </div>
       </template>
 
-      <div v-if="!!slots.bottom" :class="ui.bottom({ class: props.ui?.bottom, body: !!slots.top || !!links?.length })">
+      <div v-if="!!slots.bottom" :class="ui.bottom({ class: props.ui?.bottom })">
         <slot name="bottom" :links="links" />
       </div>
     </div>

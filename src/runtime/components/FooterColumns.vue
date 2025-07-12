@@ -53,15 +53,12 @@ import { pickLinkProps } from '../utils/link'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'nav' },
-  class: { type: null, required: false },
-  columns: { type: Array, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<FooterColumnsProps>(), {
+  as: 'nav'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.footerColumns || {} })())
+const slots = defineSlots<FooterColumnsSlots>()
+const appConfig = useAppConfig() as FooterColumns['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.footerColumns || {} })())
 </script>
 
 <template>

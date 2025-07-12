@@ -1,5 +1,9 @@
 <script lang="ts">
 import theme from '#build/ui/page-body'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../types'
+
+type PageBody = ComponentConfig<typeof theme, AppConfig, 'pageBody'>
 
 export interface PageBodyProps {
   /**
@@ -20,13 +24,10 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  class: { type: null, required: false }
-})
-defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageBody || {} }))
+const props = defineProps<PageBodyProps>()
+defineSlots<PageBodySlots>()
+const appConfig = useAppConfig() as PageBody['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageBody || {} }))
 </script>
 
 <template>

@@ -32,19 +32,17 @@ import { Primitive } from 'reka-ui'
 import { createReusableTemplate } from '@vueuse/core'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
+import UAvatar from './Avatar.vue'
+import UIcon from './Icon.vue'
+import UPageMarquee from './PageMarquee.vue'
 
 const [DefineCreateItemTemplate, ReuseCreateItemTemplate] = createReusableTemplate()
-const props = defineProps({
-  as: { type: null, required: false },
-  title: { type: String, required: false },
-  items: { type: Array, required: false },
-  marquee: { type: [Boolean, Object], required: false, default: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageLogosProps>(), {
+  marquee: false
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageLogos || {} })())
+const slots = defineSlots<PageLogosSlots>()
+const appConfig = useAppConfig() as PageLogos['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageLogos || {} })())
 </script>
 
 <template>

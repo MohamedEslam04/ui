@@ -110,30 +110,13 @@ import { Primitive } from 'reka-ui'
 import { createReusableTemplate } from '@vueuse/core'
 import { useAppConfig } from '#imports'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  badge: { type: null, required: false },
-  billingCycle: { type: String, required: false },
-  billingPeriod: { type: String, required: false },
-  price: { type: String, required: false },
-  discount: { type: String, required: false },
-  features: { type: Array, required: false },
-  button: { type: null, required: false },
-  tagline: { type: String, required: false },
-  terms: { type: String, required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  variant: { type: null, required: false },
-  highlight: { type: Boolean, required: false },
-  scale: { type: Boolean, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PricingPlanProps>(), {
+  orientation: 'vertical'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
+const slots = defineSlots<PricingPlanSlots>()
+const appConfig = useAppConfig() as PricingPlan['AppConfig']
 const [DefinePriceTemplate, ReusePriceTemplate] = createReusableTemplate()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pricingPlan || {} })({
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pricingPlan || {} })({
   orientation: props.orientation,
   variant: props.variant,
   highlight: props.highlight,

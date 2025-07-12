@@ -47,23 +47,13 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false },
-  name: { type: String, required: false },
-  description: { type: String, required: false },
-  avatar: { type: Object, required: false },
-  chip: { type: [Boolean, Object], required: false },
-  size: { type: null, required: false },
-  orientation: { type: null, required: false, default: 'horizontal' },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  onClick: { type: Function, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<UserProps>(), {
+  orientation: 'horizontal'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.user || {} })({
+const slots = defineSlots<UserSlots>()
+const appConfig = useAppConfig() as User['AppConfig']
+
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.user || {} })({
   size: props.size,
   orientation: props.orientation,
   to: !!props.to || !!props.onClick

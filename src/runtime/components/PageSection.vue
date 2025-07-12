@@ -63,22 +63,13 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'section' },
-  headline: { type: String, required: false },
-  icon: { type: String, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  links: { type: Array, required: false },
-  features: { type: Array, required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  reverse: { type: Boolean, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageSectionProps>(), {
+  as: 'section',
+  orientation: 'vertical'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageSection || {} })({
+const slots = defineSlots<PageSectionSlots>()
+const appConfig = useAppConfig() as PageSection['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageSection || {} })({
   orientation: props.orientation,
   reverse: props.reverse,
   title: !!props.title || !!slots.title,

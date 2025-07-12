@@ -42,19 +42,14 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 import UPricingPlan from './PricingPlan.vue'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  plans: { type: Array, required: false },
-  orientation: { type: null, required: false, default: 'horizontal' },
-  compact: { type: Boolean, required: false, default: false },
-  scale: { type: Boolean, required: false, default: false },
-  class: { type: null, required: false }
+const props = withDefaults(defineProps<PricingPlansProps>(), {
+  orientation: 'horizontal'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pricingPlans || {} }))
+const slots = defineSlots<PricingPlansSlots>()
+const appConfig = useAppConfig() as PricingPlans['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pricingPlans || {} }))
 const count = computed(() => props.plans?.length || slots.default?.()?.flatMap(mapSlot).filter(Boolean)?.length || 3)
-function mapSlot(slot) {
+function mapSlot(slot: any) {
   if (typeof slot.type === 'symbol') {
     if (slot.children && Array.isArray(slot.children)) {
       return slot.children.map(mapSlot)

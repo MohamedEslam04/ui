@@ -68,25 +68,12 @@ import { useLocalePro } from '../composables/useLocalePro'
 import { tv } from '../utils/tv'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false },
-  id: { type: String, required: false },
-  icon: { type: String, required: false },
-  title: { type: String, required: false },
-  actions: { type: Array, required: false },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  color: { type: null, required: false },
-  close: { type: [Boolean, Object], required: false },
-  closeIcon: { type: String, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
+const props = defineProps<BannerProps>()
+const slots = defineSlots<BannerSlots>()
 const emits = defineEmits(['close'])
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.banner || {} })({
+const appConfig = useAppConfig() as Banner['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.banner || {} })({
   color: props.color,
   to: !!props.to
 }))

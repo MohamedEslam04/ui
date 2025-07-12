@@ -43,15 +43,12 @@ import { pickLinkProps } from '../utils/link'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false, default: 'nav' },
-  links: { type: Array, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageAnchorsProps>(), {
+  as: 'nav'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageAnchors || {} })())
+const slots = defineSlots<PageAnchorsSlots>()
+const appConfig = useAppConfig() as PageAnchors['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageAnchors || {} })())
 </script>
 
 <template>

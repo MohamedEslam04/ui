@@ -26,14 +26,10 @@ import { Primitive, Slot } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.chatPalette || {} })())
+const props = defineProps<ChatPaletteProps>()
+const slots = defineSlots<ChatPaletteSlots>()
+const appConfig = useAppConfig() as ChatPalette['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.chatPalette || {} })())
 </script>
 
 <template>

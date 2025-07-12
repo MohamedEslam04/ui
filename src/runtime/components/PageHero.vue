@@ -49,20 +49,12 @@ import { Primitive } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  headline: { type: String, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  links: { type: Array, required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  reverse: { type: Boolean, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageHeroProps>(), {
+  orientation: 'vertical'
 })
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageHero || {} })({
+const slots = defineSlots<PageHeroSlots>()
+const appConfig = useAppConfig() as PageHero['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageHero || {} })({
   orientation: props.orientation,
   reverse: props.reverse,
   title: !!props.title || !!slots.title

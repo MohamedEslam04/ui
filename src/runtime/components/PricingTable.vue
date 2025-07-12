@@ -102,31 +102,28 @@ import { useAppConfig } from '#imports'
 import { useLocalePro } from '../composables/useLocalePro'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  caption: { type: String, required: false },
-  tiers: { type: Array, required: true },
-  sections: { type: Array, required: true },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
+const props = defineProps<PricingTableProps>()
+const slots = defineSlots<PricingTableSlots>()
 const { t } = useLocalePro()
-const appConfig = useAppConfig()
-const formatSlotName = (item) => {
+const appConfig = useAppConfig() as PricingTable['AppConfig']
+
+const formatSlotName = (item: { id?: string, title: string }): string => {
   if (item.id) return item.id
   return item.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
 }
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pricingTable || {} })())
+
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pricingTable || {} })())
+
 const [DefineTierTemplate, ReuseTierTemplate] = createReusableTemplate({
   props: {
-    tier: Object
+    tier: Object as () => PricingTableTier
   }
 })
+
 const [DefineFeatureTemplate, ReuseFeatureTemplate] = createReusableTemplate({
   props: {
-    tier: Object,
-    feature: Object
+    tier: Object as () => PricingTableTier,
+    feature: Object as () => PricingTableSectionFeature
   }
 })
 </script>

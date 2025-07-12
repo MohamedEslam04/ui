@@ -27,14 +27,10 @@ import { Primitive, Slot } from 'reka-ui'
 import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
-const props = defineProps({
-  as: { type: null, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
-})
-const slots = defineSlots()
-const appConfig = useAppConfig()
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.page || {} })({
+const props = defineProps<PageProps>()
+const slots = defineSlots<PageSlots>()
+const appConfig = useAppConfig() as Page['AppConfig']
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.page || {} })({
   left: !!slots.left,
   right: !!slots.right
 }))

@@ -74,28 +74,13 @@ import { getSlotChildrenText } from '../utils'
 import { tv } from '../utils/tv'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false },
-  icon: { type: String, required: false },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  orientation: { type: null, required: false, default: 'vertical' },
-  reverse: { type: Boolean, required: false },
-  highlight: { type: Boolean, required: false },
-  highlightColor: { type: null, required: false },
-  spotlight: { type: Boolean, required: false },
-  spotlightColor: { type: null, required: false },
-  variant: { type: null, required: false },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  onClick: { type: Function, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<PageCardProps>(), {
+  orientation: 'vertical'
 })
-const slots = defineSlots()
+const slots = defineSlots<PageCardSlots>()
 const cardRef = ref()
 const motionControl = pausableFilter()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as PageCard['AppConfig']
 const { elementX, elementY } = useMouseInElement(cardRef, {
   eventFilter: motionControl.eventFilter
 })
@@ -107,7 +92,7 @@ watch(() => props.spotlight, (value) => {
     motionControl.pause()
   }
 }, { immediate: true })
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.pageCard || {} })({
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageCard || {} })({
   orientation: props.orientation,
   reverse: props.reverse,
   variant: props.variant,

@@ -62,24 +62,13 @@ import { tv } from '../utils/tv'
 import UUser from './User.vue'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-  as: { type: null, required: false, default: 'article' },
-  title: { type: String, required: false },
-  description: { type: String, required: false },
-  date: { type: [String, Date], required: false },
-  badge: { type: null, required: false },
-  authors: { type: Array, required: false },
-  image: { type: [String, Object], required: false },
-  indicator: { type: Boolean, required: false, default: true },
-  to: { type: null, required: false },
-  target: { type: null, required: false },
-  onClick: { type: Function, required: false },
-  class: { type: null, required: false },
-  ui: { type: null, required: false }
+const props = withDefaults(defineProps<ChangelogVersionProps>(), {
+  as: 'article',
+  indicator: true
 })
-const slots = defineSlots()
+const slots = defineSlots<ChangelogVersionSlots>()
 const { locale } = useLocale()
-const appConfig = useAppConfig()
+const appConfig = useAppConfig() as ChangelogVersion['AppConfig']
 const formatter = useDateFormatter(locale.value.code)
 const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate()
 const [DefineDateTemplate, ReuseDateTemplate] = createReusableTemplate({
@@ -90,7 +79,7 @@ const [DefineDateTemplate, ReuseDateTemplate] = createReusableTemplate({
     }
   }
 })
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.uiPro?.changelogVersion || {} })({
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.changelogVersion || {} })({
   to: !!props.to || !!props.onClick
 }))
 const date = computed(() => {
@@ -144,7 +133,8 @@ const ariaLabel = computed(() => {
   <Primitive :as="as" :class="ui.root({ class: [props.ui?.root, props.class] })" @click="onClick">
     <div v-if="!!props.indicator || !!slots.indicator" :class="ui.indicator({ class: props.ui?.indicator })">
       <slot name="indicator">
-        <ReuseDateTemplate />
+        <!-- <ReuseDateTemplate :hidden="false" /> when used inside the indicator slot -->
+        <ReuseDateTemplate :hidden="!!props.indicator" /> <!-- when used elsewhere -->
 
         <div :class="ui.dot({ class: props.ui?.dot })">
           <div :class="ui.dotInner({ class: props.ui?.dotInner })" />

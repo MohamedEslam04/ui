@@ -9,6 +9,8 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@iconify-json/logos": "^1.2.4",
+    "@iconify-json/vscode-icons": "^1.2.23",
     "@iconify-json/lucide": "^1.2.51",
     "@iconify-json/simple-icons": "^1.2.39",
     "@internationalized/date": "^3.8.2",
