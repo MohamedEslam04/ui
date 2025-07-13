@@ -128,6 +128,7 @@ defineExpose({
         v-for="(item, index) of items"
         :key="index"
         :ref="el => (triggersRef[index] = el as ComponentPublicInstance)"
+        `
         :value="item.value || String(index)"
         :disabled="item.disabled"
         :class="ui.trigger({ class: [props.ui?.trigger, item.ui?.trigger] })"

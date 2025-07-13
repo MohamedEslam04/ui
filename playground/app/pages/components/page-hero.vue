@@ -29,6 +29,6 @@ const links = ref<ButtonProps[]>([
       src="https://ui.nuxt.com/templates/dashboard1.png"
       alt="App screenshot"
       class="rounded-lg shadow-2xl ring ring-default"
-    />
+    >
   </UPageHero>
 </template>
