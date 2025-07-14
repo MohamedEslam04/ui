@@ -1,7 +1,6 @@
 <template>
   <UPageLogos
     title="Trusted by the best front-end teams"
-    marquee
     :items="[
       'i-simple-icons-github',
       'i-simple-icons-discord',

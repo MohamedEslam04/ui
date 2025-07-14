@@ -31,7 +31,9 @@ import { useAppConfig } from '#imports'
 import { tv } from '../utils/tv'
 
 const props = withDefaults(defineProps<PageMarqueeProps>(), {
-  orientation: 'horizontal'
+  orientation: 'horizontal',
+  repeat: 4,
+  overlay: true
 })
 defineSlots<PageMarqueeSlots>()
 const appConfig = useAppConfig() as PageMarquee['AppConfig']
@@ -44,7 +46,7 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.pageMarquee |
 </script>
 
 <template>
-  <Primitive :as="as" :class="ui.root({ class: [props.ui?.root, props.class] })">
+  <Primitive :as="props.as" :class="ui.root({ class: [props.ui?.root, props.class] })">
     <div v-for="i in repeat" :key="i" :class="ui.content({ class: [props.ui?.content] })">
       <slot />
     </div>
