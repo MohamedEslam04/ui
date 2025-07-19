@@ -112,35 +112,24 @@ export type ContentSearchSlots = CommandPaletteSlots<CommandPaletteGroup<Content
 </script>
 
 <script setup lang="ts">
-import {
-  computed,
-  useTemplateRef
-} from 'vue'
-import {
-  useForwardProps,
-  useAppConfig,
-  useColorMode,
-  defineShortcuts
-} from '#imports'
-import {
-  reactivePick,
-  defu
-} from '@vueuse/core'
-import {
-  useContentSearch
-} from '../../composables/useContentSearch'
-import {
-  useLocalePro
-} from '../../composables/useLocalePro'
-import {
-  transformUI,
-  omit
-} from '../../utils'
-import { tv } from '../../utils/tv'
+import { computed, useTemplateRef } from "vue";
+import { useForwardProps } from "reka-ui";
+import { defu } from "defu";
+import { reactivePick } from "@vueuse/core";
+import { omit } from "@nuxt/ui/utils";
+import { useAppConfig, useColorMode, defineShortcuts } from "#imports";
+import { useContentSearch } from "../../composables/useContentSearch";
+import { useLocalePro } from "../../composables/useLocalePro";
+import { transformUI } from "../../utils";
+import { tv } from "../../utils/tv";
 import UModal from '../Modal.vue'
 import UCommandPalette from '../CommandPalette.vue'
 
-const props = defineProps<ContentSearchProps>()
+const props = withDefaults(defineProps<ContentSearchProps>(), {
+  close: true,
+  shortcut: 'meta_k',
+  colorMode: true
+})
 const slots = defineSlots<ContentSearchSlots>()
 const searchTerm = defineModel('searchTerm', { type: String, default: '' })
 
@@ -186,14 +175,20 @@ function mapLinksItems(links: ContentSearchLink[]) {
   ])
 }
 
-function mapNavigationItems(children: ContentNavigationItem[], parent?: ContentNavigationItem) {
-  return children.flatMap(link =>
-    link.children?.length
-      ? mapNavigationItems(link.children, link)
-      : props.files?.filter(file => file.id === link.path || file.id.startsWith(`${link.path}#`))
-        ?.map(file => mapFile(file, link, parent)) || []
-  )
+function mapNavigationItems(
+  children: ContentNavigationItem[],
+  parent: ContentNavigationItem
+): ContentSearchItem[] {
+  return children.flatMap(link => {
+    if (link.children?.length) {
+      return mapNavigationItems(link.children, link);
+    }
+    return props.files?.filter((file) =>
+      file.id === link.path || file.id.startsWith(`${link.path}#`)
+    )?.map((file) => mapFile(file, link, parent)) || [];
+  });
 }
+
 
 function mapFile(file: ContentSearchFile, link: ContentNavigationItem, parent?: ContentNavigationItem) {
   const prefix = [...new Set([parent?.title, ...file.titles].filter(Boolean))].join(' > ')
@@ -207,15 +202,69 @@ function mapFile(file: ContentSearchFile, link: ContentNavigationItem, parent?: 
   }
 }
 
+const groups = computed(() => {
+  const groups2 = [];
+  if (props.links?.length) {
+    groups2.push({ id: "links", label: t("contentSearch.links"), items: mapLinksItems(props.links) });
+  }
+  if (props.navigation?.length) {
+    if (props.navigation.some((link) => !!link.children?.length)) {
+      groups2.push(...props.navigation.map((group) => ({
+        id: group.path,
+        label: group.title,
+        items: mapNavigationItems(group.children || [], group),
+        postFilter
+      })))
+    } else {
+      groups2.push({
+        id: "docs",
+        items: mapNavigationItems(props.navigation, { title: '', path: '', children: [] }),
+        postFilter
+      })
+    }
+  }
+  groups2.push(...props.groups || []);
+  if (props.colorMode && !colorMode?.forced) {
+    groups2.push({
+      id: "theme",
+      label: t("contentSearch.theme"),
+      items: [{
+        label: t("colorMode.system"),
+        icon: appConfig.ui.icons.system,
+        active: colorMode.preference === "system",
+        onSelect: () => {
+          colorMode.preference = "system";
+        }
+      }, {
+        label: t("colorMode.light"),
+        icon: appConfig.ui.icons.light,
+        active: colorMode.preference === "light",
+        onSelect: () => {
+          colorMode.preference = "light";
+        }
+      }, {
+        label: t("colorMode.dark"),
+        icon: appConfig.ui.icons.dark,
+        active: colorMode.preference === "dark",
+        onSelect: () => {
+          colorMode.preference = "dark";
+        }
+      }]
+    });
+  }
+  return groups2;
+});
+
 function postFilter(query: string, items: ContentSearchItem[]) {
   return query ? items : items?.filter(item => item.level === 1)
 }
 
 function onSelect(item: ContentSearchItem) {
-  if (!item.disabled) {
-    open.value = false
-    searchTerm.value = ''
+  if (item.disabled) {
+    return;
   }
+  open.value = false;
+  searchTerm.value = "";
 }
 
 defineShortcuts({
@@ -225,67 +274,18 @@ defineShortcuts({
   }
 })
 
-const groups = computed(() => {
-  const result: CommandPaletteGroup<ContentSearchItem>[] = []
-
-  if (props.links?.length) {
-    result.push({ id: 'links', label: t('contentSearch.links'), items: mapLinksItems(props.links) })
-  }
-
-  if (props.navigation?.length) {
-    if (props.navigation.some(link => link.children?.length)) {
-      result.push(...props.navigation.map(group => ({
-        id: group.path,
-        label: group.title,
-        items: mapNavigationItems(group.children || []),
-        postFilter
-      })))
-    } else {
-      result.push({ id: 'docs', items: mapNavigationItems(props.navigation), postFilter })
-    }
-  }
-
-  if (props.groups?.length) result.push(...props.groups)
-
-  if (props.colorMode && !colorMode?.forced) {
-    result.push({
-      id: 'theme',
-      label: t('contentSearch.theme'),
-      items: ['system', 'light', 'dark'].map(mode => ({
-        label: t(`colorMode.${mode}`),
-        icon: appConfig.ui.icons[mode],
-        active: colorMode.preference === mode,
-        onSelect: () => { colorMode.preference = mode as any }
-      }))
-    })
-  }
-
-  return result
-})
-
 const commandPaletteRef = useTemplateRef('commandPaletteRef')
 defineExpose({ commandPaletteRef })
 </script>
 
 <template>
-  <UModal
-    v-model:open="open"
-    :title="t('contentSearch.title')"
-    :description="t('contentSearch.description')"
-    :class="ui.modal({ class: props.class })"
-  >
+  <UModal v-model:open="open" :title="t('contentSearch.title')" :description="t('contentSearch.description')"
+    :class="ui.modal({ class: props.class })">
     <template #content>
       <slot name="content">
-        <UCommandPalette
-          ref="commandPaletteRef"
-          v-model:search-term="searchTerm"
-          v-bind="commandPaletteProps"
-          :groups="groups"
-          :fuse="fuse"
-          :ui="transformUI(omit(ui, ['modal']), props.ui)"
-          @update:model-value="onSelect"
-          @update:open="open = $event"
-        >
+        <UCommandPalette ref="commandPaletteRef" v-model:search-term="searchTerm" v-bind="commandPaletteProps"
+          :groups="groups" :fuse="fuse" :ui="transformUI(omit(ui, ['modal']), props.ui)" @update:model-value="onSelect"
+          @update:open="open = $event">
           <template v-for="(_, name) in proxySlots" #[name]="slotData">
             <slot :name="name" v-bind="slotData" />
           </template>

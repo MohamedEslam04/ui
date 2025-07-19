@@ -1,20 +1,20 @@
 <script lang="ts">
-import type { ButtonProps } from '../types'
+import type { ButtonProps, ComponentConfig } from '../types'
 import theme from '#build/ui/dashboard-sidebar-toggle'
+import type { AppConfig } from '@nuxt/schema'
 
-export interface DashboardSidebarToggleProps extends
-  /** @vue-ignore */
-  Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
-  side?: 'left' | 'right'
+export type DashboardSidebarToggle = ComponentConfig<typeof theme, AppConfig, 'dashboardSidebarToggle'>
+export interface DashboardSidebarToggleProps extends /** @vue-ignore */ Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
+  side?: 'left' | 'right';
   /**
    * @defaultValue 'neutral'
    */
-  color?: ButtonProps['color']
+  color?: ButtonProps['color'];
   /**
    * @defaultValue 'ghost'
    */
-  variant?: ButtonProps['variant']
-  class?: any
+  variant?: ButtonProps['variant'];
+  class?: any;
 }
 </script>
 
@@ -28,10 +28,14 @@ import { useDashboard } from '../utils/dashboard'
 import { tv } from '../utils/tv'
 
 // define props
-const props = defineProps<DashboardSidebarToggleProps>()
+const props = withDefaults(defineProps<DashboardSidebarToggleProps>(), {
+  side: 'left',
+  color: 'neutral',
+  variant: 'ghost'
+})
 
 // forward base props to UButton
-const rootProps = useForwardProps(reactivePick(props, 'color', 'variant', 'size', 'as', 'disabled', 'ui'))
+const rootProps = useForwardProps(reactivePick(props, 'color', 'variant', 'size'))
 
 // localization + dashboard toggle state
 const { t } = useLocalePro()
@@ -39,21 +43,12 @@ const appConfig = useAppConfig() as DashboardSidebarToggle['AppConfig']
 const { sidebarOpen, toggleSidebar } = useDashboard()
 
 // handle theme merge
-const ui = computed(() => {
-  const baseTheme = typeof theme === 'string' ? { base: theme } : theme
-  return tv({
-    extend: tv(baseTheme),
-    ...appConfig.ui?.dashboardSidebarToggle
-  })
-})
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardSidebarToggle || {} }));
 </script>
 
 <template>
-  <UButton
-    v-bind="rootProps"
+  <UButton v-bind="rootProps"
     :aria-label="sidebarOpen ? t('dashboardSidebarToggle.close') : t('dashboardSidebarToggle.open')"
     :icon="sidebarOpen ? appConfig.ui.icons.close : appConfig.ui.icons.menu"
-    :class="typeof ui === 'function' ? ui({ class: props.class, side: props.side }) : ui"
-    @click="toggleSidebar"
-  />
+    :class="ui({ class: props.class, side: props.side })" @click="toggleSidebar" />
 </template>

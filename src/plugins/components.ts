@@ -47,7 +47,7 @@ export default function ComponentImportPlugin(options: NuxtUIOptions & { prefix:
      * <UIcon> and <ULink> currently.
      */
     {
-      name: 'nuxt:ui:components',
+      name: 'eslamdevui:ui:components',
       enforce: 'pre',
       resolveId(id, importer) {
         // only apply to runtime nuxt ui components

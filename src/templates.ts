@@ -198,15 +198,15 @@ export function getTemplates(options: ModuleOptions, uiConfig: Record<string, an
         exports.push(`export { default as ${component} } from './${kebabCase(component)}'`)
       }
 
-      // Export content theme components
-      for (const component of Object.keys(contentTheme)) {
-        exports.push(`export { default as ${component} } from './content/${kebabCase(component)}'`)
-      }
+      // // Export content theme components
+      // for (const component of Object.keys(contentTheme)) {
+      //   exports.push(`export { default as ${component} } from './content/${kebabCase(component)}'`)
+      // }
 
-      // Export prose theme components
-      for (const component of Object.keys(proseTheme)) {
-        exports.push(`export { default as ${component} } from './prose/${kebabCase(component)}'`)
-      }
+      // // Export prose theme components
+      // for (const component of Object.keys(proseTheme)) {
+      //   exports.push(`export { default as ${component} } from './prose/${kebabCase(component)}'`)
+      // }
 
       return exports.join('\n')
     }

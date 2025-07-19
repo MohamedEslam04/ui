@@ -1,11 +1,12 @@
-import { defu } from 'defu'
-import { createResolver, defineNuxtModule, addComponentsDir, addImportsDir, addVitePlugin, addPlugin, installModule, hasNuxtModule } from '@nuxt/kit'
-import { addTemplates } from './templates'
-import { defaultOptions, getDefaultUiConfig, resolveColors } from './defaults'
-import { name, version } from '../package.json'
-import type { HookResult } from '@nuxt/schema'
+import { addComponentsDir, addImportsDir, addPlugin, addVitePlugin, createResolver, defineNuxtModule, hasNuxtModule, installModule } from '@nuxt/kit';
+import type { HookResult } from '@nuxt/schema';
+import * as _nuxt_schema from '@nuxt/schema';
+import { defu } from 'defu';
+import { name, version } from '../package.json';
+import { defaultOptions, getDefaultUiConfig, resolveColors } from './defaults';
+import { addTemplates } from './templates';
 
-export type * from './runtime/types'
+export type * from './runtime/types';
 
 export interface ModuleOptions {
   /**
@@ -68,6 +69,48 @@ declare module '#app' {
     'dashboard:sidebar:collapse': (value: boolean) => HookResult
   }
 }
+
+
+// Create a helper function to generate component mappings
+function generateProseComponentMap(components: string[]): Record<string, string> {
+  return components.reduce((map, component) => {
+    // Convert kebab-case to PascalCase
+    const pascalCase = component
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+
+    map[component] = `Prose${pascalCase}`
+    return map
+  }, {} as Record<string, string>)
+}
+
+// Define the prose components
+const proseComponents = [
+  'accordion',
+  'accordion-item',
+  'badge',
+  'callout',
+  'card',
+  'card-group',
+  'caution',
+  'code-collapse',
+  'code-group',
+  'code-icon',
+  'code-preview',
+  'code-tree',
+  'collapsible',
+  'field',
+  'field-group',
+  'icon',
+  'kbd',
+  'note',
+  'steps',
+  'tabs',
+  'tabs-item',
+  'tip',
+  'warning'
+]
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -148,7 +191,7 @@ export default defineNuxtModule<ModuleOptions>({
       || hasNuxtModule('@nuxt/content')
       || options.content
     ) {
-      nuxt.options.mdc = defu(options.mdc, {
+      (nuxt.options as any).mdc = defu((nuxt.options as any).mdc, {
         highlight: {
           theme: {
             light: 'material-theme-lighter',
@@ -157,31 +200,7 @@ export default defineNuxtModule<ModuleOptions>({
           }
         },
         components: {
-          map: {
-            'accordion': 'ProseAccordion',
-            'accordion-item': 'ProseAccordionItem',
-            'badge': 'ProseBadge',
-            'callout': 'ProseCallout',
-            'card': 'ProseCard',
-            'card-group': 'ProseCardGroup',
-            'caution': 'ProseCaution',
-            'code-collapse': 'ProseCodeCollapse',
-            'code-group': 'ProseCodeGroup',
-            'code-icon': 'ProseCodeIcon',
-            'code-preview': 'ProseCodePreview',
-            'code-tree': 'ProseCodeTree',
-            'collapsible': 'ProseCollapsible',
-            'field': 'ProseField',
-            'field-group': 'ProseFieldGroup',
-            'icon': 'ProseIcon',
-            'kbd': 'ProseKbd',
-            'note': 'ProseNote',
-            'steps': 'ProseSteps',
-            'tabs': 'ProseTabs',
-            'tabs-item': 'ProseTabsItem',
-            'tip': 'ProseTip',
-            'warning': 'ProseWarning'
-          }
+          map: generateProseComponentMap(proseComponents)
         }
       })
     }

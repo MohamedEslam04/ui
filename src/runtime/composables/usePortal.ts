@@ -1,7 +1,7 @@
 import { inject, provide, computed } from 'vue'
 import type { Ref, InjectionKey } from 'vue'
 
-export const portalTargetInjectionKey: InjectionKey<Ref<string | HTMLElement>> = Symbol('nuxt-ui.portal-target')
+export const portalTargetInjectionKey: InjectionKey<Ref<string | HTMLElement>> = Symbol('eslamdevui-ui.portal-target')
 
 export function usePortal(portal: Ref<string | HTMLElement | boolean | undefined>) {
   const portalTarget = inject(portalTargetInjectionKey, undefined)

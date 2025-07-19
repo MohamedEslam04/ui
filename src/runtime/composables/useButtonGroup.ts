@@ -6,7 +6,7 @@ import type { GetObjectField } from '../types/utils'
 export const buttonGroupInjectionKey: InjectionKey<ComputedRef<{
   size: ButtonGroupProps['size']
   orientation: ButtonGroupProps['orientation']
-}>> = Symbol('nuxt-ui.button-group')
+}>> = Symbol('eslamdevui-ui.button-group')
 
 type Props<T> = {
   size?: GetObjectField<T, 'size'>

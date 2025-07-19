@@ -2,7 +2,7 @@ import { inject, provide, computed } from 'vue'
 import type { ComputedRef, InjectionKey } from 'vue'
 import type { AvatarGroupProps } from '../types'
 
-export const avatarGroupInjectionKey: InjectionKey<ComputedRef<{ size: AvatarGroupProps['size'] }>> = Symbol('nuxt-ui.avatar-group')
+export const avatarGroupInjectionKey: InjectionKey<ComputedRef<{ size: AvatarGroupProps['size'] }>> = Symbol('eslamdevui-ui.avatar-group')
 
 export function useAvatarGroup(props: { size: AvatarGroupProps['size'] }) {
   const avatarGroup = inject(avatarGroupInjectionKey, undefined)

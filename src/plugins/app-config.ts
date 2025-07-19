@@ -8,14 +8,14 @@ import type { NuxtUIOptions } from '../unplugin'
  */
 export default function AppConfigPlugin(options: NuxtUIOptions & { theme: NonNullable<NuxtUIOptions['theme']> }, appConfig: Record<string, any>) {
   return {
-    name: 'nuxt:ui:app-config',
+    name: 'eslamdevui:ui:app-config',
     enforce: 'pre',
     resolveId(id) {
       if (id === '#build/app.config') {
-        return 'virtual:nuxt-ui-app-config'
+        return 'virtual:eslamdevui-ui-app-config'
       }
     },
-    loadInclude: id => id === 'virtual:nuxt-ui-app-config',
+    loadInclude: id => id === 'virtual:eslamdevui-ui-app-config',
     load() {
       return `
           export default ${JSON.stringify(appConfig!)}

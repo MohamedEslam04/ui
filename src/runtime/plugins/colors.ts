@@ -44,7 +44,7 @@ export default defineNuxtPlugin(() => {
     style: [{
       innerHTML: () => root.value,
       tagPriority: -2,
-      id: 'nuxt-ui-colors'
+      id: 'eslamdevui-ui-colors'
     }]
   }
 
@@ -53,11 +53,11 @@ export default defineNuxtPlugin(() => {
     const style = document.createElement('style')
 
     style.innerHTML = root.value
-    style.setAttribute('data-nuxt-ui-colors', '')
+    style.setAttribute('data-eslamdevui-ui-colors', '')
     document.head.appendChild(style)
 
     headData.script = [{
-      innerHTML: 'document.head.removeChild(document.querySelector(\'[data-nuxt-ui-colors]\'))'
+      innerHTML: 'document.head.removeChild(document.querySelector(\'[data-eslamdevui-ui-colors]\'))'
     }]
   }
 

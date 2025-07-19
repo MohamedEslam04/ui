@@ -75,7 +75,7 @@ export const NuxtUIPlugin = createUnplugin<NuxtUIOptions | undefined>((_options 
     TemplatePlugin(options, appConfig),
     AppConfigPlugin(options, appConfig),
     <UnpluginOptions>{
-      name: 'nuxt:ui:plugins-duplication-detection',
+      name: 'eslamdevui:ui:plugins-duplication-detection',
       vite: {
         configResolved(config) {
           const plugins = config.plugins || []

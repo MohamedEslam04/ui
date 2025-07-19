@@ -13,7 +13,7 @@ export default function NuxtEnvironmentPlugin(options: NuxtUIOptions) {
   const stubPath = resolvePathSync(options.inertia ? '../runtime/inertia/stubs' : '../runtime/vue/stubs', { extensions: ['.ts', '.mjs', '.js'], url: import.meta.url })
 
   return {
-    name: 'nuxt:ui',
+    name: 'eslamdevui:ui',
     enforce: 'pre',
     resolveId(id) {
       // this is implemented here rather than in a vite `config` hook for cross-builder support
