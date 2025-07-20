@@ -1,8 +1,8 @@
 {
   "name": "@eslamdevui/ui",
   "description": "A UI Library for Modern Web Apps, powered by Vue & Tailwind CSS.",
-  "version": "3.2.2",
-  "packageManager": "pnpm@10.12.2",
+  "version": "3.3.2",
+  "packageManager": "pnpm@10.13.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MohamedEslam04/ui.git"
