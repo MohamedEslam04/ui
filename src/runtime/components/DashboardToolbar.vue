@@ -1,35 +1,35 @@
 <script lang="ts">
-import theme from "#build/ui/dashboard-toolbar";
-import type { AppConfig } from '@nuxt/schema';
-import type { ComponentConfig } from "../types";
+import theme from '#build/ui/dashboard-toolbar'
+import type { AppConfig } from '@nuxt/schema'
+import type { ComponentConfig } from '../types'
 
-type DashboardToolbar = ComponentConfig<typeof theme, AppConfig, 'dashboardToolbar'>;
+type DashboardToolbar = ComponentConfig<typeof theme, AppConfig, 'dashboardToolbar'>
 export interface DashboardToolbarProps {
   /**
    * The element or component this component should render as.
    * @defaultValue 'div'
    */
-  as?: any;
-  class?: any;
-  ui?: DashboardToolbar['slots'];
+  as?: any
+  class?: any
+  ui?: DashboardToolbar['slots']
 }
 export interface DashboardToolbarSlots {
-  default(props?: {}): any;
-  left(props?: {}): any;
-  right(props?: {}): any;
+  default(props?: {}): any
+  left(props?: {}): any
+  right(props?: {}): any
 }
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Primitive } from "reka-ui";
-import { useAppConfig } from "#imports";
-import { tv } from "../utils/tv";
+import { computed } from 'vue'
+import { Primitive } from 'reka-ui'
+import { useAppConfig } from '#imports'
+import { tv } from '../utils/tv'
 
-const props = defineProps<DashboardToolbarProps>();
-defineSlots<DashboardToolbarSlots>();
+const props = defineProps<DashboardToolbarProps>()
+defineSlots<DashboardToolbarSlots>()
 const appConfig = useAppConfig() as DashboardToolbar['AppConfig']
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardToolbar || {} })());
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardToolbar || {} })())
 </script>
 
 <template>

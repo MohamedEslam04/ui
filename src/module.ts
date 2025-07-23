@@ -1,12 +1,12 @@
-import { addComponentsDir, addImportsDir, addPlugin, addVitePlugin, createResolver, defineNuxtModule, hasNuxtModule, installModule } from '@nuxt/kit';
-import type { HookResult } from '@nuxt/schema';
-import * as _nuxt_schema from '@nuxt/schema';
-import { defu } from 'defu';
-import { name, version } from '../package.json';
-import { defaultOptions, getDefaultUiConfig, resolveColors } from './defaults';
-import { addTemplates } from './templates';
+import { addComponentsDir, addImportsDir, addPlugin, addVitePlugin, createResolver, defineNuxtModule, hasNuxtModule, installModule } from '@nuxt/kit'
+import type { HookResult } from '@nuxt/schema'
+import * as _nuxt_schema from '@nuxt/schema'
+import { defu } from 'defu'
+import { name, version } from '../package.json'
+import { defaultOptions, getDefaultUiConfig, resolveColors } from './defaults'
+import { addTemplates } from './templates'
 
-export type * from './runtime/types';
+export type * from './runtime/types'
 
 export interface ModuleOptions {
   /**
@@ -69,7 +69,6 @@ declare module '#app' {
     'dashboard:sidebar:collapse': (value: boolean) => HookResult
   }
 }
-
 
 // Create a helper function to generate component mappings
 function generateProseComponentMap(components: string[]): Record<string, string> {

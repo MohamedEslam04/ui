@@ -5,16 +5,16 @@ import type { AppConfig } from '@nuxt/schema'
 
 export type DashboardSidebarToggle = ComponentConfig<typeof theme, AppConfig, 'dashboardSidebarToggle'>
 export interface DashboardSidebarToggleProps extends /** @vue-ignore */ Pick<ButtonProps, 'as' | 'size' | 'disabled' | 'ui'> {
-  side?: 'left' | 'right';
+  side?: 'left' | 'right'
   /**
    * @defaultValue 'neutral'
    */
-  color?: ButtonProps['color'];
+  color?: ButtonProps['color']
   /**
    * @defaultValue 'ghost'
    */
-  variant?: ButtonProps['variant'];
-  class?: any;
+  variant?: ButtonProps['variant']
+  class?: any
 }
 </script>
 
@@ -43,12 +43,15 @@ const appConfig = useAppConfig() as DashboardSidebarToggle['AppConfig']
 const { sidebarOpen, toggleSidebar } = useDashboard()
 
 // handle theme merge
-const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardSidebarToggle || {} }));
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.dashboardSidebarToggle || {} }))
 </script>
 
 <template>
-  <UButton v-bind="rootProps"
+  <UButton
+    v-bind="rootProps"
     :aria-label="sidebarOpen ? t('dashboardSidebarToggle.close') : t('dashboardSidebarToggle.open')"
     :icon="sidebarOpen ? appConfig.ui.icons.close : appConfig.ui.icons.menu"
-    :class="ui({ class: props.class, side: props.side })" @click="toggleSidebar" />
+    :class="ui({ class: props.class, side: props.side })"
+    @click="toggleSidebar"
+  />
 </template>

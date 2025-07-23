@@ -112,16 +112,16 @@ export type ContentSearchSlots = CommandPaletteSlots<CommandPaletteGroup<Content
 </script>
 
 <script setup lang="ts">
-import { computed, useTemplateRef } from "vue";
-import { useForwardProps } from "reka-ui";
-import { defu } from "defu";
-import { reactivePick } from "@vueuse/core";
-import { omit } from "@nuxt/ui/utils";
-import { useAppConfig, useColorMode, defineShortcuts } from "#imports";
-import { useContentSearch } from "../../composables/useContentSearch";
-import { useLocalePro } from "../../composables/useLocalePro";
-import { transformUI } from "../../utils";
-import { tv } from "../../utils/tv";
+import { computed, useTemplateRef } from 'vue'
+import { useForwardProps } from 'reka-ui'
+import { defu } from 'defu'
+import { reactivePick } from '@vueuse/core'
+import { omit } from '@nuxt/ui/utils'
+import { useAppConfig, useColorMode, defineShortcuts } from '#imports'
+import { useContentSearch } from '../../composables/useContentSearch'
+import { useLocalePro } from '../../composables/useLocalePro'
+import { transformUI } from '../../utils'
+import { tv } from '../../utils/tv'
 import UModal from '../Modal.vue'
 import UCommandPalette from '../CommandPalette.vue'
 
@@ -179,16 +179,15 @@ function mapNavigationItems(
   children: ContentNavigationItem[],
   parent: ContentNavigationItem
 ): ContentSearchItem[] {
-  return children.flatMap(link => {
+  return children.flatMap((link) => {
     if (link.children?.length) {
-      return mapNavigationItems(link.children, link);
+      return mapNavigationItems(link.children, link)
     }
-    return props.files?.filter((file) =>
+    return props.files?.filter(file =>
       file.id === link.path || file.id.startsWith(`${link.path}#`)
-    )?.map((file) => mapFile(file, link, parent)) || [];
-  });
+    )?.map(file => mapFile(file, link, parent)) || []
+  })
 }
-
 
 function mapFile(file: ContentSearchFile, link: ContentNavigationItem, parent?: ContentNavigationItem) {
   const prefix = [...new Set([parent?.title, ...file.titles].filter(Boolean))].join(' > ')
@@ -203,13 +202,13 @@ function mapFile(file: ContentSearchFile, link: ContentNavigationItem, parent?: 
 }
 
 const groups = computed(() => {
-  const groups2 = [];
+  const groups2 = []
   if (props.links?.length) {
-    groups2.push({ id: "links", label: t("contentSearch.links"), items: mapLinksItems(props.links) });
+    groups2.push({ id: 'links', label: t('contentSearch.links'), items: mapLinksItems(props.links) })
   }
   if (props.navigation?.length) {
-    if (props.navigation.some((link) => !!link.children?.length)) {
-      groups2.push(...props.navigation.map((group) => ({
+    if (props.navigation.some(link => !!link.children?.length)) {
+      groups2.push(...props.navigation.map(group => ({
         id: group.path,
         label: group.title,
         items: mapNavigationItems(group.children || [], group),
@@ -217,43 +216,43 @@ const groups = computed(() => {
       })))
     } else {
       groups2.push({
-        id: "docs",
+        id: 'docs',
         items: mapNavigationItems(props.navigation, { title: '', path: '', children: [] }),
         postFilter
       })
     }
   }
-  groups2.push(...props.groups || []);
+  groups2.push(...props.groups || [])
   if (props.colorMode && !colorMode?.forced) {
     groups2.push({
-      id: "theme",
-      label: t("contentSearch.theme"),
+      id: 'theme',
+      label: t('contentSearch.theme'),
       items: [{
-        label: t("colorMode.system"),
+        label: t('colorMode.system'),
         icon: appConfig.ui.icons.system,
-        active: colorMode.preference === "system",
+        active: colorMode.preference === 'system',
         onSelect: () => {
-          colorMode.preference = "system";
+          colorMode.preference = 'system'
         }
       }, {
-        label: t("colorMode.light"),
+        label: t('colorMode.light'),
         icon: appConfig.ui.icons.light,
-        active: colorMode.preference === "light",
+        active: colorMode.preference === 'light',
         onSelect: () => {
-          colorMode.preference = "light";
+          colorMode.preference = 'light'
         }
       }, {
-        label: t("colorMode.dark"),
+        label: t('colorMode.dark'),
         icon: appConfig.ui.icons.dark,
-        active: colorMode.preference === "dark",
+        active: colorMode.preference === 'dark',
         onSelect: () => {
-          colorMode.preference = "dark";
+          colorMode.preference = 'dark'
         }
       }]
-    });
+    })
   }
-  return groups2;
-});
+  return groups2
+})
 
 function postFilter(query: string, items: ContentSearchItem[]) {
   return query ? items : items?.filter(item => item.level === 1)
@@ -261,10 +260,10 @@ function postFilter(query: string, items: ContentSearchItem[]) {
 
 function onSelect(item: ContentSearchItem) {
   if (item.disabled) {
-    return;
+    return
   }
-  open.value = false;
-  searchTerm.value = "";
+  open.value = false
+  searchTerm.value = ''
 }
 
 defineShortcuts({
@@ -279,13 +278,24 @@ defineExpose({ commandPaletteRef })
 </script>
 
 <template>
-  <UModal v-model:open="open" :title="t('contentSearch.title')" :description="t('contentSearch.description')"
-    :class="ui.modal({ class: props.class })">
+  <UModal
+    v-model:open="open"
+    :title="t('contentSearch.title')"
+    :description="t('contentSearch.description')"
+    :class="ui.modal({ class: props.class })"
+  >
     <template #content>
       <slot name="content">
-        <UCommandPalette ref="commandPaletteRef" v-model:search-term="searchTerm" v-bind="commandPaletteProps"
-          :groups="groups" :fuse="fuse" :ui="transformUI(omit(ui, ['modal']), props.ui)" @update:model-value="onSelect"
-          @update:open="open = $event">
+        <UCommandPalette
+          ref="commandPaletteRef"
+          v-model:search-term="searchTerm"
+          v-bind="commandPaletteProps"
+          :groups="groups"
+          :fuse="fuse"
+          :ui="transformUI(omit(ui, ['modal']), props.ui)"
+          @update:model-value="onSelect"
+          @update:open="open = $event"
+        >
           <template v-for="(_, name) in proxySlots" #[name]="slotData">
             <slot :name="name" v-bind="slotData" />
           </template>

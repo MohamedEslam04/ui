@@ -104,23 +104,43 @@ const testimonials = [
 
 <template>
   <div class="flex flex-col gap-4 w-full">
-    <UPageMarquee pause-on-hover :overlay="true" :repeat="2"
-      :ui="{ root: '[--gap:--spacing(4)]', content: 'w-auto py-1' }">
-      <UPageCard v-for="(testimonial, index) in testimonials" :key="index" variant="subtle"
-        :description="testimonial.quote" :ui="{
+    <UPageMarquee
+      pause-on-hover
+      :overlay="true"
+      :repeat="2"
+      :ui="{ root: '[--gap:--spacing(4)]', content: 'w-auto py-1' }"
+    >
+      <UPageCard
+        v-for="(testimonial, index) in testimonials"
+        :key="index"
+        variant="subtle"
+        :description="testimonial.quote"
+        :ui="{
           description: 'before:content-[open-quote] after:content-[close-quote] line-clamp-3'
-        }" class="w-64 shrink-0">
+        }"
+        class="w-64 shrink-0"
+      >
         <template #footer>
           <UUser v-bind="testimonial.user" size="xl" :ui="{ description: 'line-clamp-1' }" />
         </template>
       </UPageCard>
     </UPageMarquee>
-    <UPageMarquee pause-on-hover reverse :overlay="false"
-      :ui="{ root: '[--gap:--spacing(4)]', content: 'w-auto py-1' }">
-      <UPageCard v-for="(testimonial, index) in testimonials" :key="index" variant="subtle"
-        :description="testimonial.quote" :ui="{
+    <UPageMarquee
+      pause-on-hover
+      reverse
+      :overlay="false"
+      :ui="{ root: '[--gap:--spacing(4)]', content: 'w-auto py-1' }"
+    >
+      <UPageCard
+        v-for="(testimonial, index) in testimonials"
+        :key="index"
+        variant="subtle"
+        :description="testimonial.quote"
+        :ui="{
           description: 'before:content-[open-quote] after:content-[close-quote] line-clamp-3'
-        }" class="w-64 shrink-0">
+        }"
+        class="w-64 shrink-0"
+      >
         <template #footer>
           <UUser v-bind="testimonial.user" size="xl" :ui="{ description: 'line-clamp-1' }" />
         </template>
