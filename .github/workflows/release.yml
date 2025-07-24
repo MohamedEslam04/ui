@@ -2,8 +2,8 @@ name: release
 
 on:
   push:
-    tags:
-      - 'v3*'
+    branches:
+      - eslam/main
 
 jobs:
   publish:
@@ -15,7 +15,7 @@ jobs:
         node: [22]
 
     env:
-      NUXT_GITHUB_TOKEN: ${{ secrets.NUXT_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout

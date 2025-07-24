@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import type { Reactive } from 'vue'
-import { mountSuspended } from '@eslamdevui/test-utils/runtime'
+import { mountSuspended } from '@nuxt/test-utils/runtime'
 import type { FormProps } from '../../src/runtime/components/Form.vue'
 import {
   UForm,
