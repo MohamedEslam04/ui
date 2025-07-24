@@ -86,6 +86,17 @@ export function isArrayOfArray<A>(item: A[] | A[][]): item is A[][] {
   return Array.isArray(item[0])
 }
 
+export function mergeClasses(appConfigClass?: string | string[], propClass?: string) {
+  if (!appConfigClass && !propClass) {
+    return ''
+  }
+
+  return [
+    ...(Array.isArray(appConfigClass) ? appConfigClass : [appConfigClass]),
+    propClass
+  ].filter(Boolean)
+}
+
 // Recursively extracts text from slot children
 export function getSlotChildrenText(children: any): string {
   if (!children) return ''

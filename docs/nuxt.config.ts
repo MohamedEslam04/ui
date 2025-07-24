@@ -143,10 +143,6 @@ export default defineNuxtConfig({
     '/releases': { redirect: 'https://github.com/MohamedEslam04/ui/releases', prerender: false }
   },
 
-  future: {
-    compatibilityVersion: 4
-  },
-
   compatibilityDate: '2024-07-09',
 
   nitro: {
