@@ -35,6 +35,8 @@ const components = [
   'context-menu',
   'drawer',
   'dropdown-menu',
+  'file-upload',
+  'form',
   'form-field',
   'form',
   'input-menu',
