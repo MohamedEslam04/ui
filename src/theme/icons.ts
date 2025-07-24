@@ -30,7 +30,6 @@ export default {
   error: 'i-lucide-circle-x',
   eye: 'i-lucide-eye',
   eyeOff: 'i-lucide-eye-off',
-  file: 'i-lucide-file-text',
   hash: 'i-lucide-hash',
   info: 'i-lucide-info',
   light: 'i-lucide-sun',
