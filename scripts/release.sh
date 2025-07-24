@@ -13,4 +13,5 @@ fi
 
 # Release package
 echo "Publishing @eslamdevui/ui"
-npm publish --access public
+pnpm release --preRelease=beta
+npm publish --access public --tag beta
