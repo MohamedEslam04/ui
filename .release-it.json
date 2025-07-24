@@ -1,18 +1,18 @@
 {
   "git": {
-    "commitMessage": "chore(release): v${version}",
-    "tagName": "v${version}"
+    "commitMessage": "chore(release): (eslam)v${version}",
+    "tagName": "(eslam)v${version}"
   },
   "npm": {
     "publish": false
   },
   "github": {
     "release": true,
-    "releaseName": "v${version}",
+    "releaseName": "(eslam)v${version}",
     "web": true
   },
   "hooks": {
-    "before:init": ["pnpm lint", "pnpm typecheck"]
+    "before:init": ["pnpm lint:fix"]
   },
   "plugins": {
     "@release-it/conventional-changelog": {

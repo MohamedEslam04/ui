@@ -8,7 +8,7 @@ type PricingTable = ComponentConfig<typeof theme, AppConfig, 'pricingTable'>
 type DynamicSlots<T extends {
   id: string
 }, S extends string | undefined = undefined> = {
-  [K in T['id'] as K extends string ? S extends string ? (K | `${K}-${S}`) : K : never]?: (props: {
+  [K in T['id']as K extends string ? S extends string ? (K | `${K}-${S}`) : K : never]?: (props: {
     tier: Extract<T, {
       id: K extends `${infer Base}-${S}` ? Base : K
     }>
@@ -287,7 +287,13 @@ const [DefineFeatureTemplate, ReuseFeatureTemplate] = createReusableTemplate({
           <tr v-for="(feature, featureIndex) in section.features" :key="`${sectionIndex}-feature-${featureIndex}`">
             <th scope="row" :class="ui.th({ class: props.ui?.th })">
               <div :class="ui.featureTitle({ class: props.ui?.featureTitle })">
-                <slot :name="`feature-${formatSlotName(feature)}-title`" :feature="feature" :section="section">
+                <!-- Fixed: Added tier parameter to match FeatureDynamicSlots type -->
+                <slot
+                  :name="`feature-${formatSlotName(feature)}-title`"
+                  :feature="feature"
+                  :tier="tiers[0]"
+                  :section="section"
+                >
                   <slot name="feature-title" :feature="feature" :section="section">
                     {{ feature.title }}
                   </slot>
@@ -345,7 +351,13 @@ const [DefineFeatureTemplate, ReuseFeatureTemplate] = createReusableTemplate({
             :class="ui.feature({ class: props.ui?.feature })"
           >
             <div :class="ui.featureTitle({ class: props.ui?.featureTitle })">
-              <slot :name="`feature-${formatSlotName(feature)}-title`" :feature="feature" :section="section">
+              <!-- Fixed: Added tier parameter to match FeatureDynamicSlots type -->
+              <slot
+                :name="`feature-${formatSlotName(feature)}-title`"
+                :feature="feature"
+                :tier="tier"
+                :section="section"
+              >
                 <slot name="feature-title" :feature="feature" :section="section">
                   {{ feature.title }}
                 </slot>

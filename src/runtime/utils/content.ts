@@ -2,40 +2,60 @@ import type { ContentNavigationItem, ContentCollectionItem } from '@nuxt/content
 
 type MapContentNavigationItemOptions = {
   labelAttribute?: string
-}
-
-type MappedNavigationItem = Omit<ContentNavigationItem, 'title' | 'path'> & {
-  label?: string
-  to?: string
+  deep?: number
 }
 
 export function mapContentNavigationItem(
   item: ContentNavigationItem,
-  options?: MapContentNavigationItemOptions
-): MappedNavigationItem {
-  const navMap: Record<string, 'label' | 'to'> = {
+  options?: MapContentNavigationItemOptions,
+  currentDepth = 0
+): Omit<ContentNavigationItem, 'title' | 'path'> & {
+  label?: string
+  to?: string
+  children: any[]
+} {
+  const navMap = {
     [options?.labelAttribute || 'title']: 'label',
     path: 'to'
   }
 
-  return Object.keys(item).reduce((link, key) => {
-    const typedKey = key as keyof ContentNavigationItem
-    const value = item[typedKey]
-    if (value) {
-      const mappedKey = navMap[key] || key;
-      (link as any)[mappedKey] = value
-    }
-    return link
-  }, {} as MappedNavigationItem)
+  const link = Object.keys(item).reduce(
+    (link2: any, key) => {
+      if (item[key as keyof typeof item]) {
+        const mappedKey = navMap[key] || key
+        link2[mappedKey] = item[key as keyof typeof item]
+      }
+      return link2
+    },
+    {} as Record<string, any>
+  )
+
+  const shouldRecurse
+    = typeof options?.deep === 'undefined' || currentDepth < options.deep
+
+  if (shouldRecurse && Array.isArray(item.children)) {
+    link.children = item.children.map(child =>
+      mapContentNavigationItem(child, options, currentDepth + 1)
+    )
+  } else {
+    link.children = []
+  }
+
+  return link
 }
 
 export function mapContentNavigation(
   navigation: ContentNavigationItem[],
   options?: MapContentNavigationItemOptions
-): MappedNavigationItem[] {
+): (Omit<ContentNavigationItem, 'title' | 'path'> & {
+  label?: string
+  to?: string
+  children: any[]
+})[] {
   return navigation.map(item => mapContentNavigationItem(item, options))
 }
 
+/** @deprecated Use `findPageHeadline` from Nuxt Content: https://ui.nuxt.com/getting-started/content#findpageheadline to migrate */
 export function findPageHeadline(
   navigation?: ContentNavigationItem[],
   page?: ContentCollectionItem | null
@@ -51,16 +71,16 @@ export function findPageHeadline(
           return link.title
         }
       }
+
       const headline = findPageHeadline(link.children, page)
       if (headline) {
         return headline
       }
     }
   }
-
-  return
 }
 
+/** @deprecated Use `findPageBreadcrumb` from Nuxt Content: https://ui.nuxt.com/getting-started/content#findpagebreadcrumb to migrate */
 export function findPageBreadcrumb(
   navigation?: ContentNavigationItem[],
   page?: ContentCollectionItem | null
@@ -69,9 +89,10 @@ export function findPageBreadcrumb(
     return []
   }
 
-  return navigation.reduce<ContentNavigationItem[]>((breadcrumb, link) => {
+  return navigation.reduce((breadcrumb: ContentNavigationItem[], link) => {
     if (page.path && (page.path + '/').startsWith(link.path + '/')) {
       breadcrumb.push(link)
+
       if (link.children) {
         breadcrumb.push(...findPageBreadcrumb(link.children, page))
       }

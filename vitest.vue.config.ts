@@ -25,7 +25,7 @@ export default defineConfig({
       name: 'eslamdevui-ui-test:components',
       enforce: 'pre',
       resolveId(id) {
-        if (id === '@eslamdevui/test-utils/runtime') {
+        if (id === '@nuxt/test-utils/runtime') {
           return resolve('./test/utils/mount')
         }
       }
