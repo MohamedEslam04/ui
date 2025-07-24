@@ -1,6 +1,6 @@
 packages:
   - "./"
   - "cli"
-  - "docs"
+  # - "docs"
   - "playground"
   - "playground-vue"
