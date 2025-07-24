@@ -43,7 +43,7 @@ pricing:
       - 'Templates: Starter, Landing, Docs, SaaS and Dashboard'
       - Auto-layout & responsive ready
       - Tailwind CSS assets & icons included
-      - Free [preview available](https://www.figma.com/design/mxXR9binOSLU3rYKZZRPXs/PREVIEW---NuxtUIPro-V3-BETA?m=auto&t=c4598Wr0rZwKPs5M-1)
+      - Free [preview available](https://www.figma.com/design/mxXR9binOSLU3rYKZZRPXs/PREVIEW---Nuxtui-V3-BETA?m=auto&t=c4598Wr0rZwKPs5M-1)
       - Includes Nuxt UI [Figma Kit](https://www.figma.com/community/file/1288455405058138934)
     button:
       label: Buy Figma Kit
@@ -236,8 +236,8 @@ faq:
     - label: What does “lifetime access” means?
       content: Nuxt UI Pro is a one-time purchase, with no recurring subscription. You will have access to all assets of Nuxt UI Pro forever.
     - label: Do you have discounts for students or non-profits?
-      content: Yes, we offer a 50% discount for students using Nuxt UI Pro purely for educational purposes. Contact us at ui-pro@nuxt.com with your details and we'll send you a discount code.
+      content: Yes, we offer a 50% discount for students using Nuxt UI Pro purely for educational purposes. Contact us at ui@nuxt.com with your details and we'll send you a discount code.
     - label: Do you offer technical support?
-      content: Once you sign up you get access to our private GitHub repository, where you can ask questions, report bugs or feature requests and get help from other customers. If you require more specialised support or consultancy, contact us at ui-pro@nuxt.com.
+      content: Once you sign up you get access to our private GitHub repository, where you can ask questions, report bugs or feature requests and get help from other customers. If you require more specialised support or consultancy, contact us at ui@nuxt.com.
     - label: What is your refund policy?
-      content: If you are not satisfied with Nuxt UI Pro, let us know within 14 days of your purchase at ui-pro@nuxt.com and we'll refund your money.
+      content: If you are not satisfied with Nuxt UI Pro, let us know within 14 days of your purchase at ui@nuxt.com and we'll refund your money.

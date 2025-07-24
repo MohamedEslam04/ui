@@ -6,7 +6,7 @@ import { Slot } from 'reka-ui'
   <Slot class="ui-only">
     <slot name="ui" />
   </Slot>
-  <Slot class="ui-pro-only">
-    <slot name="ui-pro" />
+  <Slot class="ui-only">
+    <slot name="ui" />
   </Slot>
 </template>

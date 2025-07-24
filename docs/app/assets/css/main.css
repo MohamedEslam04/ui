@@ -1,5 +1,5 @@
 @import "tailwindcss" theme(static) source("../../../..");
-@import "@nuxt/ui-pro";
+@import "@eslamdevui/ui";
 
 @source "../../../content/**/*";
 @source "../../../node_modules/.c12";
@@ -28,7 +28,7 @@
 
 html[data-framework="nuxt"] .vue-only,
 html[data-framework="vue"] .nuxt-only,
-html[data-module="ui-pro"] .ui-only,
-html[data-module="ui"] .ui-pro-only {
+html[data-module="ui"] .ui-only,
+html[data-module="ui"] .ui-only {
   display: none;
 }

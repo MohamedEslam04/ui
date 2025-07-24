@@ -6,7 +6,7 @@ import { upperFirst, camelCase, kebabCase } from 'scule'
 import { hash } from 'ohash'
 import { CalendarDate } from '@internationalized/date'
 import * as theme from '#build/ui'
-import * as themePro from '#build/ui-pro'
+import * as themePro from '#build/ui'
 import { get, set } from '#ui/utils'
 
 interface Cast {
@@ -92,14 +92,14 @@ const name = `${props.prose ? 'Prose' : 'U'}${upperFirst(camelName)}`
 const component = defineAsyncComponent(() => {
   if (props.pro) {
     if (props.prefix) {
-      return import(`#ui-pro/components/${props.prefix}/${upperFirst(camelName)}.vue`)
+      return import(`#ui/components/${props.prefix}/${upperFirst(camelName)}.vue`)
     }
 
     if (props.prose) {
-      return import(`#ui-pro/components/prose/${upperFirst(camelName)}.vue`)
+      return import(`#ui/components/prose/${upperFirst(camelName)}.vue`)
     }
 
-    return import(`#ui-pro/components/${upperFirst(camelName)}.vue`)
+    return import(`#ui/components/${upperFirst(camelName)}.vue`)
   }
 
   return import(`#ui/components/${upperFirst(camelName)}.vue`)

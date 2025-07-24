@@ -39,7 +39,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
   successMessage.value = ''
 
   try {
-    const res: { activationsLeft: number, activationsTotal: number } = await $fetch<{ activationsLeft: number, activationsTotal: number }>('https://api.nuxtlabs.com/ui-pro/activate', {
+    const res: { activationsLeft: number, activationsTotal: number } = await $fetch<{ activationsLeft: number, activationsTotal: number }>('https://api.nuxtlabs.com/ui/activate', {
       method: 'POST',
       body: {
         key: event.data.license,
@@ -95,7 +95,7 @@ onMounted(() => {
             </UButton>
             <UAlert v-if="successMessage" color="success" variant="subtle" :title="successMessage">
               <template #description>
-                The GitHub invitation to <NuxtLink to="https://github.com/nuxt/ui-pro/invitations" external target="_blank" class="font-bold text-primary hover:underline">
+                The GitHub invitation to <NuxtLink to="https://github.com/nuxt/ui/invitations" external target="_blank" class="font-bold text-primary hover:underline">
                   Nuxt UI Pro repository
                 </NuxtLink> has been sent and
                 you can now use your license key in your projects, checkout the

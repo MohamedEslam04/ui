@@ -112,6 +112,7 @@
     "test": "vitest",
     "test:vue": "vitest -c vitest.vue.config.ts",
     "release": "release-it",
+    "clean-win": "rmrf dist .nuxt playground/.nuxt playground-vue/dist docs/.nuxt",
     "clean": "rm -rf dist .nuxt playground/.nuxt playground-vue/dist docs/.nuxt"
   },
   "dependencies": {
