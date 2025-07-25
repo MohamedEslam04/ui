@@ -70,13 +70,19 @@ const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.contentSurrou
 
 <template>
   <DefineLinkTemplate v-slot="{ link, icon, direction }">
-    <ULink v-if="link" :to="link.path" raw
-      :class="ui.link({ class: [props.ui?.link, link.ui?.link, link.class], direction })">
+    <ULink
+      v-if="link"
+      :to="link.path"
+      raw
+      :class="ui.link({ class: [props.ui?.link, link.ui?.link, link.class], direction })"
+    >
       <slot name="link" :link="link">
         <div :class="ui.linkLeading({ class: [props.ui?.linkLeading, link.ui?.linkLeading] })">
           <slot name="link-leading" :link="link">
-            <UIcon :name="link.icon || icon"
-              :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, link.ui?.linkLeadingIcon], direction })" />
+            <UIcon
+              :name="link.icon || icon"
+              :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, link.ui?.linkLeadingIcon], direction })"
+            />
           </slot>
         </div>
 

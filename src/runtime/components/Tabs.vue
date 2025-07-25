@@ -133,14 +133,22 @@ defineExpose({
         v-for="(item, index) of items"
         :key="index"
         :ref="el => (triggersRef[index] = el as ComponentPublicInstance)"
-        `
         :value="item.value || String(index)"
         :disabled="item.disabled"
         :class="ui.trigger({ class: [props.ui?.trigger, item.ui?.trigger] })"
       >
         <slot name="leading" :item="item" :index="index">
-          <UIcon v-if="item.icon" :name="item.icon" :class="ui.leadingIcon({ class: [props.ui?.leadingIcon, item.ui?.leadingIcon] })" />
-          <UAvatar v-else-if="item.avatar" :size="((item.ui?.leadingAvatarSize || props.ui?.leadingAvatarSize || ui.leadingAvatarSize()) as AvatarProps['size'])" v-bind="item.avatar" :class="ui.leadingAvatar({ class: [props.ui?.leadingAvatar, item.ui?.leadingAvatar] })" />
+          <UIcon
+            v-if="item.icon"
+            :name="item.icon"
+            :class="ui.leadingIcon({ class: [props.ui?.leadingIcon, item.ui?.leadingIcon] })"
+          />
+          <UAvatar
+            v-else-if="item.avatar"
+            :size="((item.ui?.leadingAvatarSize || props.ui?.leadingAvatarSize || ui.leadingAvatarSize()) as AvatarProps['size'])"
+            v-bind="item.avatar"
+            :class="ui.leadingAvatar({ class: [props.ui?.leadingAvatar, item.ui?.leadingAvatar] })"
+          />
         </slot>
 
         <span

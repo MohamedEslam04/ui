@@ -74,8 +74,7 @@ export function findPageHeadline(navigation?: ContentNavigationItem[], path?: st
           }
         }
       }
-    }
-    else {
+    } else {
       if (link.children) {
         for (const child of link.children) {
           const isIndex = child.stem?.endsWith('/index')
