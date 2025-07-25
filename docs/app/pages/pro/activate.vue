@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
+import type { FormSubmitEvent } from '@eslamdevui/ui'
 import { joinURL } from 'ufo'
 
 const title = 'Activate your Nuxt UI Pro License'

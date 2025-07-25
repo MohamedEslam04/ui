@@ -3,7 +3,6 @@ import json5 from 'json5'
 import { camelCase } from 'scule'
 import { hash } from 'ohash'
 import * as theme from '#build/ui'
-import * as themePro from '#build/ui'
 
 const props = defineProps<{
   pro?: boolean
@@ -101,7 +100,7 @@ export default defineAppConfig(${json5.stringify(component.value, null, 2).repla
 \`\`\`ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ui from '@nuxt/ui/vite'
+import ui from '@eslamdevui/ui/vite'
 
 export default defineConfig({
   plugins: [

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TimelineItem } from '@nuxt/ui'
+import type { TimelineItem } from '@eslamdevui/ui'
 
 const items: TimelineItem[] = [{
   date: 'Mar 15, 2025',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BreadcrumbItem } from '@nuxt/ui'
+import type { BreadcrumbItem } from '@eslamdevui/ui'
 
 const items: BreadcrumbItem[] = [
   {

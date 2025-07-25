@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectItem, ChipProps } from '@nuxt/ui'
+import type { SelectItem, ChipProps } from '@eslamdevui/ui'
 
 const items = ref([
   {

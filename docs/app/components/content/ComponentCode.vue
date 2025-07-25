@@ -1,12 +1,11 @@
 <!-- eslint-disable no-useless-escape -->
 <script setup lang="ts">
-import type { ChipProps } from '@nuxt/ui'
+import type { ChipProps } from '@eslamdevui/ui'
 import json5 from 'json5'
 import { upperFirst, camelCase, kebabCase } from 'scule'
 import { hash } from 'ohash'
 import { CalendarDate } from '@internationalized/date'
 import * as theme from '#build/ui'
-import * as themePro from '#build/ui'
 import { get, set } from '#ui/utils'
 
 interface Cast {

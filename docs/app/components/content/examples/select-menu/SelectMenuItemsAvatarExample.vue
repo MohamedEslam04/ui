@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectMenuItem } from '@nuxt/ui'
+import type { SelectMenuItem } from '@eslamdevui/ui'
 
 const items = ref([
   {

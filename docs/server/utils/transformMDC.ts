@@ -2,220 +2,219 @@ import json5 from 'json5'
 import { camelCase, kebabCase } from 'scule'
 import { visit } from '@nuxt/content/runtime'
 import * as theme from '../../.nuxt/ui'
-import * as themePro from "../../.nuxt/ui";
-import meta from "#nuxt-component-meta";
+import meta from '#nuxt-component-meta'
 // @ts-expect-error - no types available
-import components from "#component-example/nitro";
+import components from '#component-example/nitro'
 
 type ComponentAttributes = {
-  ":pro"?: string;
-  ":prose"?: string;
-  ":props"?: string;
-  ":external"?: string;
-  ":externalTypes"?: string;
-  ":ignore"?: string;
-  ":hide"?: string;
-  ":slots"?: string;
-};
+  ':pro'?: string
+  ':prose'?: string
+  ':props'?: string
+  ':external'?: string
+  ':externalTypes'?: string
+  ':ignore'?: string
+  ':hide'?: string
+  ':slots'?: string
+}
 
 type ThemeConfig = {
-  pro: boolean;
-  prose: boolean;
-  componentName: string;
-};
+  pro: boolean
+  prose: boolean
+  componentName: string
+}
 
 type CodeConfig = {
-  pro: boolean;
-  props: Record<string, unknown>;
-  external: string[];
-  externalTypes: string[];
-  ignore: string[];
-  hide: string[];
-  componentName: string;
-  slots?: Record<string, string>;
-};
+  pro: boolean
+  props: Record<string, unknown>
+  external: string[]
+  externalTypes: string[]
+  ignore: string[]
+  hide: string[]
+  componentName: string
+  slots?: Record<string, string>
+}
 
 type Document = {
-  title: string;
-  body: any;
-};
+  title: string
+  body: any
+}
 
-const parseBoolean = (value?: string): boolean => value === "true";
+const parseBoolean = (value?: string): boolean => value === 'true'
 
 function getComponentMeta(componentName: string) {
-  const pascalCaseName =
-    componentName.charAt(0).toUpperCase() + componentName.slice(1);
+  const pascalCaseName
+    = componentName.charAt(0).toUpperCase() + componentName.slice(1)
 
   const strategies = [
     `U${pascalCaseName}`,
     `Prose${pascalCaseName}`,
-    pascalCaseName,
-  ];
+    pascalCaseName
+  ]
 
-  let componentMeta: any;
-  let finalMetaComponentName: string = pascalCaseName;
+  let componentMeta: any
+  let finalMetaComponentName: string = pascalCaseName
 
   for (const nameToTry of strategies) {
-    finalMetaComponentName = nameToTry;
-    const metaAttempt = (meta as Record<string, any>)[nameToTry]?.meta;
+    finalMetaComponentName = nameToTry
+    const metaAttempt = (meta as Record<string, any>)[nameToTry]?.meta
     if (metaAttempt) {
-      componentMeta = metaAttempt;
-      break;
+      componentMeta = metaAttempt
+      break
     }
   }
 
   if (!componentMeta) {
     console.warn(
-      `[getComponentMeta] Metadata not found for ${pascalCaseName} using strategies: U, Prose, or no prefix. Last tried: ${finalMetaComponentName}`,
-    );
+      `[getComponentMeta] Metadata not found for ${pascalCaseName} using strategies: U, Prose, or no prefix. Last tried: ${finalMetaComponentName}`
+    )
   }
 
   return {
     pascalCaseName,
     metaComponentName: finalMetaComponentName,
-    componentMeta,
-  };
+    componentMeta
+  }
 }
 
 function replaceNodeWithPre(
   node: any[],
   language: string,
   code: string,
-  filename?: string,
+  filename?: string
 ) {
-  node[0] = "pre";
-  node[1] = { language, code };
-  if (filename) node[1].filename = filename;
+  node[0] = 'pre'
+  node[1] = { language, code }
+  if (filename) node[1].filename = filename
 }
 
 function visitAndReplace(
   doc: Document,
   type: string,
-  handler: (node: any[]) => void,
+  handler: (node: any[]) => void
 ) {
   visit(
     doc.body,
     (node) => {
       if (Array.isArray(node) && node[0] === type) {
-        handler(node);
+        handler(node)
       }
-      return true;
+      return true
     },
-    (node) => node,
-  );
+    node => node
+  )
 }
 
 function generateTSInterface(
   name: string,
   items: any[],
   itemHandler: (item: any) => string,
-  description: string,
+  description: string
 ) {
-  let code = `/**\n * ${description}\n */\ninterface ${name} {\n`;
+  let code = `/**\n * ${description}\n */\ninterface ${name} {\n`
   for (const item of items) {
-    code += itemHandler(item);
+    code += itemHandler(item)
   }
-  code += `}`;
-  return code;
+  code += `}`
+  return code
 }
 
 function propItemHandler(propValue: any): string {
-  if (!propValue?.name) return "";
-  const propName = propValue.name;
+  if (!propValue?.name) return ''
+  const propName = propValue.name
   const propType = propValue.type
     ? Array.isArray(propValue.type)
-      ? propValue.type.map((t: any) => t.name || t).join(" | ")
+      ? propValue.type.map((t: any) => t.name || t).join(' | ')
       : propValue.type.name || propValue.type
-    : "any";
-  const isRequired = propValue.required || false;
-  const hasDescription =
-    propValue.description && propValue.description.trim().length > 0;
-  const hasDefault = propValue.default !== undefined;
-  let result = "";
+    : 'any'
+  const isRequired = propValue.required || false
+  const hasDescription
+    = propValue.description && propValue.description.trim().length > 0
+  const hasDefault = propValue.default !== undefined
+  let result = ''
   if (hasDescription || hasDefault) {
-    result += `  /**\n`;
+    result += `  /**\n`
     if (hasDescription) {
-      const descLines = propValue.description.split(/\r?\n/);
+      const descLines = propValue.description.split(/\r?\n/)
       descLines.forEach((line: string) => {
-        result += `   * ${line}\n`;
-      });
+        result += `   * ${line}\n`
+      })
     }
     if (hasDefault) {
-      let defaultValue = propValue.default;
-      if (typeof defaultValue === "string") {
-        defaultValue = `"${defaultValue.replace(/"/g, '\\"')}"`;
+      let defaultValue = propValue.default
+      if (typeof defaultValue === 'string') {
+        defaultValue = `"${defaultValue.replace(/"/g, '\\"')}"`
       } else {
-        defaultValue = JSON.stringify(defaultValue);
+        defaultValue = JSON.stringify(defaultValue)
       }
-      result += `   * @default ${defaultValue}\n`;
+      result += `   * @default ${defaultValue}\n`
     }
-    result += `   */\n`;
+    result += `   */\n`
   }
-  result += `  ${propName}${isRequired ? "" : "?"}: ${propType};\n`;
-  return result;
+  result += `  ${propName}${isRequired ? '' : '?'}: ${propType};\n`
+  return result
 }
 
 function slotItemHandler(slotValue: any): string {
-  if (!slotValue?.name) return "";
-  const slotName = slotValue.name;
-  const hasDescription =
-    slotValue.description && slotValue.description.trim().length > 0;
-  let result = "";
+  if (!slotValue?.name) return ''
+  const slotName = slotValue.name
+  const hasDescription
+    = slotValue.description && slotValue.description.trim().length > 0
+  let result = ''
   if (hasDescription) {
-    result += `  /**\n`;
-    const descLines = slotValue.description.split(/\r?\n/);
+    result += `  /**\n`
+    const descLines = slotValue.description.split(/\r?\n/)
     descLines.forEach((line: string) => {
-      result += `   * ${line}\n`;
-    });
-    result += `   */\n`;
+      result += `   * ${line}\n`
+    })
+    result += `   */\n`
   }
   if (slotValue.bindings && Object.keys(slotValue.bindings).length > 0) {
-    let bindingsType = "{\n";
+    let bindingsType = '{\n'
     Object.entries(slotValue.bindings).forEach(
       ([bindingName, bindingValue]: [string, any]) => {
-        const bindingType = bindingValue.type || "any";
-        bindingsType += `    ${bindingName}: ${bindingType};\n`;
-      },
-    );
-    bindingsType += "  }";
-    result += `  ${slotName}(bindings: ${bindingsType}): any;\n`;
+        const bindingType = bindingValue.type || 'any'
+        bindingsType += `    ${bindingName}: ${bindingType};\n`
+      }
+    )
+    bindingsType += '  }'
+    result += `  ${slotName}(bindings: ${bindingsType}): any;\n`
   } else {
-    result += `  ${slotName}(): any;\n`;
+    result += `  ${slotName}(): any;\n`
   }
-  return result;
+  return result
 }
 
 function emitItemHandler(event: any): string {
-  if (!event?.name) return "";
-  let payloadType = "void";
+  if (!event?.name) return ''
+  let payloadType = 'void'
   if (event.type) {
     payloadType = Array.isArray(event.type)
-      ? event.type.map((t: any) => t.name || t).join(" | ")
-      : event.type.name || event.type;
+      ? event.type.map((t: any) => t.name || t).join(' | ')
+      : event.type.name || event.type
   }
-  let result = "";
+  let result = ''
   if (event.description && event.description.trim().length > 0) {
-    result += `  /**\n`;
+    result += `  /**\n`
     event.description.split(/\r?\n/).forEach((line: string) => {
-      result += `   * ${line}\n`;
-    });
-    result += `   */\n`;
+      result += `   * ${line}\n`
+    })
+    result += `   */\n`
   }
-  result += `  ${event.name}: (payload: ${payloadType}) => void;\n`;
-  return result;
+  result += `  ${event.name}: (payload: ${payloadType}) => void;\n`
+  return result
 }
 
 const generateThemeConfig = ({ pro, prose, componentName }: ThemeConfig) => {
-  const computedTheme = pro ? (prose ? themePro.prose : themePro) : theme;
-  const componentTheme =
-    computedTheme[componentName as keyof typeof computedTheme];
+  const computedTheme = pro ? (prose ? themePro.prose : themePro) : theme
+  const componentTheme
+    = computedTheme[componentName as keyof typeof computedTheme]
 
   return {
-    [pro ? "ui" : "ui"]: prose
+    [pro ? 'ui' : 'ui']: prose
       ? { prose: { [componentName]: componentTheme } }
-      : { [componentName]: componentTheme },
-  };
-};
+      : { [componentName]: componentTheme }
+  }
+}
 
 const generateComponentCode = ({
   pro,
@@ -224,114 +223,114 @@ const generateComponentCode = ({
   externalTypes,
   hide,
   componentName,
-  slots,
+  slots
 }: CodeConfig) => {
   const filteredProps = Object.fromEntries(
-    Object.entries(props).filter(([key]) => !hide.includes(key)),
-  );
+    Object.entries(props).filter(([key]) => !hide.includes(key))
+  )
 
   const imports = pro
-    ? ""
+    ? ''
     : external
         .filter(
           (_, index) =>
-            externalTypes[index] && externalTypes[index] !== "undefined",
+            externalTypes[index] && externalTypes[index] !== 'undefined'
         )
         .map((ext, index) => {
-          const type = externalTypes[index]?.replace(/[[\]]/g, "");
-          return `import type { ${type} } from '@nuxt/${pro ? "ui" : "ui"}'`;
+          const type = externalTypes[index]?.replace(/[[\]]/g, '')
+          return `import type { ${type} } from '@nuxt/${pro ? 'ui' : 'ui'}'`
         })
-        .join("\n");
+        .join('\n')
 
-  let itemsCode = "";
+  let itemsCode = ''
   if (props.items) {
     itemsCode = pro
       ? `const items = ref(${json5.stringify(props.items, null, 2)})`
-      : `const items = ref<${externalTypes[0]}>(${json5.stringify(props.items, null, 2)})`;
-    delete filteredProps.items;
+      : `const items = ref<${externalTypes[0]}>(${json5.stringify(props.items, null, 2)})`
+    delete filteredProps.items
   }
 
-  let calendarValueCode = "";
+  let calendarValueCode = ''
   if (
-    componentName === "calendar" &&
-    props.modelValue &&
-    Array.isArray(props.modelValue)
+    componentName === 'calendar'
+    && props.modelValue
+    && Array.isArray(props.modelValue)
   ) {
-    calendarValueCode = `const value = ref(new CalendarDate(${props.modelValue.join(", ")}))`;
+    calendarValueCode = `const value = ref(new CalendarDate(${props.modelValue.join(', ')}))`
   }
 
   const propsString = Object.entries(filteredProps)
     .map(([key, value]) => {
-      const formattedKey = kebabCase(key);
-      if (typeof value === "string") {
-        return `${formattedKey}="${value}"`;
-      } else if (typeof value === "number") {
-        return `:${formattedKey}="${value}"`;
-      } else if (typeof value === "boolean") {
-        return value ? formattedKey : `:${formattedKey}="false"`;
+      const formattedKey = kebabCase(key)
+      if (typeof value === 'string') {
+        return `${formattedKey}="${value}"`
+      } else if (typeof value === 'number') {
+        return `:${formattedKey}="${value}"`
+      } else if (typeof value === 'boolean') {
+        return value ? formattedKey : `:${formattedKey}="false"`
       }
-      return "";
+      return ''
     })
     .filter(Boolean)
-    .join(" ");
+    .join(' ')
 
-  const itemsProp = props.items ? ':items="items"' : "";
-  const vModelProp =
-    componentName === "calendar" && props.modelValue ? 'v-model="value"' : "";
+  const itemsProp = props.items ? ':items="items"' : ''
+  const vModelProp
+    = componentName === 'calendar' && props.modelValue ? 'v-model="value"' : ''
   const allProps = [propsString, itemsProp, vModelProp]
     .filter(Boolean)
-    .join(" ");
-  const formattedProps = allProps ? ` ${allProps}` : "";
+    .join(' ')
+  const formattedProps = allProps ? ` ${allProps}` : ''
 
-  let scriptSetup = "";
+  let scriptSetup = ''
   if (imports || itemsCode || calendarValueCode) {
-    scriptSetup = '<script setup lang="ts">';
-    if (imports) scriptSetup += `\n${imports}`;
-    if (imports && (itemsCode || calendarValueCode)) scriptSetup += "\n";
-    if (calendarValueCode) scriptSetup += `\n${calendarValueCode}`;
-    if (itemsCode) scriptSetup += `\n${itemsCode}`;
-    scriptSetup += "\n</script>\n\n";
+    scriptSetup = '<script setup lang="ts">'
+    if (imports) scriptSetup += `\n${imports}`
+    if (imports && (itemsCode || calendarValueCode)) scriptSetup += '\n'
+    if (calendarValueCode) scriptSetup += `\n${calendarValueCode}`
+    if (itemsCode) scriptSetup += `\n${itemsCode}`
+    scriptSetup += '\n</script>\n\n'
   }
 
-  let componentContent = "";
-  let slotContent = "";
+  let componentContent = ''
+  let slotContent = ''
 
   if (slots && Object.keys(slots).length > 0) {
-    const defaultSlot = slots.default?.trim();
+    const defaultSlot = slots.default?.trim()
     if (defaultSlot) {
       const indentedContent = defaultSlot
-        .split("\n")
-        .map((line) => (line.trim() ? `    ${line}` : line))
-        .join("\n");
-      componentContent = `\n${indentedContent}\n  `;
+        .split('\n')
+        .map(line => (line.trim() ? `    ${line}` : line))
+        .join('\n')
+      componentContent = `\n${indentedContent}\n  `
     }
 
     Object.entries(slots).forEach(([slotName, content]) => {
-      if (slotName !== "default" && content?.trim()) {
+      if (slotName !== 'default' && content?.trim()) {
         const indentedSlotContent = content
           .trim()
-          .split("\n")
-          .map((line) => (line.trim() ? `      ${line}` : line))
-          .join("\n");
-        slotContent += `\n    <template #${slotName}>\n${indentedSlotContent}\n    </template>`;
+          .split('\n')
+          .map(line => (line.trim() ? `      ${line}` : line))
+          .join('\n')
+        slotContent += `\n    <template #${slotName}>\n${indentedSlotContent}\n    </template>`
       }
-    });
+    })
   }
 
-  const pascalCaseName =
-    componentName.charAt(0).toUpperCase() + componentName.slice(1);
+  const pascalCaseName
+    = componentName.charAt(0).toUpperCase() + componentName.slice(1)
 
-  let componentTemplate = "";
+  let componentTemplate = ''
   if (componentContent || slotContent) {
-    componentTemplate = `<U${pascalCaseName}${formattedProps}>${componentContent}${slotContent}</U${pascalCaseName}>`; // Removed space before closing tag
+    componentTemplate = `<U${pascalCaseName}${formattedProps}>${componentContent}${slotContent}</U${pascalCaseName}>` // Removed space before closing tag
   } else {
-    componentTemplate = `<U${pascalCaseName}${formattedProps} />`;
+    componentTemplate = `<U${pascalCaseName}${formattedProps} />`
   }
 
   return `${scriptSetup}<template>
   ${componentTemplate}
-</template>`;
-};
+</template>`
+}
 
 export function transformMDC(doc: Document): Document {
   const componentName = camelCase(doc.title)

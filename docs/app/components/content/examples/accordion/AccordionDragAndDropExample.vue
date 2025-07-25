@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AccordionItem } from '@nuxt/ui'
+import type { AccordionItem } from '@eslamdevui/ui'
 import { useSortable } from '@vueuse/integrations/useSortable'
 
 const items = shallowRef<AccordionItem[]>([

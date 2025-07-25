@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@nuxt/ui-docs",
+  "name": "@eslamdevui/ui-docs",
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
