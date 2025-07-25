@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ContentNavigationItem } from '@nuxt/content'
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@eslamdevui/ui'
 
 const props = defineProps<{
   links: NavigationMenuItem[]
@@ -37,11 +37,11 @@ const mobileLinks = computed(() => [
 
 const items = computed(() => {
   const ui2 = { label: 'v2.22.0', to: 'https://ui2.nuxt.com' }
-  const uiPro1 = { label: 'v1.8.0', to: 'https://ui2.nuxt.com/pro' }
+  const ui1 = { label: 'v1.8.0', to: 'https://ui2.nuxt.com/pro' }
 
   return [
     { label: `v${config.version}`, active: true, color: 'primary' as const, checked: true, type: 'checkbox' as const },
-    route.path === '/' ? ui2 : route.path.startsWith('/pro') ? uiPro1 : module.value === 'ui-pro' ? uiPro1 : ui2
+    route.path === '/' ? ui2 : route.path.startsWith('/pro') ? ui1 : module.value === 'ui' ? ui1 : ui2
   ]
 })
 </script>
@@ -53,7 +53,7 @@ const items = computed(() => {
         <Logo v-if="route.path === '/'" class="w-auto h-6 shrink-0" />
         <LogoPro v-else-if="route.path.startsWith('/pro')" class="w-auto h-6 shrink-0" />
         <template v-else>
-          <LogoPro class="w-auto h-6 shrink-0 ui-pro-only" />
+          <LogoPro class="w-auto h-6 shrink-0 ui-only" />
           <Logo class="w-auto h-6 shrink-0 ui-only" />
         </template>
       </NuxtLink>
@@ -116,7 +116,7 @@ const items = computed(() => {
           <span class="inline-flex items-center gap-0.5">
             {{ link.title }}
 
-            <sup v-if="link.module === 'ui-pro'" class="text-[8px] font-medium text-primary">PRO</sup>
+            <sup v-if="link.module === 'ui'" class="text-[8px] font-medium text-primary">PRO</sup>
           </span>
         </template>
       </UContentNavigation>

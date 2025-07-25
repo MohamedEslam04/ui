@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TableColumn } from '@nuxt/ui'
+import type { TableColumn } from '@eslamdevui/ui'
 import { useSortable } from '@vueuse/integrations/useSortable.mjs'
 
 type Payment = {

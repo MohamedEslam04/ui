@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectMenuItem } from '@nuxt/ui'
+import type { SelectMenuItem } from '@eslamdevui/ui'
 
 const items = ref([
   {
@@ -23,6 +23,7 @@ const items = ref([
     icon: 'i-lucide-circle-check'
   }
 ] satisfies SelectMenuItem[])
+
 const value = ref(items.value[0])
 </script>
 

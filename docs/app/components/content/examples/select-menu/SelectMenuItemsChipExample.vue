@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectMenuItem, ChipProps } from '@nuxt/ui'
+import type { SelectMenuItem, ChipProps } from '@eslamdevui/ui'
 
 const items = ref([
   {
@@ -24,6 +24,7 @@ const items = ref([
     }
   }
 ] satisfies SelectMenuItem[])
+
 const value = ref(items.value[0])
 </script>
 

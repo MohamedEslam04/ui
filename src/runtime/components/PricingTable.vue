@@ -291,7 +291,7 @@ const [DefineFeatureTemplate, ReuseFeatureTemplate] = createReusableTemplate({
                 <slot
                   :name="`feature-${formatSlotName(feature)}-title`"
                   :feature="feature"
-                  :tier="tiers[0]"
+                  :tier="tiers[0]!"
                   :section="section"
                 >
                   <slot name="feature-title" :feature="feature" :section="section">

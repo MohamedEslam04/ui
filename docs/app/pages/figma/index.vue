@@ -114,8 +114,8 @@ onMounted(async () => {
           ref="video"
           :controls="played"
           playsinline
-          src="https://res.cloudinary.com/nuxt/video/upload/v1739267662/ui-pro/video4_aobki0.mp4"
-          poster="https://res.cloudinary.com/nuxt/video/upload/so_0/v1739267662/ui-pro/video4_aobki0.jpg"
+          src="https://res.cloudinary.com/nuxt/video/upload/v1739267662/ui/video4_aobki0.mp4"
+          poster="https://res.cloudinary.com/nuxt/video/upload/so_0/v1739267662/ui/video4_aobki0.jpg"
           :class="{ grayscale: !played }"
         />
         <div v-if="!played" class="group cursor-pointer absolute inset-0 flex items-center justify-center backdrop-blur-xs" @click="video?.play(); played = true">

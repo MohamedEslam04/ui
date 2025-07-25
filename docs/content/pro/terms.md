@@ -36,7 +36,7 @@ NuxtLabs s'engage à fournir un service de qualité, mais ne saurait être tenu 
 
 ## 8. Support technique
 
-Un support technique est fourni aux Clients selon les modalités spécifiées sur notre site web. Pour toute assistance, le Client peut envoyer un email à l'adresse suivante : ui-pro@nuxt.com.
+Un support technique est fourni aux Clients selon les modalités spécifiées sur notre site web. Pour toute assistance, le Client peut envoyer un email à l'adresse suivante : ui@nuxt.com.
 
 ## 9. Modifications des CGV
 

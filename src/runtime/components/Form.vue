@@ -20,6 +20,7 @@ export interface FormProps<S extends FormSchema, T extends boolean = true> {
   validate?: (state: Partial<InferInput<S>>) => Promise<FormError[]> | FormError[]
   /**
    * The list of input events that trigger the form validation.
+   * @remarks The form always validates on submit.
    * @defaultValue `['blur', 'change', 'input']`
    */
   validateOn?: FormInputEvents[]
@@ -53,8 +54,8 @@ export interface FormProps<S extends FormSchema, T extends boolean = true> {
 }
 
 export interface FormEmits<S extends FormSchema, T extends boolean = true> {
-  (e: 'submit', payload: FormSubmitEvent<FormData<S, T>>): void
-  (e: 'error', payload: FormErrorEvent): void
+  submit: [payload: FormSubmitEvent<FormData<S, T>>]
+  error: [payload: FormErrorEvent]
 }
 
 export interface FormSlots {

@@ -40,7 +40,7 @@ const pro = process.env.NUXT_UI_PRO_PATH
     }
   : process.env.NUXT_GITHUB_TOKEN
     ? {
-        repository: 'https://github.com/nuxt/ui-pro/tree/v3',
+        repository: 'https://github.com/nuxt/ui/tree/v3',
         include: 'docs/content/**',
         prefix: '/',
         authToken: process.env.NUXT_GITHUB_TOKEN

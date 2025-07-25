@@ -60,7 +60,7 @@ defineSlots<ContentSurroundSlots>()
 const appConfig = useAppConfig() as ContentSurround['AppConfig']
 
 const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate<{
-  link: ContentSurroundLink
+  link?: ContentSurroundLink
   icon: string
   direction?: 'left' | 'right'
 }>()

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { kebabCase } from 'scule'
 import type { ContentNavigationItem } from '@nuxt/content'
-import type { PageLink } from '@nuxt/ui-pro'
-import { mapContentNavigation } from '@nuxt/ui-pro/utils/content'
+import type { PageLink } from '@eslamdevui/ui'
+import { mapContentNavigation } from '@eslamdevui/ui/utils/content'
 import { findPageBreadcrumb } from '@nuxt/content/utils'
 
 const route = useRoute()
@@ -55,7 +55,7 @@ if (!import.meta.prerender) {
   // Redirect to the correct module version if the page is not the current module
   watch(module, () => {
     if (page.value?.module && page.value?.module !== module.value) {
-      if (page.value?.module === 'ui-pro' && route.path.includes('/pro')) {
+      if (page.value?.module === 'ui' && route.path.includes('/pro')) {
         navigateTo(`${route.path.replace('/pro', '')}`)
       } else if (page.value?.module === 'ui' && !route.path.includes('/pro')) {
         navigateTo(`${route.path.replace(`/${framework.value}`, '')}/pro/${framework.value}`)
@@ -72,9 +72,9 @@ const suffix = page.value?.path.includes('components') ? 'Component ' : page.val
 const description = page.value?.description
 
 useSeoMeta({
-  titleTemplate: `${prefix}%s ${suffix}- Nuxt UI ${page.value?.module === 'ui-pro' ? 'Pro' : ''} ${page.value?.framework === 'vue' ? ' for Vue' : ''}`,
+  titleTemplate: `${prefix}%s ${suffix}- Nuxt UI ${page.value?.module === 'ui' ? 'Pro' : ''} ${page.value?.framework === 'vue' ? ' for Vue' : ''}`,
   title,
-  ogTitle: `${prefix}${title} ${suffix}- Nuxt UI ${page.value?.module === 'ui-pro' ? 'Pro' : ''} ${page.value?.framework === 'vue' ? ' for Vue' : ''}`,
+  ogTitle: `${prefix}${title} ${suffix}- Nuxt UI ${page.value?.module === 'ui' ? 'Pro' : ''} ${page.value?.framework === 'vue' ? ' for Vue' : ''}`,
   description,
   ogDescription: description
 })
@@ -99,19 +99,19 @@ if (route.path.startsWith('/components')) {
 const communityLinks = computed(() => [{
   icon: 'i-lucide-file-pen',
   label: 'Edit this page',
-  to: `https://github.com/nuxt/${page.value?.module === 'ui-pro' ? 'ui-pro' : 'ui'}/edit/v3/docs/content/${page?.value?.stem}.md`,
+  to: `https://github.com/nuxt/${page.value?.module === 'ui' ? 'ui' : 'ui'}/edit/v3/docs/content/${page?.value?.stem}.md`,
   target: '_blank'
 }, {
   icon: 'i-lucide-star',
   label: 'Star on GitHub',
-  to: `https://github.com/nuxt/${page.value?.module === 'ui-pro' ? 'ui-pro' : 'ui'}`,
+  to: `https://github.com/nuxt/${page.value?.module === 'ui' ? 'ui' : 'ui'}`,
   target: '_blank'
-}, module.value === 'ui-pro' && {
+}, module.value === 'ui' && {
   icon: 'i-lucide-credit-card',
   label: 'Purchase a license',
   to: 'https://nuxt.lemonsqueezy.com/checkout/buy/057dacb2-87ba-4dc1-9256-59ee5b3bd394',
   target: '_blank'
-}, module.value === 'ui-pro' && {
+}, module.value === 'ui' && {
   icon: 'i-lucide-ticket-percent',
   label: 'Become an affiliate',
   to: 'https://nuxt.lemonsqueezy.com/affiliates',
@@ -135,7 +135,7 @@ const communityLinks = computed(() => [{
       </template>
 
       <template #title>
-        {{ page.title }}<sup v-if="page.module === 'ui-pro'" class="ml-1 text-xs align-super font-medium text-primary">PRO</sup>
+        {{ page.title }}<sup v-if="page.module === 'ui'" class="ml-1 text-xs align-super font-medium text-primary">PRO</sup>
       </template>
 
       <template #description>

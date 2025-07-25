@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
-import type { TableColumn } from '@nuxt/ui'
+import type { TableColumn } from '@eslamdevui/ui'
 
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')

@@ -17,7 +17,7 @@ function processNavigationItem(item: ContentNavigationItem, parent?: ContentNavi
 function processNavigationItemIcon(item: ContentNavigationItem) {
   let icon = item.icon
   if (item.path.startsWith('/components')) {
-    icon = item.module === 'ui-pro' ? 'i-lucide-panels-top-left' : 'i-lucide-box'
+    icon = item.module === 'ui' ? 'i-lucide-panels-top-left' : 'i-lucide-box'
   }
   if (item.path.startsWith('/composables')) {
     icon = 'i-lucide-square-function'

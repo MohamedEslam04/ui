@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui'
+import type { SelectItem } from '@eslamdevui/ui'
 
 const items = ref([
   {
@@ -35,6 +35,7 @@ const items = ref([
     }
   }
 ] satisfies SelectItem[])
+
 const value = ref(items.value[0]?.value)
 
 const avatar = computed(() => items.value.find(item => item.value === value.value)?.avatar)

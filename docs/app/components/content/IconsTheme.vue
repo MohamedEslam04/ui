@@ -19,7 +19,7 @@ export default defineAppConfig(${json5.stringify({
 
 ::
 
-::code-collapse{class="ui-pro-only nuxt-only"}
+::code-collapse{class="ui-only nuxt-only"}
 
 \`\`\`ts [app.config.ts]
 export default defineAppConfig(${json5.stringify({
@@ -36,7 +36,7 @@ export default defineAppConfig(${json5.stringify({
 \`\`\`ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ui from '@nuxt/ui/vite'
+import ui from '@eslamdevui/ui/vite'
 
 export default defineConfig({
   plugins: [
@@ -55,17 +55,17 @@ export default defineConfig({
 
 ::
 
-::code-collapse{class="vue-only ui-pro-only"}
+::code-collapse{class="vue-only ui-only"}
 
 \`\`\`ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import uiPro from '@nuxt/ui-pro/vite'
+import ui from '@eslamdevui/ui/vite'
 
 export default defineConfig({
   plugins: [
     vue(),
-    uiPro(${json5.stringify({
+    ui(${json5.stringify({
       ui: {
         icons
       }

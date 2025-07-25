@@ -2,7 +2,6 @@
 import { upperFirst, camelCase, kebabCase } from 'scule'
 import type { ComponentMeta } from 'vue-component-meta'
 import * as theme from '#build/ui'
-import * as themePro from '#build/ui-pro'
 
 const props = withDefaults(defineProps<{
   name?: string

@@ -5,6 +5,17 @@ pricing:
   title: Upgrade to Nuxt UI [Pro]{class="text-primary"}.
   description: On top of 40+ open source components from Nuxt UI, Pro gives you access to 50+ premium Vue components to create beautiful & responsive Nuxt applications in minutes. It includes all primitives to build landing pages, documentations, blogs, dashboards or entire SaaS products.
   freePlan:
+    description: "**NuxtLabs is joining Vercel** :tada: As part of this transition, Nuxt UI is becoming even more accessible.<br><br> **In September, we're launching Nuxt UI v4**: a free, open-source library that unifies Nuxt UI and Nuxt UI Pro, offering 100+ components and a complete free Figma Kit for everyone."
+    orientation: horizontal
+    button:
+      label: Read the announcement
+      to: 'https://nuxtlabs.com/?utm_source=nuxt-ui&utm_medium=banner&utm_campaign=nuxtlabs-vercel'
+      target: _blank
+      color: 'neutral'
+      trailingIcon: 'i-lucide-arrow-right'
+      ui:
+        trailingIcon: 'ms-0'
+  devPlan:
     title: Free in development
     description: Try Nuxt UI Pro for free in development, no credit card required. Upgrade when ready to deploy.
     orientation: horizontal
@@ -13,6 +24,9 @@ pricing:
       to: '/getting-started/installation/pro/nuxt'
       color: 'neutral'
       variant: 'subtle'
+      trailingIcon: 'i-lucide-arrow-right'
+      ui:
+        trailingIcon: 'ms-0'
   figma:
     title: Figma Kit Pro
     description: Get all Nuxt UI Pro components in a Figma kit to design your next application before coding. Everything you need, from wire-framing to high-fidelity web integration.
@@ -29,7 +43,7 @@ pricing:
       - 'Templates: Starter, Landing, Docs, SaaS and Dashboard'
       - Auto-layout & responsive ready
       - Tailwind CSS assets & icons included
-      - Free [preview available](https://www.figma.com/design/mxXR9binOSLU3rYKZZRPXs/PREVIEW---NuxtUIPro-V3-BETA?m=auto&t=c4598Wr0rZwKPs5M-1)
+      - Free [preview available](https://www.figma.com/design/mxXR9binOSLU3rYKZZRPXs/PREVIEW---Nuxtui-V3-BETA?m=auto&t=c4598Wr0rZwKPs5M-1)
       - Includes Nuxt UI [Figma Kit](https://www.figma.com/community/file/1288455405058138934)
     button:
       label: Buy Figma Kit
@@ -222,8 +236,8 @@ faq:
     - label: What does “lifetime access” means?
       content: Nuxt UI Pro is a one-time purchase, with no recurring subscription. You will have access to all assets of Nuxt UI Pro forever.
     - label: Do you have discounts for students or non-profits?
-      content: Yes, we offer a 50% discount for students using Nuxt UI Pro purely for educational purposes. Contact us at ui-pro@nuxt.com with your details and we'll send you a discount code.
+      content: Yes, we offer a 50% discount for students using Nuxt UI Pro purely for educational purposes. Contact us at ui@nuxt.com with your details and we'll send you a discount code.
     - label: Do you offer technical support?
-      content: Once you sign up you get access to our private GitHub repository, where you can ask questions, report bugs or feature requests and get help from other customers. If you require more specialised support or consultancy, contact us at ui-pro@nuxt.com.
+      content: Once you sign up you get access to our private GitHub repository, where you can ask questions, report bugs or feature requests and get help from other customers. If you require more specialised support or consultancy, contact us at ui@nuxt.com.
     - label: What is your refund policy?
-      content: If you are not satisfied with Nuxt UI Pro, let us know within 14 days of your purchase at ui-pro@nuxt.com and we'll refund your money.
+      content: If you are not satisfied with Nuxt UI Pro, let us know within 14 days of your purchase at ui@nuxt.com and we'll refund your money.

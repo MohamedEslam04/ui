@@ -8,6 +8,9 @@ import { addTemplates } from './templates'
 
 export type * from './runtime/types'
 
+type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error' | (string & {})
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | (string & {})
+
 export interface ModuleOptions {
   /**
    * Prefix for components
@@ -40,7 +43,7 @@ export interface ModuleOptions {
      * @defaultValue `['primary', 'secondary', 'success', 'info', 'warning', 'error']`
      * @link https://ui.nuxt.com/getting-started/installation/nuxt#themecolors
      */
-    colors?: string[]
+    colors?: Color[]
 
     /**
      * Enable or disable transitions on components
@@ -48,6 +51,20 @@ export interface ModuleOptions {
      * @link https://ui.nuxt.com/getting-started/installation/nuxt#themetransitions
      */
     transitions?: boolean
+
+    defaultVariants?: {
+      /**
+       * The default color variant to use for components
+       * @defaultValue `'primary'`
+       */
+      color?: Color
+
+      /**
+       * The default size variant to use for components
+       * @defaultValue `'md'`
+       */
+      size?: Size
+    }
   }
 
   /**
@@ -159,7 +176,7 @@ export default defineNuxtModule<ModuleOptions>({
       options: Record<string, any>
     ) {
       if (!hasNuxtModule(name)) {
-        await installModule(name, options)
+        await installModule(name, defu((nuxt.options as any)[key], options))
       } else {
         (nuxt.options as any)[key] = defu((nuxt.options as any)[key], options)
       }

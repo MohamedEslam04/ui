@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvatarProps } from '@nuxt/ui'
+import type { AvatarProps } from '@eslamdevui/ui'
 
 const { data: users, status } = await useFetch('https://jsonplaceholder.typicode.com/users', {
   key: 'typicode-users',
@@ -24,8 +24,8 @@ function getUserAvatar(value: string) {
     :loading="status === 'pending'"
     icon="i-lucide-user"
     placeholder="Select user"
-    class="w-48"
     value-key="value"
+    class="w-48"
   >
     <template #leading="{ modelValue, ui }">
       <UAvatar

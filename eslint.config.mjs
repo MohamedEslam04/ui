@@ -16,5 +16,6 @@ export default createConfigForNuxt({
   '@typescript-eslint/ban-types': 'off',
   '@typescript-eslint/no-empty-object-type': 'off',
   '@typescript-eslint/no-explicit-any': 'off',
+  'vue/no-template-shadow': 'off',
   'vue/no-dupe-keys': 'off'
 })
