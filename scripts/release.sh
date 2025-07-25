@@ -13,4 +13,4 @@ fi
 
 # Release package
 echo "Publishing @eslamdevui/ui"
-npm publish --access public
+npm publish --access public --tag latest
