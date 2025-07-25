@@ -80,13 +80,13 @@ export function getTemplates(options: ModuleOptions, uiConfig: Record<string, an
         getContents: async () => {
           const result = typeof template === 'function' ? template(options) : template
 
-        // Override default variants from nuxt.config.ts
-        if (result?.defaultVariants?.color && options.theme?.defaultVariants?.color) {
-          result.defaultVariants.color = options.theme.defaultVariants.color
-        }
-        if (result?.defaultVariants?.size && options.theme?.defaultVariants?.size) {
-          result.defaultVariants.size = options.theme.defaultVariants.size
-        }
+          // Override default variants from nuxt.config.ts
+          if (result?.defaultVariants?.color && options.theme?.defaultVariants?.color) {
+            result.defaultVariants.color = options.theme.defaultVariants.color
+          }
+          if (result?.defaultVariants?.size && options.theme?.defaultVariants?.size) {
+            result.defaultVariants.size = options.theme.defaultVariants.size
+          }
 
           const variants = Object.entries(result.variants || {})
             .filter(([_, values]) => {
@@ -107,9 +107,9 @@ export function getTemplates(options: ModuleOptions, uiConfig: Record<string, an
               `import template from ${JSON.stringify(templatePath)}`,
               ...generateVariantDeclarations(variants, result),
               `const options = ${JSON.stringify(options, null, 2)}`,
-            `const result = typeof template === 'function' ? (template as Function)(options) : template`,
-            `if (result?.defaultVariants?.color && options.theme?.defaultVariants?.color) result.defaultVariants.color = options.theme.defaultVariants.color`,
-            `if (result?.defaultVariants?.size && options.theme?.defaultVariants?.size) result.defaultVariants.size = options.theme.defaultVariants.size`,
+              `const result = typeof template === 'function' ? (template as Function)(options) : template`,
+              `if (result?.defaultVariants?.color && options.theme?.defaultVariants?.color) result.defaultVariants.color = options.theme.defaultVariants.color`,
+              `if (result?.defaultVariants?.size && options.theme?.defaultVariants?.size) result.defaultVariants.size = options.theme.defaultVariants.size`,
               `const theme = ${json}`,
               `export default result as typeof theme`
             ].join('\n\n')

@@ -1,4 +1,4 @@
-import type { ContentNavigationItem, ContentCollectionItem } from '@nuxt/content'
+import type { ContentNavigationItem } from '@nuxt/content'
 
 type MapContentNavigationItemOptions = {
   labelAttribute?: string
@@ -55,46 +55,56 @@ export function mapContentNavigation(
   return navigation.map(item => mapContentNavigationItem(item, options))
 }
 
-/** @deprecated Use `findPageHeadline` from Nuxt Content: https://ui.nuxt.com/getting-started/content#findpageheadline to migrate */
-export function findPageHeadline(
-  navigation?: ContentNavigationItem[],
-  page?: ContentCollectionItem | null
-): string | undefined {
-  if (!navigation?.length || !page) {
+type FindPageOptions = { indexAsChild?: boolean }
+export function findPageHeadline(navigation?: ContentNavigationItem[], path?: string | undefined | null, options?: FindPageOptions): string | undefined {
+  if (!navigation?.length || !path) {
     return
   }
 
   for (const link of navigation) {
-    if (link.children) {
-      for (const childLink of link.children) {
-        if (childLink.path === page.path) {
-          return link.title
+    if (options?.indexAsChild) {
+      if (link.children) {
+        const headline = findPageHeadline(link.children, path, options)
+        if (headline) {
+          return headline
+        }
+        for (const child of link.children) {
+          if (child.path === path) {
+            return link.title
+          }
         }
       }
-
-      const headline = findPageHeadline(link.children, page)
-      if (headline) {
-        return headline
+    }
+    else {
+      if (link.children) {
+        for (const child of link.children) {
+          const isIndex = child.stem?.endsWith('/index')
+          if (child.path === path && !isIndex) {
+            return link.title
+          }
+        }
+        const headline = findPageHeadline(link.children, path, options)
+        if (headline) {
+          return headline
+        }
       }
     }
   }
 }
 
-/** @deprecated Use `findPageBreadcrumb` from Nuxt Content: https://ui.nuxt.com/getting-started/content#findpagebreadcrumb to migrate */
-export function findPageBreadcrumb(
-  navigation?: ContentNavigationItem[],
-  page?: ContentCollectionItem | null
-): ContentNavigationItem[] {
-  if (!navigation?.length || !page) {
+type FindPageBreadcrumbOptions = { current?: boolean, indexAsChild?: boolean }
+export function findPageBreadcrumb(navigation?: ContentNavigationItem[], path?: string | undefined | null, options?: FindPageBreadcrumbOptions): ContentNavigationItem[] {
+  if (!navigation?.length || !path) {
     return []
   }
 
-  return navigation.reduce((breadcrumb: ContentNavigationItem[], link) => {
-    if (page.path && (page.path + '/').startsWith(link.path + '/')) {
-      breadcrumb.push(link)
-
+  return navigation.reduce((breadcrumb: ContentNavigationItem[], link: ContentNavigationItem) => {
+    if (path && (path + '/').startsWith(link.path + '/')) {
+      if (path !== link.path || options?.current || (options?.indexAsChild && link.children)) {
+        breadcrumb.push(link)
+      }
       if (link.children) {
-        breadcrumb.push(...findPageBreadcrumb(link.children, page))
+        breadcrumb.push(...findPageBreadcrumb(link.children.filter(c => c.path !== link.path || (c.path === path && options?.current && options?.indexAsChild)), path, options))
       }
     }
     return breadcrumb

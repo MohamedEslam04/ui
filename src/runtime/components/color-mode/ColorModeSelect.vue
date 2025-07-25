@@ -40,7 +40,7 @@ const preference = computed({
     return items.value.find(option => option.value === colorMode.preference) || items.value[0]
   },
   set(option) {
-    colorMode.preference = option.value
+    colorMode.preference = option?.value || 'system'
   }
 })
 </script>
