@@ -225,7 +225,7 @@ const appConfig = useAppConfig() as FileUpload['AppConfig']
 
 // Track active uploads for concurrency control
 const activeUploads = ref(0)
-const uploadQueue = ref<{ index: number; fileUpload: FileUploadFile }[]>([])
+const uploadQueue = ref<{ index: number, fileUpload: FileUploadFile }[]>([])
 
 const [DefineFilesTemplate, ReuseFilesTemplate] = createReusableTemplate()
 
@@ -480,9 +480,9 @@ function cancelUpload(index: number) {
 // Function to check if a file should show progress
 function shouldShowFileProgress(fileUpload: FileUploadFile): boolean {
   return shouldShowProgress.value && (
-    fileUpload.uploading ||
-    (fileUpload.progress ?? 0) > 0 ||
-    !!fileUpload.error
+    fileUpload.uploading
+    || (fileUpload.progress ?? 0) > 0
+    || !!fileUpload.error
   )
 }
 
@@ -510,18 +510,30 @@ defineExpose({
 <template>
   <DefineFilesTemplate>
     <template v-if="modelValue && (Array.isArray(modelValue) ? modelValue.length : true)">
-      <slot name="files-top" :files="modelValue" :open="open" :remove-file="removeFile" :upload-file="uploadFile"
-        :cancel-upload="cancelUpload" />
+      <slot
+        name="files-top"
+        :files="modelValue"
+        :open="open"
+        :remove-file="removeFile"
+        :upload-file="uploadFile"
+        :cancel-upload="cancelUpload"
+      />
 
       <div :class="ui.files({ class: props.ui?.files })">
         <slot name="files" :files="modelValue">
-          <div v-for="(fileUpload, index) in Array.isArray(modelValue) ? modelValue : [modelValue]"
-            :key="(fileUpload as FileUploadFile).file.name + index" :class="ui.file({ class: props.ui?.file })">
+          <div
+            v-for="(fileUpload, index) in Array.isArray(modelValue) ? modelValue : [modelValue]"
+            :key="(fileUpload as FileUploadFile).file.name + index"
+            :class="ui.file({ class: props.ui?.file })"
+          >
             <slot name="file" :file-upload="fileUpload" :index="index">
               <slot name="file-leading" :file-upload="fileUpload" :index="index">
-                <UAvatar :src="createObjectUrl((fileUpload as FileUploadFile).file)"
-                  :icon="fileIcon || appConfig.ui.icons.file" :size="props.size"
-                  :class="ui.fileLeadingAvatar({ class: props.ui?.fileLeadingAvatar })" />
+                <UAvatar
+                  :src="createObjectUrl((fileUpload as FileUploadFile).file)"
+                  :icon="fileIcon || appConfig.ui.icons.file"
+                  :size="props.size"
+                  :class="ui.fileLeadingAvatar({ class: props.ui?.fileLeadingAvatar })"
+                />
               </slot>
 
               <div :class="ui.fileWrapper({ class: props.ui?.fileWrapper })">
@@ -538,12 +550,16 @@ defineExpose({
                 </span>
 
                 <!-- Progress bar - Now shows automatically when autoUpload is true -->
-                <div v-if="shouldShowFileProgress(fileUpload as FileUploadFile)"
-                  :class="ui.fileProgress({ class: props.ui?.fileProgress })">
+                <div
+                  v-if="shouldShowFileProgress(fileUpload as FileUploadFile)"
+                  :class="ui.fileProgress({ class: props.ui?.fileProgress })"
+                >
                   <slot name="file-progress" :file-upload="fileUpload" :index="index">
-                    <UProgress :model-value="(fileUpload as FileUploadFile).progress || 0"
+                    <UProgress
+                      :model-value="(fileUpload as FileUploadFile).progress || 0"
                       :color="(fileUpload as FileUploadFile).error ? 'error' : color"
-                      :size="size === 'xs' ? 'xs' : 'sm'" />
+                      :size="size === 'xs' ? 'xs' : 'sm'"
+                    />
                     <span :class="ui.fileProgressText({ class: props.ui?.fileProgressText })">
                       {{ Math.round((fileUpload as FileUploadFile).progress || 0) }}%
                     </span>
@@ -566,31 +582,43 @@ defineExpose({
                   <!-- Upload button (if not auto-upload and uploadFn provided) -->
                   <UButton
                     v-if="uploadFn && !autoUpload && !(fileUpload as FileUploadFile).uploading && !((fileUpload as FileUploadFile).progress ?? 0)"
-                    color="primary" variant="ghost" :size="layout === 'grid' ? 'xs' : size"
+                    color="primary"
+                    variant="ghost"
+                    :size="layout === 'grid' ? 'xs' : size"
                     :trailing-icon="appConfig.ui.icons.upload || 'i-lucide-upload'"
                     :class="ui.fileUploadButton({ class: props.ui?.fileUploadButton })"
-                    @click.stop.prevent="uploadFile(index)" />
+                    @click.stop.prevent="uploadFile(index)"
+                  />
 
                   <!-- Cancel button (during upload) -->
-                  <UButton v-if="allowCancel && (fileUpload as FileUploadFile).uploading" color="neutral"
-                    variant="ghost" :size="layout === 'grid' ? 'xs' : size"
+                  <UButton
+                    v-if="allowCancel && (fileUpload as FileUploadFile).uploading"
+                    color="neutral"
+                    variant="ghost"
+                    :size="layout === 'grid' ? 'xs' : size"
                     :trailing-icon="appConfig.ui.icons.close || 'i-lucide-x'"
                     :class="ui.fileCancelButton({ class: props.ui?.fileCancelButton })"
-                    @click.stop.prevent="cancelUpload(index)" />
+                    @click.stop.prevent="cancelUpload(index)"
+                  />
 
                   <!-- Delete button -->
-                  <UButton v-if="!(fileUpload as FileUploadFile).uploading" color="neutral" v-bind="{
-                    ...(layout === 'grid' ? {
-                      variant: 'solid',
-                      size: 'xs'
-                    } : {
-                      variant: 'link',
-                      size
-                    }),
-                    ...typeof fileDelete === 'object' ? fileDelete : undefined
-                  }" :trailing-icon="fileDeleteIcon || appConfig.ui.icons.close"
+                  <UButton
+                    v-if="!(fileUpload as FileUploadFile).uploading"
+                    color="neutral"
+                    v-bind="{
+                      ...(layout === 'grid' ? {
+                        variant: 'solid',
+                        size: 'xs'
+                      } : {
+                        variant: 'link',
+                        size
+                      }),
+                      ...typeof fileDelete === 'object' ? fileDelete : undefined
+                    }"
+                    :trailing-icon="fileDeleteIcon || appConfig.ui.icons.close"
                     :class="ui.fileTrailingButton({ class: props.ui?.fileTrailingButton })"
-                    @click.stop.prevent="removeFile(index)" />
+                    @click.stop.prevent="removeFile(index)"
+                  />
                 </div>
               </slot>
             </slot>
@@ -598,26 +626,46 @@ defineExpose({
         </slot>
       </div>
 
-      <slot name="files-bottom" :files="modelValue" :open="open" :remove-file="removeFile" :upload-file="uploadFile"
-        :cancel-upload="cancelUpload" />
+      <slot
+        name="files-bottom"
+        :files="modelValue"
+        :open="open"
+        :remove-file="removeFile"
+        :upload-file="uploadFile"
+        :cancel-upload="cancelUpload"
+      />
     </template>
   </DefineFilesTemplate>
 
   <Primitive :as="as" :class="ui.root({ class: [props.ui?.root, props.class] })">
     <slot :open="open" :remove-file="removeFile" :upload-file="uploadFile" :cancel-upload="cancelUpload">
-      <component :is="variant === 'button' ? 'button' : 'div'" ref="dropzoneRef"
-        :role="variant === 'button' ? undefined : 'button'" :data-dragging="isDragging"
-        :class="ui.base({ class: props.ui?.base })" :tabindex="interactive && !disabled ? 0 : -1"
-        @click="interactive && !disabled && open()">
+      <component
+        :is="variant === 'button' ? 'button' : 'div'"
+        ref="dropzoneRef"
+        :role="variant === 'button' ? undefined : 'button'"
+        :data-dragging="isDragging"
+        :class="ui.base({ class: props.ui?.base })"
+        :tabindex="interactive && !disabled ? 0 : -1"
+        @click="interactive && !disabled && open()"
+      >
         <ReuseFilesTemplate v-if="position === 'inside'" />
 
-        <div v-if="position === 'inside' ? (multiple ? !(modelValue as FileUploadFile[])?.length : !modelValue) : true"
-          :class="ui.wrapper({ class: props.ui?.wrapper })">
+        <div
+          v-if="position === 'inside' ? (multiple ? !(modelValue as FileUploadFile[])?.length : !modelValue) : true"
+          :class="ui.wrapper({ class: props.ui?.wrapper })"
+        >
           <slot name="leading">
-            <UIcon v-if="variant === 'button'" :name="icon || appConfig.ui.icons.upload"
-              :class="ui.icon({ class: props.ui?.icon })" />
-            <UAvatar v-else :icon="icon || appConfig.ui.icons.upload" :size="props.size"
-              :class="ui.avatar({ class: props.ui?.avatar })" />
+            <UIcon
+              v-if="variant === 'button'"
+              :name="icon || appConfig.ui.icons.upload"
+              :class="ui.icon({ class: props.ui?.icon })"
+            />
+            <UAvatar
+              v-else
+              :icon="icon || appConfig.ui.icons.upload"
+              :size="props.size"
+              :class="ui.avatar({ class: props.ui?.avatar })"
+            />
           </slot>
 
           <template v-if="variant !== 'button'">
@@ -633,8 +681,14 @@ defineExpose({
             </div>
 
             <div v-if="!!slots.actions" :class="ui.actions({ class: props.ui?.actions })">
-              <slot name="actions" :files="modelValue" :open="open" :remove-file="removeFile" :upload-file="uploadFile"
-                :cancel-upload="cancelUpload" />
+              <slot
+                name="actions"
+                :files="modelValue"
+                :open="open"
+                :remove-file="removeFile"
+                :upload-file="uploadFile"
+                :cancel-upload="cancelUpload"
+              />
             </div>
           </template>
         </div>
@@ -643,7 +697,18 @@ defineExpose({
       <ReuseFilesTemplate v-if="position === 'outside'" />
     </slot>
 
-    <input :id="id" ref="inputRef" type="file" :name="name" :accept="accept" :multiple="(multiple as boolean)"
-      :required="required" :disabled="disabled" v-bind="{ ...$attrs, ...ariaAttrs }" class="sr-only" tabindex="-1">
+    <input
+      :id="id"
+      ref="inputRef"
+      type="file"
+      :name="name"
+      :accept="accept"
+      :multiple="(multiple as boolean)"
+      :required="required"
+      :disabled="disabled"
+      v-bind="{ ...$attrs, ...ariaAttrs }"
+      class="sr-only"
+      tabindex="-1"
+    >
   </Primitive>
 </template>

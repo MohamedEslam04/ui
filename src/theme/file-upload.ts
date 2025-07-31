@@ -197,21 +197,21 @@ export default (options: Required<ModuleOptions>) => ({
     interactive: true,
     disabled: false,
     class: 'hover:bg-elevated/25'
-    }, {
-      showProgress: true,
-      layout: 'list',
-      class: {
-        fileWrapper: 'flex-col',
-        fileProgress: 'w-full'
-      }
-    }, {
-      showProgress: true,
-      layout: 'grid',
-      class: {
-        fileWrapper: 'absolute inset-0 bg-black/50 flex flex-col items-center justify-center rounded-lg',
-        fileProgress: 'w-3/4',
-        fileProgressText: 'text-white font-medium'
-      }
+  }, {
+    showProgress: true,
+    layout: 'list',
+    class: {
+      fileWrapper: 'flex-col',
+      fileProgress: 'w-full'
+    }
+  }, {
+    showProgress: true,
+    layout: 'grid',
+    class: {
+      fileWrapper: 'absolute inset-0 bg-black/50 flex flex-col items-center justify-center rounded-lg',
+      fileProgress: 'w-3/4',
+      fileProgressText: 'text-white font-medium'
+    }
   }],
   defaultVariants: {
     color: 'primary',
