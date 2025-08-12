@@ -30,8 +30,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: pnpm
 
-      - name: Remove node_modules
-        run: rm -rf node_modules pnpm-lock.yaml
+      # - name: Remove node_modules
+      #   run: rm -rf node_modules pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install
