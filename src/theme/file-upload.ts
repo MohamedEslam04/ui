@@ -16,13 +16,7 @@ export default (options: Required<ModuleOptions>) => ({
     fileWrapper: 'flex flex-col min-w-0',
     fileName: 'text-default truncate',
     fileSize: 'text-muted truncate',
-    fileProgress: 'flex items-center gap-2 mt-1',
-    fileProgressText: 'text-xs text-muted whitespace-nowrap',
-    fileError: 'text-xs text-red-500 mt-1',
-    fileActions: 'flex items-center gap-1',
-    fileTrailingButton: '',
-    fileUploadButton: '',
-    fileCancelButton: ''
+    fileTrailingButton: ''
   },
   variants: {
     color: {
@@ -72,15 +66,12 @@ export default (options: Required<ModuleOptions>) => ({
         root: 'gap-2 items-start',
         files: 'flex flex-col w-full gap-2',
         file: 'min-w-0 flex items-center border border-default rounded-md w-full',
-        fileActions: 'ms-auto'
+        fileTrailingButton: 'ms-auto'
       },
       grid: {
         fileWrapper: 'hidden',
         fileLeadingAvatar: 'size-full rounded-lg',
-        fileActions: 'absolute -top-1.5 -end-1.5',
-        fileTrailingButton: 'p-0 rounded-full border-2 border-bg',
-        fileUploadButton: 'p-0 rounded-full border-2 border-bg',
-        fileCancelButton: 'p-0 rounded-full border-2 border-bg'
+        fileTrailingButton: 'absolute -top-1.5 -end-1.5 p-0 rounded-full border-2 border-bg'
       }
     },
     position: {
@@ -101,9 +92,6 @@ export default (options: Required<ModuleOptions>) => ({
     },
     disabled: {
       true: 'cursor-not-allowed opacity-75'
-    },
-    showProgress: {
-      true: ''
     }
   },
   compoundVariants: [...(options.theme.colors || []).map((color: string) => ({
@@ -124,31 +112,31 @@ export default (options: Required<ModuleOptions>) => ({
     size: 'xs',
     layout: 'list',
     class: {
-      fileActions: '-me-1'
+      fileTrailingButton: '-me-1'
     }
   }, {
     size: 'sm',
     layout: 'list',
     class: {
-      fileActions: '-me-1.5'
+      fileTrailingButton: '-me-1.5'
     }
   }, {
     size: 'md',
     layout: 'list',
     class: {
-      fileActions: '-me-1.5'
+      fileTrailingButton: '-me-1.5'
     }
   }, {
     size: 'lg',
     layout: 'list',
     class: {
-      fileActions: '-me-2'
+      fileTrailingButton: '-me-2'
     }
   }, {
     size: 'xl',
     layout: 'list',
     class: {
-      fileActions: '-me-2'
+      fileTrailingButton: '-me-2'
     }
   }, {
     variant: 'button',
@@ -197,21 +185,6 @@ export default (options: Required<ModuleOptions>) => ({
     interactive: true,
     disabled: false,
     class: 'hover:bg-elevated/25'
-    }, {
-      showProgress: true,
-      layout: 'list',
-      class: {
-        fileWrapper: 'flex-col',
-        fileProgress: 'w-full'
-      }
-    }, {
-      showProgress: true,
-      layout: 'grid',
-      class: {
-        fileWrapper: 'absolute inset-0 bg-black/50 flex flex-col items-center justify-center rounded-lg',
-        fileProgress: 'w-3/4',
-        fileProgressText: 'text-white font-medium'
-      }
   }],
   defaultVariants: {
     color: 'primary',
