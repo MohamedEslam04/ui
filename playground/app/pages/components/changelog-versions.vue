@@ -65,6 +65,39 @@ const versions = ref([
     ui: {
       container: 'max-w-lg'
     }
+  },
+  {
+    title: 'Nuxt 3.15',
+    description: 'Nuxt 3.15 is out - with Vite 6, better HMR and faster performance!',
+    image: 'https://nuxt.com/assets/blog/v3.15.png',
+    date: '2024-12-24',
+    to: 'https://nuxt.com/blog/v3-15',
+    target: '_blank',
+    ui: {
+      container: 'max-w-lg'
+    }
+  },
+  {
+    title: 'Nuxt 3.15',
+    description: 'Nuxt 3.15 is out - with Vite 6, better HMR and faster performance!',
+    image: 'https://nuxt.com/assets/blog/v3.15.png',
+    date: '2025-6-24',
+    to: 'https://nuxt.com/blog/v3-15',
+    target: '_blank',
+    ui: {
+      container: 'max-w-lg'
+    }
+  },
+  {
+    title: 'Nuxt 3.15',
+    description: 'Nuxt 3.15 is out - with Vite 6, better HMR and faster performance!',
+    image: 'https://nuxt.com/assets/blog/v3.15.png',
+    date: '2025-8-12',
+    to: 'https://nuxt.com/blog/v3-15',
+    target: '_blank',
+    ui: {
+      container: 'max-w-lg'
+    }
   }
 ])
 
