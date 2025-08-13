@@ -70,7 +70,7 @@ export interface ChangelogVersionsSlots<T extends ChangelogVersionProps = Change
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
-import { Motion, useScroll, useSpring } from 'motion-v'
+import { Motion, useScroll, useSpring, useTransform } from 'motion-v'
 import { defu } from 'defu'
 import { omit } from '../utils'
 import { useAppConfig } from '#imports'
@@ -85,8 +85,9 @@ const slots = defineSlots<ChangelogVersionsSlots>()
 const proxySlots = omit(slots, ['default', 'indicator'])
 const appConfig = useAppConfig() as ChangelogVersions['AppConfig']
 const springOptions = computed(() => defu(typeof props.indicatorMotion === 'object' ? props.indicatorMotion : {}, { damping: 30, restDelta: 1e-3 }))
-const { scrollY } = useScroll()
-const height = useSpring(scrollY, springOptions)
+const { scrollYProgress } = useScroll()
+const y = useSpring(scrollYProgress, springOptions);
+const height = useTransform(() => `${y.get() * 100}%`);
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.changelogVersions || {} })())
 </script>
 
