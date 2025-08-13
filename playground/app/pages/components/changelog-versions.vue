@@ -98,7 +98,7 @@ const versions = ref([
     ui: {
       container: 'max-w-lg'
     }
-  },
+  }
 ])
 
 const stickyVersions = [

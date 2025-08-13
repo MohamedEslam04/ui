@@ -86,8 +86,8 @@ const proxySlots = omit(slots, ['default', 'indicator'])
 const appConfig = useAppConfig() as ChangelogVersions['AppConfig']
 const springOptions = computed(() => defu(typeof props.indicatorMotion === 'object' ? props.indicatorMotion : {}, { damping: 30, restDelta: 1e-3 }))
 const { scrollYProgress } = useScroll()
-const y = useSpring(scrollYProgress, springOptions);
-const height = useTransform(() => `${y.get() * 100}%`);
+const y = useSpring(scrollYProgress, springOptions)
+const height = useTransform(() => `${y.get() * 100}%`)
 const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.changelogVersions || {} })())
 </script>
 

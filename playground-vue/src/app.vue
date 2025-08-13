@@ -1,145 +1,142 @@
 <script setup lang="ts">
-import { splitByCase, upperFirst } from "scule";
-import { useRouter } from "vue-router";
-import { reactive, ref } from "vue";
-import { useColorMode } from "@vueuse/core";
+import { splitByCase, upperFirst } from 'scule'
+import { useRouter } from 'vue-router'
+import { reactive, ref } from 'vue'
+import { useColorMode } from '@vueuse/core'
 
-const appConfig = useAppConfig();
-const mode = useColorMode();
+const appConfig = useAppConfig()
+const mode = useColorMode()
 
 appConfig.toaster = reactive({
-  position: "bottom-right" as const,
+  position: 'bottom-right' as const,
   expand: true,
-  duration: 5000,
-});
+  duration: 5000
+})
 
-const router = useRouter();
+const router = useRouter()
 
 const components = [
-  "accordion",
-  "alert",
-  "avatar",
-  "badge",
-  "breadcrumb",
-  "button-group",
-  "button",
-  "calendar",
-  "card",
-  "carousel",
-  "checkbox-group",
-  "checkbox",
-  "chip",
-  "collapsible",
-  "color-picker",
-  "command-palette",
-  "context-menu",
-  "drawer",
-  "dropdown-menu",
-  "file-upload",
-  "form",
-  "form-field",
-  "form",
-  "input-menu",
-  "input-number",
-  "input-tags",
-  "input",
-  "kbd",
-  "link",
-  "modal",
-  "navigation-menu",
-  "pagination",
-  "pin-input",
-  "popover",
-  "progress",
-  "radio-group",
-  "select-menu",
-  "select",
-  "separator",
-  "shortcuts",
-  "skeleton",
-  "slideover",
-  "slider",
-  "stepper",
-  "switch",
-  "table",
-  "tabs",
-  "textarea",
-  "timeline",
-  "toast",
-  "tooltip",
-  "tree",
-];
+  'accordion',
+  'alert',
+  'avatar',
+  'badge',
+  'breadcrumb',
+  'button-group',
+  'button',
+  'calendar',
+  'card',
+  'carousel',
+  'checkbox-group',
+  'checkbox',
+  'chip',
+  'collapsible',
+  'color-picker',
+  'command-palette',
+  'context-menu',
+  'drawer',
+  'dropdown-menu',
+  'file-upload',
+  'form',
+  'form-field',
+  'form',
+  'input-menu',
+  'input-number',
+  'input-tags',
+  'input',
+  'kbd',
+  'link',
+  'modal',
+  'navigation-menu',
+  'pagination',
+  'pin-input',
+  'popover',
+  'progress',
+  'radio-group',
+  'select-menu',
+  'select',
+  'separator',
+  'shortcuts',
+  'skeleton',
+  'slideover',
+  'slider',
+  'stepper',
+  'switch',
+  'table',
+  'tabs',
+  'textarea',
+  'timeline',
+  'toast',
+  'tooltip',
+  'tree'
+]
 
 const proComponents = [
-  "auth-form",
-  "banner",
-  "blog-post",
-  "blog-posts",
-  "changelog-version",
-  "changelog-versions",
-  "chat-message",
-  "chat-messages",
-  "chat-palette",
-  "chat-prompt-submit",
-  "chat-prompt",
-  "dashboard",
-  "error",
-  "footer-columns",
-  "footer",
-  "header",
-  "main",
-  "page-accordion",
-  "page-anchors",
-  "page-aside",
-  "page-body",
-  "page-card",
-  "page-columns",
-  "page-cta",
-  "page-feature",
-  "page-grid",
-  "page-header",
-  "page-hero",
-  "page-links",
-  "page-list",
-  "page-logos",
-  "page-marquee",
-  "page-section",
-  "page",
-  "pricing-plan",
-  "pricing-plans",
-  "pricing-table",
-  "user",
-];
+  'auth-form',
+  'banner',
+  'blog-post',
+  'blog-posts',
+  'changelog-version',
+  'changelog-versions',
+  'chat-message',
+  'chat-messages',
+  'chat-palette',
+  'chat-prompt-submit',
+  'chat-prompt',
+  'dashboard',
+  'error',
+  'footer-columns',
+  'footer',
+  'header',
+  'main',
+  'page-accordion',
+  'page-anchors',
+  'page-aside',
+  'page-body',
+  'page-card',
+  'page-columns',
+  'page-cta',
+  'page-feature',
+  'page-grid',
+  'page-header',
+  'page-hero',
+  'page-links',
+  'page-list',
+  'page-logos',
+  'page-marquee',
+  'page-section',
+  'page',
+  'pricing-plan',
+  'pricing-plans',
+  'pricing-table',
+  'user'
+]
 
-const items = [...components, ...proComponents].sort().map((component) => ({
+const items = [...components, ...proComponents].sort().map(component => ({
   label: upperName(component),
   to: `/components/${component}`,
-  pro: proComponents.includes(component),
-}));
+  pro: proComponents.includes(component)
+}))
 
 function upperName(name: string) {
   return splitByCase(name)
-    .map((p) => upperFirst(p))
-    .join("");
+    .map(p => upperFirst(p))
+    .join('')
 }
 
-const isCommandPaletteOpen = ref(false);
+const isCommandPaletteOpen = ref(false)
 
 function onSelect(item: any) {
-  router.push(item.to);
+  router.push(item.to)
 }
 
 defineShortcuts({
-  meta_k: () => (isCommandPaletteOpen.value = true),
-});
+  meta_k: () => (isCommandPaletteOpen.value = true)
+})
 </script>
 
 <template>
   <UApp :toaster="appConfig.toaster as any">
-    <div
-      class="h-screen w-screen overflow-hidden flex min-h-0 bg-default"
-      data-vaul-drawer-wrapper
-    >
+    <div class="h-screen w-screen overflow-hidden flex min-h-0 bg-default" data-vaul-drawer-wrapper>
       <!-- Vertical Navigation Menu -->
       <UNavigationMenu
         :items="items"
@@ -149,11 +146,11 @@ defineShortcuts({
         <template #item="{ item }">
           <div class="flex items-center gap-2">
             <span>{{ item.label }}</span>
-            <UBadge v-if="item.pro" label="Pro" variant="soft" />
+            <sup v-if="item.pro" class="text-success">Pro</sup>
           </div>
         </template>
       </UNavigationMenu>
-      
+
       <!-- Horizontal Navigation Menu -->
       <UNavigationMenu
         :items="items"
@@ -163,7 +160,7 @@ defineShortcuts({
         <template #item="{ item }">
           <div class="flex items-center gap-2">
             <span>{{ item.label }}</span>
-            <UBadge v-if="item.pro" label="Pro" />
+            <sup v-if="item.pro" class="text-success">Pro</sup>
           </div>
         </template>
       </UNavigationMenu>
@@ -178,9 +175,7 @@ defineShortcuts({
         />
       </div>
 
-      <div
-        class="flex-1 flex flex-col items-center justify-around overflow-y-auto w-full py-14 px-4"
-      >
+      <div class="flex-1 flex flex-col items-center justify-around overflow-y-auto w-full py-14 px-4">
         <Suspense>
           <RouterView />
         </Suspense>

@@ -152,7 +152,7 @@ useHead({
           <template #item="{ item }">
             <div class="flex items-center gap-2">
               <span>{{ item.label }}</span>
-              <UBadge v-if="item.pro" label="Pro" variant="soft" />
+              <sup v-if="item.pro" class="text-success">Pro</sup>
             </div>
           </template>
         </UNavigationMenu>
@@ -165,7 +165,7 @@ useHead({
           <template #item="{ item }">
             <div class="flex items-center gap-2">
               <span>{{ item.label }}</span>
-              <UBadge v-if="item.pro" label="Pro" />
+              <sup v-if="item.pro" class="text-success">Pro</sup>
             </div>
           </template>
         </UNavigationMenu>
