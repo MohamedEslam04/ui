@@ -21,27 +21,28 @@ const components = [
   'avatar',
   'badge',
   'breadcrumb',
-  'button',
   'button-group',
-  'card',
+  'button',
   'calendar',
+  'card',
   'carousel',
-  'checkbox',
   'checkbox-group',
+  'checkbox',
   'chip',
   'collapsible',
   'color-picker',
-  'context-menu',
   'command-palette',
+  'context-menu',
   'drawer',
   'dropdown-menu',
   'file-upload',
   'form',
   'form-field',
-  'input',
+  'form',
   'input-menu',
   'input-number',
   'input-tags',
+  'input',
   'kbd',
   'link',
   'modal',
@@ -51,8 +52,8 @@ const components = [
   'popover',
   'progress',
   'radio-group',
-  'select',
   'select-menu',
+  'select',
   'separator',
   'shortcuts',
   'skeleton',
@@ -60,8 +61,8 @@ const components = [
   'slider',
   'stepper',
   'switch',
-  'tabs',
   'table',
+  'tabs',
   'textarea',
   'timeline',
   'toast',
@@ -69,10 +70,57 @@ const components = [
   'tree'
 ]
 
-const items = components.map(component => ({ label: upperName(component), to: `/components/${component}` }))
+const proComponents = [
+  'auth-form',
+  'banner',
+  'blog-post',
+  'blog-posts',
+  'changelog-version',
+  'changelog-versions',
+  'chat-message',
+  'chat-messages',
+  'chat-palette',
+  'chat-prompt-submit',
+  'chat-prompt',
+  'dashboard',
+  'error',
+  'footer-columns',
+  'footer',
+  'header',
+  'main',
+  'page-accordion',
+  'page-anchors',
+  'page-aside',
+  'page-body',
+  'page-card',
+  'page-columns',
+  'page-cta',
+  'page-feature',
+  'page-grid',
+  'page-header',
+  'page-hero',
+  'page-links',
+  'page-list',
+  'page-logos',
+  'page-marquee',
+  'page-section',
+  'page',
+  'pricing-plan',
+  'pricing-plans',
+  'pricing-table',
+  'user'
+]
+
+const items = [...components, ...proComponents].sort().map(component => ({
+  label: upperName(component),
+  to: `/components/${component}`,
+  pro: proComponents.includes(component)
+}))
 
 function upperName(name: string) {
-  return splitByCase(name).map(p => upperFirst(p)).join('')
+  return splitByCase(name)
+    .map(p => upperFirst(p))
+    .join('')
 }
 
 const isCommandPaletteOpen = ref(false)
@@ -82,15 +130,40 @@ function onSelect(item: any) {
 }
 
 defineShortcuts({
-  meta_k: () => isCommandPaletteOpen.value = true
+  meta_k: () => (isCommandPaletteOpen.value = true)
 })
 </script>
 
 <template>
-  <UApp :toaster="(appConfig.toaster as any)">
+  <UApp :toaster="appConfig.toaster as any">
     <div class="h-screen w-screen overflow-hidden flex min-h-0 bg-default" data-vaul-drawer-wrapper>
-      <UNavigationMenu :items="items" orientation="vertical" class="hidden lg:flex border-e border-default overflow-y-auto w-48 p-4" />
-      <UNavigationMenu :items="items" orientation="horizontal" class="lg:hidden border-b border-default [&>div]:min-w-min overflow-x-auto" />
+      <!-- Vertical Navigation Menu -->
+      <UNavigationMenu
+        :items="items"
+        orientation="vertical"
+        class="hidden lg:flex border-e border-default overflow-y-auto w-fit p-4"
+      >
+        <template #item="{ item }">
+          <div class="flex items-center gap-2">
+            <span>{{ item.label }}</span>
+            <sup v-if="item.pro" class="text-success">Pro</sup>
+          </div>
+        </template>
+      </UNavigationMenu>
+
+      <!-- Horizontal Navigation Menu -->
+      <UNavigationMenu
+        :items="items"
+        orientation="horizontal"
+        class="lg:hidden border-b border-default [&>div]:min-w-min overflow-x-auto"
+      >
+        <template #item="{ item }">
+          <div class="flex items-center gap-2">
+            <span>{{ item.label }}</span>
+            <sup v-if="item.pro" class="text-success">Pro</sup>
+          </div>
+        </template>
+      </UNavigationMenu>
 
       <div class="fixed top-15 lg:top-3 end-4 flex items-center gap-2">
         <UButton
@@ -111,7 +184,13 @@ defineShortcuts({
 
     <UModal v-model:open="isCommandPaletteOpen" class="sm:h-96">
       <template #content>
-        <UCommandPalette placeholder="Search a component..." :groups="[{ id: 'items', items }]" :fuse="{ resultLimit: 100 }" @update:model-value="onSelect" @update:open="value => isCommandPaletteOpen = value" />
+        <UCommandPalette
+          placeholder="Search a component..."
+          :groups="[{ id: 'items', items }]"
+          :fuse="{ resultLimit: 100 }"
+          @update:model-value="onSelect"
+          @update:open="(value) => (isCommandPaletteOpen = value)"
+        />
       </template>
     </UModal>
   </UApp>
