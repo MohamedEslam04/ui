@@ -14,14 +14,6 @@
   ],
   "packageRules": [
     {
-      "matchBaseBranches": [
-        "v4"
-      ],
-      "labels": [
-        "v4"
-      ]
-    },
-    {
       "groupName": "tailwindcss",
       "matchPackageNames": [
         "tailwindcss",
