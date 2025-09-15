@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.3.4](https://github.com/nuxt/ui/compare/v3.3.3...v3.3.4) (2025-09-15)
+
+### Bug Fixes
+
+* **FileUpload:** add missing `button` type ([91f86d9](https://github.com/nuxt/ui/commit/91f86d9da2a614bd37a12f2ece9ff3ce176e8cb2)), closes [#4935](https://github.com/nuxt/ui/issues/4935)
+* **Form:** handling race condition on `clear` function ([#4843](https://github.com/nuxt/ui/issues/4843)) ([0a8ead7](https://github.com/nuxt/ui/commit/0a8ead72b53019969cf28d91549b9495ccc89f02))
+* **InputMenu/Select/SelectMenu:** show falsy value when model value is falsy ([#4882](https://github.com/nuxt/ui/issues/4882)) ([5b9d9d8](https://github.com/nuxt/ui/commit/5b9d9d8135fe5b4c3f9298161dbd0c59c511897a))
+* **locale:** improve `id` name ([#4890](https://github.com/nuxt/ui/issues/4890)) ([e5cb55b](https://github.com/nuxt/ui/commit/e5cb55be7d5ac2690c95f05f56462b16d453670f))
+
 ## [3.3.3](https://github.com/nuxt/ui/compare/v3.3.2...v3.3.3) (2025-09-01)
 
 ### Features
