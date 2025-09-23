@@ -1,6 +1,6 @@
 <!-- eslint-disable no-useless-escape -->
 <script setup lang="ts">
-import type { ChipProps } from '@nuxt/ui'
+import type { ChipProps } from '@eslamdevui/ui'
 import json5 from 'json5'
 import { upperFirst, camelCase, kebabCase } from 'scule'
 import { hash } from 'ohash'
@@ -211,7 +211,7 @@ ${props.slots?.default}
       const removeArrayBrackets = (type: string): string => type.endsWith('[]') ? removeArrayBrackets(type.slice(0, -2)) : type
 
       const types = props.externalTypes.map(type => removeArrayBrackets(type))
-      code += `import type { ${types.join(', ')} } from '@nuxt/ui'
+      code += `import type { ${types.join(', ')} } from '@eslamdevui/ui'
 
 `
     }

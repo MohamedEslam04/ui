@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui'
+import type { SelectItem } from '@eslamdevui/ui'
 
 const items = ref([
   {

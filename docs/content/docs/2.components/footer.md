@@ -41,7 +41,7 @@ Use the Footer component in your `app.vue` or in a layout:
 
 ```vue [app.vue]{32-67}
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@eslamdevui/ui'
 
 const items: NavigationMenuItem[] = [{
   label: 'Figma Kit',

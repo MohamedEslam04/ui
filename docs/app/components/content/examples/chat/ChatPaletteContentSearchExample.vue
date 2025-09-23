@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Chat } from '@ai-sdk/vue'
 import type { UIMessage } from 'ai'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { getTextFromMessage } from '@eslamdevui/ui/utils/ai'
 
 const messages: UIMessage[] = []
 const input = ref('')

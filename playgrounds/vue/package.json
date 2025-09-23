@@ -10,7 +10,7 @@
     "typecheck": "vue-tsc -p ./tsconfig.app.json"
   },
   "dependencies": {
-    "@nuxt/ui": "workspace:*",
+    "@eslamdevui/ui": "workspace:*",
     "vue": "^3.5.21",
     "vue-router": "^4.5.1",
     "zod": "^4.1.11"

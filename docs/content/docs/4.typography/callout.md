@@ -29,7 +29,7 @@ slots:
   default: This is a `callout` with full **markdown** support.
 ---
 
-Learn how to install `@nuxt/ui` in your project.
+Learn how to install `@eslamdevui/ui` in your project.
 ::
 
 ## Shortcuts

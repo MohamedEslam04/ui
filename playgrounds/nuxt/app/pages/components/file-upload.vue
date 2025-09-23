@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as z from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
+import type { FormSubmitEvent } from '@eslamdevui/ui'
 import theme from '#build/ui/file-upload'
 
 const sizes = Object.keys(theme.variants.size) as Array<keyof typeof theme.variants.size>

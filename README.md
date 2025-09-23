@@ -36,19 +36,19 @@ Kickstart your project with one of our ready-to-use Nuxt UI templates or follow 
 ## Installation
 
 ```bash [pnpm]
-pnpm add @nuxt/ui
+pnpm add @eslamdevui/ui
 ```
 
 ```bash [yarn]
-yarn add @nuxt/ui
+yarn add @eslamdevui/ui
 ```
 
 ```bash [npm]
-npm install @nuxt/ui
+npm install @eslamdevui/ui
 ```
 
 ```bash [bun]
-bun add @nuxt/ui
+bun add @eslamdevui/ui
 ```
 
 ### Nuxt
@@ -57,7 +57,7 @@ bun add @nuxt/ui
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui']
+  modules: ['@eslamdevui/ui']
 })
 ```
 
@@ -77,7 +77,7 @@ Learn more in the [installation guide](https://ui.nuxt.com/docs/getting-started/
 ```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ui from '@nuxt/ui/vite'
+import ui from '@eslamdevui/ui/vite'
 
 export default defineConfig({
   plugins: [
@@ -92,7 +92,7 @@ export default defineConfig({
 ```ts [main.ts]
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import ui from '@nuxt/ui/vue-plugin'
+import ui from '@eslamdevui/ui/vue-plugin'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -143,11 +143,11 @@ Follow the docs to [set up your local development environment](https://ui.nuxt.c
 Licensed under the [MIT license](https://github.com/nuxt/ui/blob/v4/LICENSE.md).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@nuxt/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/@nuxt/ui
+[npm-version-src]: https://img.shields.io/npm/v/@eslamdevui/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/@eslamdevui/ui
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxt/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npm.chart.dev/@nuxt/ui
+[npm-downloads-src]: https://img.shields.io/npm/dm/@eslamdevui/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npm.chart.dev/@eslamdevui/ui
 
 [license-src]: https://img.shields.io/github/license/nuxt/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://github.com/nuxt/ui/blob/v4/LICENSE.md

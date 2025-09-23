@@ -208,7 +208,7 @@ const generateComponentCode = ({
     .filter((_, index) => externalTypes[index] && externalTypes[index] !== 'undefined')
     .map((ext, index) => {
       const type = externalTypes[index]?.replace(/[[\]]/g, '')
-      return `import type { ${type} } from '@nuxt/ui'`
+      return `import type { ${type} } from '@eslamdevui/ui'`
     })
     .join('\n')
 

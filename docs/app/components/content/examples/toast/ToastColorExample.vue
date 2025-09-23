@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ToastProps } from '@nuxt/ui'
+import type { ToastProps } from '@eslamdevui/ui'
 
 const props = defineProps<{
   color: ToastProps['color']

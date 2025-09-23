@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ChipProps } from '@nuxt/ui'
+import type { ChipProps } from '@eslamdevui/ui'
 import { camelCase } from 'scule'
 import { hash } from 'ohash'
 import { useElementSize } from '@vueuse/core'

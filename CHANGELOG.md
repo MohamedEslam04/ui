@@ -71,7 +71,7 @@
 * **components:** upgrade `ai-sdk` to v5 ([#4698](https://github.com/nuxt/ui/issues/4698)) ([de7822f](https://github.com/nuxt/ui/commit/de7822f6a11f6d1830421db337237c6e16f530b1))
 * **FieldGroup:** rename from `ButtonGroup` ([#4596](https://github.com/nuxt/ui/issues/4596)) ([a0963eb](https://github.com/nuxt/ui/commit/a0963eba8254d2ecf02cd1ee87cee7f73c4b2bc4))
 * **Icon:** allow passing a component instead of a name ([#4766](https://github.com/nuxt/ui/issues/4766)) ([61b603f](https://github.com/nuxt/ui/commit/61b603fff476aeac065268bd8dd493ff45577de4))
-* import `@nuxt/ui-pro` components ([#4675](https://github.com/nuxt/ui/issues/4675)) ([5cb65cf](https://github.com/nuxt/ui/commit/5cb65cfbd0d176393e841796bbbcd825be7cd376))
+* import `@eslamdevui/ui-pro` components ([#4675](https://github.com/nuxt/ui/issues/4675)) ([5cb65cf](https://github.com/nuxt/ui/commit/5cb65cfbd0d176393e841796bbbcd825be7cd376))
 * **Marquee:** rename from `PageMarquee` ([#4741](https://github.com/nuxt/ui/issues/4741)) ([b6edce2](https://github.com/nuxt/ui/commit/b6edce266281ef8448588f303e4d8e28c7adf6ea))
 * **module:** update compatibility to nuxt 4 ([2aca598](https://github.com/nuxt/ui/commit/2aca598792cf2075db9b763bb41c4044ee9ad258))
 * **PageAccordion:** remove in favor of `Accordion` ([#4734](https://github.com/nuxt/ui/issues/4734)) ([f70a3ff](https://github.com/nuxt/ui/commit/f70a3ff13f3e9baa0e9ef2070596512f67189c1a))
@@ -100,7 +100,7 @@
 
 * **components:** upgrade `ai-sdk` to v5 ([#4698](https://github.com/nuxt/ui/issues/4698)) ([9545fdd](https://github.com/nuxt/ui/commit/9545fddec8ba88bbf523cdb26672129adc5ed4f3))
 * **FieldGroup:** rename from `ButtonGroup` ([#4596](https://github.com/nuxt/ui/issues/4596)) ([8aa96d1](https://github.com/nuxt/ui/commit/8aa96d1a04c66bd5796bebed75709015e1e2b684))
-* import `@nuxt/ui-pro` components ([#4675](https://github.com/nuxt/ui/issues/4675)) ([f6ae153](https://github.com/nuxt/ui/commit/f6ae1534280818ff6a8a4c967ae589e0f715ddbe))
+* import `@eslamdevui/ui-pro` components ([#4675](https://github.com/nuxt/ui/issues/4675)) ([f6ae153](https://github.com/nuxt/ui/commit/f6ae1534280818ff6a8a4c967ae589e0f715ddbe))
 * **Marquee:** rename from `PageMarquee` ([#4741](https://github.com/nuxt/ui/issues/4741)) ([0a4d9b4](https://github.com/nuxt/ui/commit/0a4d9b4dd35703f884b740eab2bfcc6e0d11f870))
 * **PageAccordion:** remove in favor of `Accordion` ([#4734](https://github.com/nuxt/ui/issues/4734)) ([1c63aab](https://github.com/nuxt/ui/commit/1c63aab7eb21a5d2fb0a7c69725f0e7490c88ebd))
 
@@ -207,7 +207,7 @@
 * **useOverlay:** don't use `patch` when passing props to `open` ([#4497](https://github.com/nuxt/ui/issues/4497)) ([5ad7dab](https://github.com/nuxt/ui/commit/5ad7dabbdc5251567b55edc22290e0e6b864282f))
 * **useOverlay:** improve props handling by merging existing and new ([#4478](https://github.com/nuxt/ui/issues/4478)) ([6519a74](https://github.com/nuxt/ui/commit/6519a74de44f74d2ab6a921c5b252e134d2e2258))
 * **useOverlay:** support infering close argument from complex emits ([#4414](https://github.com/nuxt/ui/issues/4414)) ([d7aefa5](https://github.com/nuxt/ui/commit/d7aefa53b28f788accf3b2113f53a1a42fa00af5))
-* **vue:** handle override when importing from `@nuxt/ui` ([57a5037](https://github.com/nuxt/ui/commit/57a5037b137647ad3926570727ab524c67a6d416))
+* **vue:** handle override when importing from `@eslamdevui/ui` ([57a5037](https://github.com/nuxt/ui/commit/57a5037b137647ad3926570727ab524c67a6d416))
 * **vue:** stub `clearError` ([d8160ba](https://github.com/nuxt/ui/commit/d8160ba6efa517036f8cabe58b6f2ca1d9e302eb))
 
 ## [3.2.0](https://github.com/nuxt/ui/compare/v3.1.3...v3.2.0) (2025-06-25)
@@ -482,7 +482,7 @@
 * **Table:** allow links to be opened when [@select](https://github.com/select) is used ([#3580](https://github.com/nuxt/ui/issues/3580)) ([e80cc15](https://github.com/nuxt/ui/commit/e80cc1592fb244dd7692486a4c1ca5b1c2008112))
 * **types:** add missing export for Icon ([#3568](https://github.com/nuxt/ui/issues/3568)) ([5e62493](https://github.com/nuxt/ui/commit/5e624933216db95cbfd1b8034b2eb0f13846ae55))
 * **unplugin:** include `@compodium/examples` in auto-imports paths ([#3585](https://github.com/nuxt/ui/issues/3585)) ([cc504b8](https://github.com/nuxt/ui/commit/cc504b8a4b69dd76b49659d5c206ef23dcb9e475))
-* **useLocale:** unique symbol to use in `@nuxt/ui-pro` ([#3603](https://github.com/nuxt/ui/issues/3603)) ([dec2730](https://github.com/nuxt/ui/commit/dec2730aaea1327434837cfa022ea04056757cbf))
+* **useLocale:** unique symbol to use in `@eslamdevui/ui-pro` ([#3603](https://github.com/nuxt/ui/issues/3603)) ([dec2730](https://github.com/nuxt/ui/commit/dec2730aaea1327434837cfa022ea04056757cbf))
 * **vue:** missing unhead context ([#3589](https://github.com/nuxt/ui/issues/3589)) ([0897e9e](https://github.com/nuxt/ui/commit/0897e9ef05fbee4f021f317bb7c2d0b7007f1b75))
 
 ### Code Refactoring
@@ -555,7 +555,7 @@
 * **Modal:** use `dvh` unit ([aefa09c](https://github.com/nuxt/ui/commit/aefa09c69b8f0dbd38d29883dc79d77fc7025f43))
 * **module:** use key when merging modules options ([9821894](https://github.com/nuxt/ui/commit/98218945328b947e6c2a75f03b89c27e401dc6d5))
 * **Tooltip:** bind `$attrs` on trigger ([637f5d3](https://github.com/nuxt/ui/commit/637f5d342ee1f1b1bf7de99020df9ca9f07e197e)), closes [#3339](https://github.com/nuxt/ui/issues/3339) [#2897](https://github.com/nuxt/ui/issues/2897)
-* **vite:** exclude `@nuxt/ui` from vite pre-optimization ([#3352](https://github.com/nuxt/ui/issues/3352)) ([09492f7](https://github.com/nuxt/ui/commit/09492f79f29c0b5dd7a642f76f55aa3d305c0a69))
+* **vite:** exclude `@eslamdevui/ui` from vite pre-optimization ([#3352](https://github.com/nuxt/ui/issues/3352)) ([09492f7](https://github.com/nuxt/ui/commit/09492f79f29c0b5dd7a642f76f55aa3d305c0a69))
 
 ## [3.0.0-alpha.13](https://github.com/nuxt/ui/compare/v3.0.0-alpha.12...v3.0.0-alpha.13) (2025-02-17)
 

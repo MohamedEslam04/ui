@@ -23,7 +23,7 @@ export default function PluginsPlugin(options: NuxtUIOptions) {
     name: 'nuxt:ui:plugins',
     enforce: 'pre',
     resolveId(id) {
-      if (id === '@nuxt/ui/vue-plugin') {
+      if (id === '@eslamdevui/ui/vue-plugin') {
         return 'virtual:nuxt-ui-plugins'
       }
     },
@@ -58,7 +58,7 @@ ${plugins.map(p => `    app.use(${genSafeVariableName(p)})`).join('\n')}
           // Opt-out Nuxt UI from Vite's pre-bundling,
           // as we need Vite's pipeline to resolve imports like `#imports`
           optimizeDeps: {
-            exclude: ['@nuxt/ui']
+            exclude: ['@eslamdevui/ui']
           }
         }
       }

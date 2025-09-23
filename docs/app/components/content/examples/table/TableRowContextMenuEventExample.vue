@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
-import type { ContextMenuItem, TableColumn, TableRow } from '@nuxt/ui'
+import type { ContextMenuItem, TableColumn, TableRow } from '@eslamdevui/ui'
 import { useClipboard } from '@vueuse/core'
 
 const UBadge = resolveComponent('UBadge')

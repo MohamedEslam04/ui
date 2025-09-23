@@ -288,7 +288,7 @@ useIntersectionObserver(contributorsRef, ([entry]) => {
     >
       <template #features>
         <li>
-          <NuxtLink to="https://npm.chart.dev/@nuxt/ui" target="_blank" class="min-w-0 group">
+          <NuxtLink to="https://npm.chart.dev/@eslamdevui/ui" target="_blank" class="min-w-0 group">
             <p class="text-4xl font-semibold truncate text-highlighted group-hover:text-primary transition-colors">
               {{ format(module?.stats?.downloads ?? 0) }}+
             </p>

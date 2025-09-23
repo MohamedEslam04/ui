@@ -105,7 +105,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install --ignore-workspace
@@ -150,7 +150,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -195,7 +195,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -240,7 +240,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -285,7 +285,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -330,7 +330,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -375,7 +375,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -420,7 +420,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -465,7 +465,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -510,7 +510,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install
@@ -555,7 +555,7 @@ jobs:
           cache: pnpm
 
       - name: Install latest nuxt/ui
-        run: pnpm install https://pkg.pr.new/@nuxt/ui@${{ env.COMMIT_SHA }} --lockfile-only
+        run: pnpm install https://pkg.pr.new/@eslamdevui/ui@${{ env.COMMIT_SHA }} --lockfile-only
 
       - name: Install dependencies
         run: pnpm install

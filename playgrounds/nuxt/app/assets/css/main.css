@@ -1,5 +1,5 @@
 @import "tailwindcss" source("../../../..");
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 
 @theme static {
   --font-sans: 'Public Sans', sans-serif;

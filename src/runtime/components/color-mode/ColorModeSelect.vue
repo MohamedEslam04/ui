@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SelectMenuProps } from '@nuxt/ui'
+import type { SelectMenuProps } from '@eslamdevui/ui'
 
 export interface ColorModeSelectProps extends /** @vue-ignore */ Pick<SelectMenuProps<any>, 'color' | 'variant' | 'size' | 'trailingIcon' | 'selectedIcon' | 'content' | 'arrow' | 'portal' | 'disabled' | 'ui'> {
 }

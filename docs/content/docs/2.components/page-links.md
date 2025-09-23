@@ -108,7 +108,7 @@ Use the PageLinks component in the `bottom` slot of the ContentToc component to 
 
 ```vue [pages/\[...slug\\].vue]{48-52}
 <script setup lang="ts">
-import type { PageLink } from '@nuxt/ui'
+import type { PageLink } from '@eslamdevui/ui'
 
 const route = useRoute()
 

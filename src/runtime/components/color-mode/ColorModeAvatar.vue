@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { AvatarProps } from '@nuxt/ui'
+import type { AvatarProps } from '@eslamdevui/ui'
 
 export interface ColorModeAvatarProps extends /** @vue-ignore */ Omit<AvatarProps, 'src'> {
   light: string

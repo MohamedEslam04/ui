@@ -34,7 +34,7 @@ The flags are displayed using Unicode characters. This may result in a different
 
 ### Locales
 
-Use the `locales` prop with an array of locales from `@nuxt/ui/locale`.
+Use the `locales` prop with an array of locales from `@eslamdevui/ui/locale`.
 
 ::component-example
 ---
@@ -46,7 +46,7 @@ You can pass only the locales you need in your application:
 
 ```vue
 <script setup lang="ts">
-import { en, es, fr } from '@nuxt/ui/locale'
+import { en, es, fr } from '@eslamdevui/ui/locale'
 
 const locale = ref('en')
 </script>
@@ -65,7 +65,7 @@ You can use it with Nuxt i18n:
 
 ```vue
 <script setup lang="ts">
-import * as locales from '@nuxt/ui/locale'
+import * as locales from '@eslamdevui/ui/locale'
 
 const { locale, setLocale } = useI18n()
 </script>
@@ -88,7 +88,7 @@ You can use it with Vue i18n:
 ```vue
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import * as locales from '@nuxt/ui/locale'
+import * as locales from '@eslamdevui/ui/locale'
 
 const { locale, setLocale } = useI18n()
 </script>

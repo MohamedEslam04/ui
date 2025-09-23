@@ -97,7 +97,7 @@ Pass the `input` prop alongside the `error` prop to disable the textarea when an
 ```vue [pages/\[id\\].vue] {2-4,7,11-15,19}
 <script setup lang="ts">
 import { Chat } from '@ai-sdk/vue'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { getTextFromMessage } from '@eslamdevui/ui/utils/ai'
 
 const input = ref('')
 

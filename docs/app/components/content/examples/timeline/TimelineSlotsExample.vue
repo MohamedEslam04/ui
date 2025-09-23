@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TimelineItem } from '@nuxt/ui'
+import type { TimelineItem } from '@eslamdevui/ui'
 import { useTimeAgo } from '@vueuse/core'
 
 const items = [{

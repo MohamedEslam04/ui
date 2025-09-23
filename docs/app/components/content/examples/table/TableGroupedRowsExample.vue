@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
-import type { TableColumn } from '@nuxt/ui'
+import type { TableColumn } from '@eslamdevui/ui'
 import { getGroupedRowModel } from '@tanstack/vue-table'
 import type { GroupingOptions } from '@tanstack/vue-table'
 

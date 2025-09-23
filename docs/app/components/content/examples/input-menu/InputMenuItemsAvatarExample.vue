@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { InputMenuItem } from '@nuxt/ui'
+import type { InputMenuItem } from '@eslamdevui/ui'
 
 const items = ref([
   {

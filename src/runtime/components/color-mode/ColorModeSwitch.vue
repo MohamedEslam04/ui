@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SwitchProps } from '@nuxt/ui'
+import type { SwitchProps } from '@eslamdevui/ui'
 
 export interface ColorModeSwitchProps extends /** @vue-ignore */ Pick<SwitchProps, 'as' | 'color' | 'size' | 'disabled' | 'ui'> {
 }

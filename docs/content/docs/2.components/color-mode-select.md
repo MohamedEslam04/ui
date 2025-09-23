@@ -48,7 +48,7 @@ Use the `vite.config.ts` to customize the icon with the `ui.icons` property:
 ```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ui from '@nuxt/ui/vite'
+import ui from '@eslamdevui/ui/vite'
 
 export default defineConfig({
   plugins: [

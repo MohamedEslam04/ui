@@ -18,19 +18,19 @@ Wrap your code blocks around a `code-group` component to group them together in 
 :::code-group
 
 ```bash [pnpm]
-pnpm add @nuxt/ui
+pnpm add @eslamdevui/ui
 ```
 
 ```bash [yarn]
-yarn add @nuxt/ui
+yarn add @eslamdevui/ui
 ```
 
 ```bash [npm]
-npm install @nuxt/ui
+npm install @eslamdevui/ui
 ```
 
 ```bash [bun]
-bun add @nuxt/ui
+bun add @eslamdevui/ui
 ```
 
 :::
@@ -41,19 +41,19 @@ bun add @nuxt/ui
 ::code-group
 
 ```bash [pnpm]
-pnpm add @nuxt/ui
+pnpm add @eslamdevui/ui
 ```
 
 ```bash [yarn]
-yarn add @nuxt/ui
+yarn add @eslamdevui/ui
 ```
 
 ```bash [npm]
-npm install @nuxt/ui
+npm install @eslamdevui/ui
 ```
 
 ```bash [bun]
-bun add @nuxt/ui
+bun add @eslamdevui/ui
 ```
 
 ::

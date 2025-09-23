@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
 import { upperFirst } from 'scule'
-import type { TableColumn, TableRow } from '@nuxt/ui'
+import type { TableColumn, TableRow } from '@eslamdevui/ui'
 import { getPaginationRowModel } from '@tanstack/vue-table'
 import { useClipboard, refDebounced } from '@vueuse/core'
 

@@ -22,7 +22,7 @@ Use the `level` prop to define which heading will be used for the steps.
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui']
+  modules: ['@eslamdevui/ui']
 })
 ```
 
@@ -49,7 +49,7 @@ npm run dev
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui']
+  modules: ['@eslamdevui/ui']
 })
 ```
 

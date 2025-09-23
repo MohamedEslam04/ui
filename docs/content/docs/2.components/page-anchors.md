@@ -90,7 +90,7 @@ Use the PageAnchors component inside the [PageAside](/docs/components/page-aside
 
 ```vue [layouts/docs.vue]{35}
 <script setup lang="ts">
-import type { PageAnchor } from '@nuxt/ui'
+import type { PageAnchor } from '@eslamdevui/ui'
 import type { ContentNavigationItem } from '@nuxt/content'
 
 const navigation = inject<ContentNavigationItem[]>('navigation')

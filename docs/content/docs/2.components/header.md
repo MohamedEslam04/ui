@@ -185,7 +185,7 @@ Use the Header component in your `app.vue` or in a layout:
 
 ```vue [app.vue]{28-51}
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@eslamdevui/ui'
 
 const route = useRoute()
 

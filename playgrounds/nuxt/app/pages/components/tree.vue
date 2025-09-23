@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TreeItem } from '@nuxt/ui'
+import type { TreeItem } from '@eslamdevui/ui'
 import theme from '#build/ui/tree'
 
 const colors = Object.keys(theme.variants.color) as Array<keyof typeof theme.variants.color>

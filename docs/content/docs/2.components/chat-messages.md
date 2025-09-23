@@ -387,7 +387,7 @@ Pass the `messages` prop alongside the `status` prop that will be used for the a
 ```vue [pages/\[id\\].vue] {2-5,8,12-16,20}
 <script setup lang="ts">
 import { Chat } from '@ai-sdk/vue'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { getTextFromMessage } from '@eslamdevui/ui/utils/ai'
 
 const input = ref('')
 
@@ -458,7 +458,7 @@ You can use all the slots of the [`ChatMessage`](/docs/components/chat-message#s
 
 ```vue{3-5}
 <script setup lang="ts">
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { getTextFromMessage } from '@eslamdevui/ui/utils/ai'
 </script>
 
 <template>

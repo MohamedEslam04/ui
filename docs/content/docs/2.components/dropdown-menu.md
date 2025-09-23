@@ -438,7 +438,7 @@ Inside the `defineShortcuts` composable, there is an `extractShortcuts` utility 
 
 ```vue
 <script setup lang="ts">
-import type { DropdownMenuItem } from '@nuxt/ui'
+import type { DropdownMenuItem } from '@eslamdevui/ui'
 
 const items: DropdownMenuItem[] = [{
   label: 'Invite users',
