@@ -19,7 +19,7 @@ Wrap your code blocks with a `code-tree` component in any particular order to di
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui'],
+  modules: ['@eslamdevui/ui'],
 
   css: ['~/assets/css/main.css']
 })
@@ -28,7 +28,7 @@ export default defineNuxtConfig({
 
 ```css [app/assets/css/main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 ```
 
 ```ts [app/app.config.ts]
@@ -65,7 +65,7 @@ export default defineAppConfig({
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.18",
-    "@nuxt/ui": "^4.0.0",
+    "@eslamdevui/ui": "^4.0.0",
     "nuxt": "^4.0.0"
   },
   "devDependencies": {
@@ -170,7 +170,7 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui'],
+  modules: ['@eslamdevui/ui'],
 
   css: ['~/assets/css/main.css']
 })
@@ -179,7 +179,7 @@ export default defineNuxtConfig({
 
 ```css [app/assets/css/main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 ```
 
 ```ts [app/app.config.ts]
@@ -216,7 +216,7 @@ export default defineAppConfig({
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.18",
-    "@nuxt/ui": "^4.0.0",
+    "@eslamdevui/ui": "^4.0.0",
     "nuxt": "^4.0.0"
   },
   "devDependencies": {
