@@ -1,9 +1,9 @@
-name: release
+name: beta-release
 
 on:
   push:
     tags:
-      - 'eslam/main'
+      - 'eslam/beta-version'
 
 jobs:
   publish:
@@ -48,7 +48,7 @@ jobs:
       - name: Test (vue)
         run: pnpm run test:vue run
 
-      - name: Publish
-        run: ./scripts/release.sh
+      - name: Publish beta release
+        run: ./scripts/beta-release.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
