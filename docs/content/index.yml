@@ -74,7 +74,7 @@ design_system:
 
     ```css [main.css]
     @import "tailwindcss";
-    @import "@nuxt/ui";
+    @import "@eslamdevui/ui";
 
     @theme {
       --font-sans: 'Public Sans', system-ui, sans-serif;
@@ -139,7 +139,7 @@ css_variables:
 
     ```css [main.css]
     @import "tailwindcss";
-    @import "@nuxt/ui";
+    @import "@eslamdevui/ui";
 
     :root {
       --ui-primary: black;

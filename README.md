@@ -65,7 +65,7 @@ export default defineNuxtConfig({
 
 ```css [assets/css/main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 ```
 
 Learn more in the [installation guide](https://ui.nuxt.com/docs/getting-started/installation/nuxt).
@@ -112,7 +112,7 @@ app.mount('#app')
 
 ```css [assets/main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 ```
 
 Learn more in the [installation guide](https://ui.nuxt.com/docs/getting-started/installation/vue).

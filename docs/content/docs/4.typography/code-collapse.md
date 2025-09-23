@@ -19,7 +19,7 @@ Wrap your code-block with a `code-collapse` component to display a collapsible c
 
 ```css [main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
@@ -49,7 +49,7 @@ Wrap your code-block with a `code-collapse` component to display a collapsible c
 
 ```css [main.css]
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@eslamdevui/ui";
 
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
