@@ -11,6 +11,7 @@ const components = {
 }
 
 const messages = defineModel<UIMessage[]>('messages')
+const fullscreen = defineModel<boolean>('fullscreen')
 
 const emits = defineEmits<{
   close: []
@@ -133,11 +134,18 @@ const getCachedToolMessage = useMemoize((state: State, toolName: string, input: 
         icon="i-lucide-search"
         variant="naked"
         :error="chat.error"
+        :ui="{ trailing: 'items-center' }"
         @submit="handleSubmit"
         @close="handleClose"
       >
         <template #trailing>
-          <UBadge label="Beta" color="neutral" variant="outline" />
+          <UButton
+            :icon="fullscreen ? 'i-lucide-maximize' : 'i-lucide-minimize'"
+            color="neutral"
+            variant="ghost"
+            :ui="{ leadingIcon: 'text-dimmed' }"
+            @click="fullscreen = !fullscreen"
+          />
         </template>
       </UChatPrompt>
     </template>
