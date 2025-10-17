@@ -406,9 +406,8 @@ function onUpdateOpen(value: boolean) {
   }
 }
 
-function onRemoveTag(event: any) {
+function onRemoveTag(event: any, modelValue: GetModelValue<T, VK, true>) {
   if (props.multiple) {
-    const modelValue = props.modelValue as GetModelValue<T, VK, true>
     const filteredValue = modelValue.filter(value => !isEqual(value, event))
     emits('update:modelValue', filteredValue as GetModelValue<T, VK, M>)
     emits('remove-tag', event)
@@ -522,9 +521,9 @@ defineExpose({
         as-child
         @blur="onBlur"
         @focus="onFocus"
-        @remove-tag="onRemoveTag"
+        @remove-tag="onRemoveTag($event, modelValue as GetModelValue<T, VK, true>)"
       >
-        <TagsInputItem v-for="(item, index) in tags" :key="index" :value="isInputItem(item) ? item : String(item)" :class="ui.tagsItem({ class: [props.ui?.tagsItem, isInputItem(item) && item.ui?.tagsItem] })">
+        <TagsInputItem v-for="(item, index) in tags" :key="index" :value="item" :class="ui.tagsItem({ class: [props.ui?.tagsItem, isInputItem(item) && item.ui?.tagsItem] })">
           <TagsInputItemText :class="ui.tagsItemText({ class: [props.ui?.tagsItemText, isInputItem(item) && item.ui?.tagsItemText] })">
             <slot name="tags-item-text" :item="(item as NestedItem<T>)" :index="index">
               {{ displayValue(item as GetItemValue<T, VK>) }}
