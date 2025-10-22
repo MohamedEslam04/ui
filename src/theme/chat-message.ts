@@ -3,7 +3,7 @@ import type { NuxtOptions } from '@nuxt/schema'
 export default (options: Required<NuxtOptions['ui']>) => ({
   slots: {
     root: 'group/message relative w-full',
-    container: 'relative flex items-start group-data-[role=user]/message:max-w-[75%]',
+    container: 'relative flex items-start',
     leading: 'inline-flex items-center justify-center min-h-6',
     leadingIcon: 'shrink-0',
     leadingAvatar: 'shrink-0',
@@ -34,7 +34,7 @@ export default (options: Required<NuxtOptions['ui']>) => ({
         container: 'rtl:justify-end'
       },
       right: {
-        container: 'ltr:justify-end ms-auto'
+        container: 'ltr:justify-end ms-auto max-w-[75%]'
       }
     },
     leading: {
