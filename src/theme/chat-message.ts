@@ -92,6 +92,12 @@ export default (options: Required<NuxtOptions['ui']>) => ({
       content: 'px-2 py-1 rounded-lg min-h-8',
       leading: 'mt-1'
     }
+  }, {
+    variant: 'naked',
+    side: 'left',
+    class: {
+      content: 'w-full'
+    }
   }],
   defaultVariants: {
     variant: 'naked'
