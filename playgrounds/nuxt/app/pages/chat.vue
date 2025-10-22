@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { UIMessage } from 'ai'
 import { Chat } from '@ai-sdk/vue'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
 
 const toast = useToast()
 
@@ -48,7 +47,12 @@ function onSubmit() {
       :spacing-offset="48"
     >
       <template #content="{ message }">
-        <MDC :value="getTextFromMessage(message)" :cache-key="message.id" class="*:first:mt-0 *:last:mb-0" />
+        <template v-for="(part, index) in message.parts" :key="`${message.id}-${index}`">
+          <MDC v-if="part.type === 'text'" :value="part.text" :cache-key="`${message.id}-${index}`" class="*:first:mt-0 *:last:mb-0" />
+          <p v-else-if="part.type === 'reasoning'" class="text-sm text-muted my-5">
+            {{ part.state === 'done' ? 'Thoughts' : 'Thinking...' }}
+          </p>
+        </template>
       </template>
     </UChatMessages>
 
