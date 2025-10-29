@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CommandPaletteItem } from '@nuxt/ui'
+import type { CommandPaletteItem } from '@eslamdevui/ui'
 
 const items: CommandPaletteItem[] = Array(1000)
   .fill(0)

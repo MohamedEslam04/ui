@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRegle, type InferInput } from '@regle/core'
 import { required, email, minLength, withMessage } from '@regle/rules'
-import type { FormSubmitEvent } from '@nuxt/ui'
+import type { FormSubmitEvent } from '@eslamdevui/ui'
 
 const { r$ } = useRegle({ email: '', password: '' }, {
   email: { required, email: withMessage(email, 'Invalid email') },

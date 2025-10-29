@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserProps } from '@nuxt/ui'
+import type { UserProps } from '@eslamdevui/ui'
 
 const members: UserProps[] = [
   {
