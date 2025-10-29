@@ -42,9 +42,7 @@ useServerSeoMeta({
 
 useFaviconFromTheme()
 
-const { frameworks } = useFrameworks()
 const { rootNavigation, navigationByFramework } = useNavigation(navigation)
-const { links } = useSearch()
 
 provide('navigation', rootNavigation)
 </script>
@@ -58,7 +56,7 @@ provide('navigation', rootNavigation)
 
     <div :class="[route.path.startsWith('/docs/') && 'root']">
       <template v-if="!route.path.startsWith('/examples')">
-        <!-- <Banner /> -->
+        <Banner />
 
         <Header />
       </template>
@@ -71,17 +69,7 @@ provide('navigation', rootNavigation)
         <Footer />
 
         <ClientOnly>
-          <LazyUContentSearch
-            :links="links"
-            :files="files"
-            :groups="[{
-              id: 'framework',
-              label: 'Framework',
-              items: frameworks
-            }]"
-            :navigation="navigationByFramework"
-            :fuse="{ resultLimit: 120 }"
-          />
+          <Search :files="files" :navigation="navigationByFramework" />
         </ClientOnly>
       </template>
     </div>
