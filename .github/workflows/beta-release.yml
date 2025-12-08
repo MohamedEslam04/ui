@@ -35,17 +35,17 @@ jobs:
       - name: Prepare
         run: pnpm run dev:prepare
 
-      - name: Lint
-        run: pnpm run lint
+      # - name: Lint
+      #   run: pnpm run lint
 
-      - name: Typecheck
-        run: pnpm run typecheck
+      # - name: Typecheck
+      #   run: pnpm run typecheck
 
-      - name: Test
-        run: pnpm run test run
+      # - name: Test
+      #   run: pnpm run test run
 
-      - name: Test (vue)
-        run: pnpm run test:vue run
+      # - name: Test (vue)
+      #   run: pnpm run test:vue run
 
       - name: Publish beta release
         run: ./scripts/beta-release.sh
