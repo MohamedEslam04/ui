@@ -55,6 +55,10 @@ export interface NuxtUIOptions extends Omit<ModuleOptions, 'fonts' | 'colorMode'
    * Enables compatibility layer for InertiaJS
    */
   inertia?: boolean
+  /**
+   * Additional packages to scan for components using Nuxt UI
+   */
+  scanPackages?: string[]
 }
 
 export const runtimeDir = normalize(fileURLToPath(new URL('./runtime', import.meta.url)))
