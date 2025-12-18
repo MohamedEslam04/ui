@@ -325,6 +325,7 @@ function getAccordionDefaultValue(list: NavigationMenuItem[], level = 0) {
         as="span"
         data-slot="linkTrailing"
         :class="ui.linkTrailing({ class: [props.ui?.linkTrailing, item.ui?.linkTrailing] })"
+        :aria-label="item.children?.length ? `Toggle ${get(item, props.labelKey as string)} submenu` : `${get(item, props.labelKey as string)} options`"
         @click.stop.prevent
       >
         <slot :name="((item.slot ? `${item.slot}-trailing` : 'item-trailing') as keyof NavigationMenuSlots<T>)" :item="item" :active="active" :index="index" :ui="ui">
