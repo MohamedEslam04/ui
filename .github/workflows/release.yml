@@ -2,7 +2,8 @@ name: release
 
 on:
   push:
-    branches: [eslam/main-version]
+    tags:
+      - 'main-v*.*.*'
 
 jobs:
   publish:
