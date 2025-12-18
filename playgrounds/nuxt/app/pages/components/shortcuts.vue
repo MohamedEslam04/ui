@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ShortcutsConfig } from '@eslamdevui/ui/composables/defineShortcuts.js'
+import type { ShortcutsConfig } from '@eslamdevui/ui/composables/defineShortcuts'
 
 const logs = ref<string[]>([])
 const shortcutsState = ref({
