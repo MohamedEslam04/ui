@@ -2,7 +2,8 @@ name: beta-release
 
 on:
   push:
-    branches: [eslam/beta-version]
+    tags:
+      - '*-rc.*'
 
 jobs:
   publish:
