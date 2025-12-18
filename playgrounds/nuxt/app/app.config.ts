@@ -1,4 +1,4 @@
-import type { Direction } from '@nuxt/ui'
+import type { Direction } from '@eslamdevui/ui'
 
 export default defineAppConfig({
   dir: 'ltr' as Direction,

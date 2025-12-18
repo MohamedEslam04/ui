@@ -66,7 +66,7 @@ export default function ComponentImportPlugin(options: NuxtUIOptions & { prefix:
 
   const sources = [routerOverrides[routerMode], unpluginComponents, defaultComponents].filter((s): s is ComponentSource => !!s)
   const packagesToScan = [
-    '@nuxt/ui',
+    '@eslamdevui/ui',
     '@compodium/examples',
     ...(Array.isArray(options.scanPackages) ? options.scanPackages : [])
   ]
