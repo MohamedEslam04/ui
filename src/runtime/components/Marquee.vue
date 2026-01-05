@@ -17,6 +17,11 @@ export interface MarqueeProps {
    */
   pauseOnHover?: boolean
   /**
+   * Pause the marquee on touch.
+   * @defaultValue false
+   */
+  pauseOnTouch?: boolean
+  /**
    * Reverse the direction of the marquee.
    * @defaultValue false
    */
@@ -62,6 +67,7 @@ const appConfig = useAppConfig() as Marquee['AppConfig']
 
 const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.marquee || {}) })({
   pauseOnHover: props.pauseOnHover,
+  pauseOnTouch: props.pauseOnTouch,
   orientation: props.orientation,
   reverse: props.reverse,
   overlay: props.overlay
@@ -69,7 +75,8 @@ const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.marquee || {
 </script>
 
 <template>
-  <Primitive :as="as" :data-orientation="orientation" data-slot="root" :class="ui.root({ class: [props.ui?.root, props.class] })">
+  <Primitive :as="as" :data-orientation="orientation" data-slot="root"
+    :class="ui.root({ class: [props.ui?.root, props.class] })">
     <div v-for="i in repeat" :key="i" data-slot="content" :class="ui.content({ class: [props.ui?.content] })">
       <slot />
     </div>
