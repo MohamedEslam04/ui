@@ -17,6 +17,11 @@ export default {
         content: 'group-hover:[animation-play-state:paused]'
       }
     },
+    pauseOnTouch: {
+      true: {
+        content: 'group-active:[animation-play-state:paused]'
+      }
+    },
     reverse: {
       true: {
         content: '![animation-direction:reverse]'
