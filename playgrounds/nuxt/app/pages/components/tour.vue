@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { TourStep } from '#ui/types'
+
 const open = ref(true)
 const step = ref(0)
 const loop = ref(false)
@@ -6,7 +8,7 @@ const loop = ref(false)
 const profileCard = ref<HTMLElement>()
 const shortcuts = ref<HTMLElement>()
 
-const steps = computed(() => [
+const steps = computed<TourStep[]>(() => [
   {
     target: '#tour-cta',
     title: 'Get started',
@@ -27,7 +29,6 @@ const steps = computed(() => [
     title: 'Quick actions',
     description: 'Example with buttons',
     body: 'Another step with custom buttons labels.',
-    nextLabel: 'Restart',
     finishLabel: 'Close',
     content: { side: 'top' as const, sideOffset: 12 }
   }
