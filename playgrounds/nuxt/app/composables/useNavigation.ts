@@ -21,6 +21,7 @@ const components = [
   'color-mode',
   'color-picker',
   'command-palette',
+  'confetti',
   'content/content-navigation',
   'content/content-surround',
   'content/content-toc',

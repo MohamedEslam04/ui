@@ -1,7 +1,8 @@
 export default {
   slots: {
-    root: 'group relative flex items-center overflow-hidden gap-(--gap) [--gap:--spacing(16)] [--duration:20s]',
-    content: 'flex items-center shrink-0 justify-around gap-(--gap) min-w-max'
+    root: 'group relative flex items-center overflow-hidden gap-(--gap) [--gap:--spacing(16)] motion-reduce:animate-none',
+    content: 'flex items-center shrink-0 justify-around gap-(--gap) min-w-max relative z-0',
+    overlay: 'absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity'
   },
   variants: {
     orientation: {
