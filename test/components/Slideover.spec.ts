@@ -49,5 +49,6 @@ describe('Slideover', () => {
     })
 
     expect(await axe(wrapper.element)).toHaveNoViolations()
+    wrapper.unmount()
   })
 })
