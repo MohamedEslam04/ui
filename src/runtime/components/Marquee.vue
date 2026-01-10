@@ -45,10 +45,6 @@ export interface MarqueeProps {
    * The duration of the marquee animation in seconds.
    * @defaultValue 20
    */
-  /**
-   * The duration of the marquee animation in seconds.
-   * @defaultValue 20
-   */
   duration?: number
   /**
    * Pause the marquee when clicking on it.
